@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "bornly-web", "runtimeExecutable": "npx", "runtimeArgs": ["expo", "start", "--web", "--port", "8097"], "port": 8097 }
+  ]
+}
