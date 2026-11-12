@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import { api } from '@/api';
 import { authClient, authErrorMessage } from '@/auth-client';
+import { Heart, HeartsBackdrop } from '@/components/love';
 import { profilePayload } from '@/profile';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
@@ -58,9 +59,13 @@ export default function Login() {
   return (
     <Screen gap={24} bottom={32}>
       <View style={{ alignItems: 'flex-start' }}><BackButton onPress={back} light /></View>
-      <View>
-        <Title s={28}>Entrar</Title>
-        <Sans s={14} lh={1.5} c={colors.muted} style={{ marginTop: 8 }}>Que bom ter você de volta.</Sans>
+      <View style={{ backgroundColor: colors.peach, borderRadius: 28, padding: 20, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <HeartsBackdrop />
+        <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center' }}><Heart color={colors.terra} size={24} filled /></View>
+        <View style={{ flex: 1 }}>
+          <Title s={28}>Entrar</Title>
+          <Sans s={14} lh={1.4} c={colors.mutedStrong} style={{ marginTop: 2 }}>Que bom ter você de volta.</Sans>
+        </View>
       </View>
       <Field label="E-mail" value={email} onChangeText={setEmail} autoCapitalize="none" autoComplete="email" keyboardType="email-address" textContentType="emailAddress" />
       <Field label="Senha" value={password} onChangeText={setPassword} secureTextEntry autoComplete="current-password" textContentType="password" returnKeyType="go" onSubmitEditing={submit} autoFocus={!!params.email} />

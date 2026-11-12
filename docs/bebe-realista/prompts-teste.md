@@ -2,7 +2,10 @@
 
 Modelo pensado: Nano Banana Pro, 2K, 1:1. Mesmo bloco de luz e cor nos três para a evolução ficar contínua.
 
-**Bloco comum (final de todo prompt):**
+**Bloco comum (final de todo prompt), alinhado ao pin de referência 1051027631809312310:**
+Lighting: soft diffuse warm backlight glowing through a translucent pearly amniotic sac, the sac membrane visible as a thin glossy bubble around the baby, uterine wall behind it in soft cream-peach tissue with fine red capillaries and branching vessels, gentle shallow depth of field, floating particles in amniotic fluid. Color palette creamy peach, warm ivory, soft rose skin, red only in vessels and placenta. Cinematic 3D medical-visualization realism with photographic skin detail, subsurface scattering on skin, ultra detailed, anatomically accurate, no text, no labels, no watermark, no cartoon, no gore.
+
+*Bloco anterior (luz âmbar e vermelha, mais escura), guardado para comparar:*
 Lighting: soft warm amber and rose backlight through the womb, like light passing through the uterine wall, gentle shallow depth of field, floating particles in amniotic fluid. Color palette warm peach, amber, rose, deep red at the edges. Ultra detailed, scientific accuracy like Lennart Nilsson style embryology photography, no text, no labels, no watermark, no cartoon, no gore.
 
 ## Semana 4

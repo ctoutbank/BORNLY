@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { API_URL, authClient } from '@/auth-client';
+import { HeartsBackdrop, MailIcon } from '@/components/love';
 import { colors } from '@/theme';
 import { BackButton, Field, PrimaryButton, Sans, Screen, Spacer, TextButton, Title, useGoBack } from '@/ui';
 
@@ -23,9 +24,13 @@ export default function Forgot() {
   return (
     <Screen gap={24} bottom={32}>
       <View style={{ alignItems: 'flex-start' }}><BackButton onPress={back} light /></View>
-      <View>
-        <Title s={28}>Redefinir senha</Title>
-        <Sans s={14} lh={1.5} c={colors.muted} style={{ marginTop: 8 }}>Enviaremos um link para o seu e-mail.</Sans>
+      <View style={{ backgroundColor: colors.peach, borderRadius: 28, padding: 20, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <HeartsBackdrop />
+        <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center' }}><MailIcon color={colors.terra} /></View>
+        <View style={{ flex: 1 }}>
+          <Title s={28}>Redefinir senha</Title>
+          <Sans s={14} lh={1.4} c={colors.mutedStrong} style={{ marginTop: 2 }}>Enviaremos um link para o seu e-mail.</Sans>
+        </View>
       </View>
       <Field label="E-mail" value={email} onChangeText={setEmail} autoCapitalize="none" autoComplete="email" keyboardType="email-address" returnKeyType="go" onSubmitEditing={submit} />
       {state === 'sent' ? <Sans s={13} lh={1.45} c={colors.sageInk}>Se houver uma conta com este e-mail, o link chega em alguns minutos.</Sans> : null}

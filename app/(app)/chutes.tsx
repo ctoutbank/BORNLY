@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
+import { ClockIcon, Heart, HeartsBackdrop, InfoHeart, NoteCard } from '@/components/love';
 import { useContent } from '@/content-provider';
 import { fmt, useStore } from '@/store';
 import { colors } from '@/theme';
@@ -39,8 +40,9 @@ export default function Chutes() {
   return (
     <Screen gap={20}>
       <PageHeader title="Movimentos" sub="Contador de movimentos do bebê" fallback="/hoje" />
-      <Card radius={28} style={{ padding: 22, alignItems: 'center', gap: 6 }}>
-        <Sans s={12} c={colors.muted}>{startedAt ? `Contando há ${clock(now - startedAt)}` : 'Escolha um momento tranquilo, deitada de lado'}</Sans>
+      <View style={{ backgroundColor: colors.peach, borderRadius: 28, padding: 22, alignItems: 'center', gap: 6, overflow: 'hidden' }}>
+        <HeartsBackdrop low />
+        <Sans s={12} c={colors.mutedStrong}>{startedAt ? `Contando há ${clock(now - startedAt)}` : 'Escolha um momento tranquilo, deitada de lado'}</Sans>
         <Title s={72} lh={1.1}>{count}</Title>
         <Sans s={13} c={colors.mutedStrong}>movimentos</Sans>
         <Press
@@ -52,8 +54,11 @@ export default function Chutes() {
             }
             setCount((c) => c + 1);
           }}
-          style={{ marginTop: 16, width: 168, height: 168, borderRadius: 84, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center' }}>
-          <Title s={22} c={colors.bg}>{startedAt ? 'Mexeu' : 'Começar'}</Title>
+          style={{ marginTop: 16, width: 184, height: 184, borderRadius: 92, backgroundColor: 'rgba(163,96,78,.14)', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: 156, height: 156, borderRadius: 78, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+            <Heart color={colors.card} size={22} filled />
+            <Title s={22} c={colors.card}>{startedAt ? 'Mexeu' : 'Começar'}</Title>
+          </View>
         </Press>
         {startedAt ? (
           <View style={{ alignSelf: 'stretch', marginTop: 18, gap: 4 }}>
@@ -61,9 +66,13 @@ export default function Chutes() {
             <TextButton label="Descartar" onPress={() => { setStartedAt(null); setCount(0); }} />
           </View>
         ) : null}
-      </Card>
+      </View>
       {tool?.text ? (
-        <Card bg={colors.sand} style={{ padding: 20 }}>
+        <Card style={{ padding: 20, gap: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: colors.sage, alignItems: 'center', justifyContent: 'center' }}><InfoHeart color={colors.sageInk} size={18} /></View>
+            <Title s={17}>Como usar</Title>
+          </View>
           <Sans s={14} lh={1.55} c={colors.body}>{tool.text}</Sans>
         </Card>
       ) : null}
@@ -72,12 +81,13 @@ export default function Chutes() {
         {s.kicks.length ? (
           <Card style={{ paddingVertical: 4, paddingHorizontal: 18 }}>
             {s.kicks.slice(0, 20).map((k, i, all) => (
-              <View key={k.id} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 14, borderBottomWidth: i === all.length - 1 ? 0 : 1, borderBottomColor: colors.lineSoft }}>
+              <View key={k.id} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, borderBottomWidth: i === all.length - 1 ? 0 : 1, borderBottomColor: colors.lineSoft }}>
+                <View style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' }}><Heart color={colors.terra} size={16} filled /></View>
                 <View style={{ flex: 1 }}>
                   <Sans s={14} w={600}>{k.kicks} movimentos</Sans>
                   <Sans s={12} c={colors.muted}>{fmt(new Date(k.startedAt), { day: 'numeric', month: 'short' }).replace(/\./g, '')} · {new Date(k.startedAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</Sans>
                 </View>
-                <Sans s={12} c={colors.mutedStrong}>{clock(new Date(k.endedAt).getTime() - new Date(k.startedAt).getTime())}</Sans>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}><ClockIcon color={colors.muted} size={14} /><Sans s={12} c={colors.mutedStrong}>{clock(new Date(k.endedAt).getTime() - new Date(k.startedAt).getTime())}</Sans></View>
               </View>
             ))}
           </Card>
@@ -85,7 +95,7 @@ export default function Chutes() {
           <Sans s={13} c={colors.muted}>Nenhum registro ainda.</Sans>
         )}
       </View>
-      <Sans s={11} lh={1.5} c={colors.muted}>Se você notar que o bebê está se mexendo bem menos que o habitual, procure seu serviço de saúde ou a maternidade.</Sans>
+      <NoteCard>Se você notar que o bebê está se mexendo bem menos que o habitual, procure seu serviço de saúde ou a maternidade.</NoteCard>
     </Screen>
   );
 }

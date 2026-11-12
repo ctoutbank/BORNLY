@@ -148,3 +148,19 @@ const CATEGORY: Record<string, { icon: (c: string) => React.ReactNode; bg: strin
   'Pós-parto': { icon: (c) => <MoonIcon color={c} size={17} />, bg: colors.sand, ink: colors.mutedStrong },
 };
 export const categoryLook = (name: string) => CATEGORY[name] ?? { icon: (c: string) => <Heart color={c} size={17} />, bg: colors.peach, ink: colors.terra };
+export const MailIcon = ({ color, size = 22 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Rect x="3.5" y="5.5" width="17" height="13" rx="3" {...line(color)} /><Path d="M4.5 7l7.5 6 7.5-6" {...line(color)} /></Svg>
+);
+export const InfoHeart = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Circle cx="12" cy="12" r="9" {...line(color)} /><Path d="M12 11v5" {...line(color)} /><Circle cx="12" cy="8" r="1.1" fill={color} /></Svg>
+);
+
+// Cartão de aviso com ícone (usado no fim das ferramentas)
+export function NoteCard({ children, tone = 'peach' }: { children: React.ReactNode; tone?: 'peach' | 'card' }) {
+  return (
+    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', backgroundColor: tone === 'peach' ? colors.peach : colors.card, borderRadius: 20, padding: 14 }}>
+      <AlertIcon color={colors.terraDark} size={18} />
+      <Text style={{ flex: 1, fontFamily: fonts.sans400, fontSize: 12, lineHeight: 18, color: colors.terraText }}>{children}</Text>
+    </View>
+  );
+}

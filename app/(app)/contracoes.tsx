@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
+import { ClockIcon, Heart, HeartsBackdrop, InfoHeart, NoteCard, PulseIcon } from '@/components/love';
 import { useContent } from '@/content-provider';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
@@ -8,7 +9,10 @@ import { Card, PageHeader, Press, Sans, Screen, TextButton, Title } from '@/ui';
 
 const span = (ms: number) => {
   const t = Math.max(0, Math.round(ms / 1000));
-  return t < 60 ? `${t}s` : `${Math.floor(t / 60)}min ${String(t % 60).padStart(2, '0')}s`;
+  if (t < 60) return `${t}s`;
+  if (t < 3600) return `${Math.floor(t / 60)}min ${String(t % 60).padStart(2, '0')}s`;
+  if (t < 86400) return `${Math.floor(t / 3600)}h ${String(Math.floor((t % 3600) / 60)).padStart(2, '0')}min`;
+  return `${Math.floor(t / 86400)} ${Math.floor(t / 86400) === 1 ? 'dia' : 'dias'}`;
 };
 const hour = (d: string) => new Date(d).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
@@ -45,25 +49,35 @@ export default function Contracoes() {
   return (
     <Screen gap={20}>
       <PageHeader title="Contrações" sub="Cronômetro de duração e intervalo" fallback="/hoje" />
-      <Card radius={28} style={{ padding: 22, alignItems: 'center', gap: 6 }}>
-        <Sans s={12} c={colors.muted}>{startedAt ? 'Contração em andamento' : list[0] ? `Última há ${span(now - new Date(list[0].startedAt).getTime())}` : 'Toque quando a contração começar'}</Sans>
+      <View style={{ backgroundColor: colors.peach, borderRadius: 28, padding: 22, alignItems: 'center', gap: 6, overflow: 'hidden' }}>
+        <HeartsBackdrop low />
+        <Sans s={12} c={colors.mutedStrong}>{startedAt ? 'Contração em andamento' : list[0] ? `Última há ${span(now - new Date(list[0].startedAt).getTime())}` : 'Toque quando a contração começar'}</Sans>
         <Title s={52} lh={1.1}>{startedAt ? span(now - startedAt) : '0s'}</Title>
-        <Press accessibilityLabel={startedAt ? 'Terminou' : 'Começou'} onPress={toggle} style={{ marginTop: 14, width: 168, height: 168, borderRadius: 84, backgroundColor: startedAt ? colors.terraDark : colors.terra, alignItems: 'center', justifyContent: 'center' }}>
-          <Title s={22} c={colors.bg}>{startedAt ? 'Terminou' : 'Começou'}</Title>
+        <Press accessibilityLabel={startedAt ? 'Terminou' : 'Começou'} onPress={toggle} style={{ marginTop: 14, width: 184, height: 184, borderRadius: 92, backgroundColor: 'rgba(163,96,78,.14)', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: 156, height: 156, borderRadius: 78, backgroundColor: startedAt ? colors.terraDark : colors.terra, alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+            <Heart color={colors.card} size={22} filled />
+            <Title s={22} c={colors.card}>{startedAt ? 'Terminou' : 'Começou'}</Title>
+          </View>
         </Press>
-      </Card>
+      </View>
       <View style={{ flexDirection: 'row', gap: 10 }}>
         <Card style={{ flex: 1, padding: 16 }}>
+          <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}><ClockIcon color={colors.terra} size={16} /></View>
           <Sans s={11} c={colors.muted}>Duração média (1h)</Sans>
           <Title s={20} style={{ marginTop: 4 }}>{recent.length ? span(avgDuration) : '–'}</Title>
         </Card>
         <Card style={{ flex: 1, padding: 16 }}>
+          <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: colors.sage, alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}><PulseIcon color={colors.sageInk} size={16} /></View>
           <Sans s={11} c={colors.muted}>Intervalo médio (1h)</Sans>
           <Title s={20} style={{ marginTop: 4 }}>{intervals.length ? span(avgInterval) : '–'}</Title>
         </Card>
       </View>
       {tool?.text ? (
-        <Card bg={colors.sand} style={{ padding: 20 }}>
+        <Card style={{ padding: 20, gap: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: colors.sage, alignItems: 'center', justifyContent: 'center' }}><InfoHeart color={colors.sageInk} size={18} /></View>
+            <Title s={17}>Como usar</Title>
+          </View>
           <Sans s={14} lh={1.55} c={colors.body}>{tool.text}</Sans>
         </Card>
       ) : null}
@@ -84,7 +98,7 @@ export default function Contracoes() {
           </Card>
         </View>
       ) : null}
-      <Sans s={11} lh={1.5} c={colors.muted}>Perda de líquido, sangramento, febre ou diminuição dos movimentos do bebê: procure a maternidade, independentemente das contrações.</Sans>
+      <NoteCard>Perda de líquido, sangramento, febre ou diminuição dos movimentos do bebê: procure a maternidade, independentemente das contrações.</NoteCard>
     </Screen>
   );
 }
