@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Svg, { Circle, Path, Rect } from 'react-native-svg';
+import Svg, { Circle, G, Path, Rect } from 'react-native-svg';
 
 import { colors } from '@/theme';
 
@@ -12,8 +12,12 @@ export const Heart = ({ color, size = 18, filled = false }: { color: string; siz
 );
 
 // Corações soltos no canto do cartão
-export function HeartsBackdrop({ color = colors.terra }: { color?: string }) {
-  const spots = [
+export function HeartsBackdrop({ color = colors.terra, low = false }: { color?: string; low?: boolean }) {
+  const spots = low ? [
+    { x: 262, y: 120, s: 24, o: 0.22 },
+    { x: 312, y: 96, s: 14, o: 0.18 },
+    { x: 226, y: 150, s: 12, o: 0.16 },
+  ] : [
     { x: 250, y: 18, s: 26, o: 0.32 },
     { x: 300, y: 70, s: 16, o: 0.26 },
     { x: 214, y: 92, s: 12, o: 0.22 },
@@ -43,4 +47,26 @@ export const CheckCircle = ({ color, size = 18 }: { color: string; size?: number
 );
 export const Close = ({ color, size = 14 }: { color: string; size?: number }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M6 6l12 12M18 6L6 18" {...line(color, 2)} /></Svg>
+);
+
+// Ícones de seções (Minha saúde e telas relacionadas)
+export const DiaryIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M6 3.5h10a2 2 0 0 1 2 2v15H8a2 2 0 0 1-2-2z" {...line(color)} /><Path d="M6 18.5a2 2 0 0 1 2-2h10" {...line(color)} /><Path d="M12 12.6s-2.4-1.5-2.4-3a1.3 1.3 0 0 1 2.4-.7 1.3 1.3 0 0 1 2.4.7c0 1.5-2.4 3-2.4 3z" fill={color} /></Svg>
+);
+export const PulseIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M3 12h4l2-5 4 10 2-5h6" {...line(color)} /></Svg>
+);
+export const CalendarHeart = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Rect x="4" y="5" width="16" height="15" rx="3" {...line(color)} /><Path d="M4 10h16M9 3v4M15 3v4" {...line(color)} /><Path d="M12 17.6s-2.6-1.6-2.6-3.3a1.4 1.4 0 0 1 2.6-.8 1.4 1.4 0 0 1 2.6.8c0 1.7-2.6 3.3-2.6 3.3z" fill={color} /></Svg>
+);
+export const ChartIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M4 19h16" {...line(color)} /><Path d="M5 15l4-4 3 3 6-7" {...line(color)} /><Circle cx="18" cy="7" r="1.6" fill={color} /></Svg>
+);
+export const PillIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <G transform="rotate(-40 12 12)">
+      <Path d="M12 7.5H8.5a4.5 4.5 0 0 0 0 9H12z" fill={color} />
+      <Rect x="4" y="7.5" width="16" height="9" rx="4.5" {...line(color)} />
+    </G>
+  </Svg>
 );
