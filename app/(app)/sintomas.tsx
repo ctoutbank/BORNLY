@@ -28,7 +28,7 @@ export default function Sintomas() {
         {SYMPTOMS.map((l) => {
           const on = s.symSel === l;
           return (
-            <Press key={l} accessibilityState={{ selected: on }} onPress={() => set({ symSel: l })} style={{ width: '48.5%', flexGrow: 1, borderWidth: 1.5, borderColor: on ? colors.ink : colors.line, backgroundColor: on ? colors.ink : colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16, minHeight: 54, justifyContent: 'center' }}>
+            <Press key={l} accessibilityState={{ selected: on }} onPress={() => set({ symSel: l })} style={{ width: '48.5%', flexGrow: 1, borderWidth: 1.5, borderColor: on ? colors.terra : colors.line, backgroundColor: on ? colors.terra : colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16, minHeight: 54, justifyContent: 'center' }}>
               <Sans s={14} w={600} c={on ? colors.bg : colors.ink}>{today.includes(l) ? l + ' ✓' : l}</Sans>
             </Press>
           );

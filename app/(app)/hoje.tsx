@@ -16,17 +16,22 @@ function Ruler({ current, selected, onPick }: { current: number; selected: numbe
   const ref = useRef<ScrollViewInstance>(null);
   const [w, setW] = useState(0);
   const offsetFor = useCallback((n: number) => Math.max(0, (n - 4) * (DOT + GAP) - (w - DOT) / 2), [w]);
+  const [contentW, setContentW] = useState(0);
+  const first = useRef(true);
+  // rola só quando a faixa e as semanas já foram medidas; na primeira vez, sem animação
   useEffect(() => {
-    if (w) ref.current?.scrollTo({ x: offsetFor(selected), animated: true });
-  }, [w, selected, offsetFor]);
+    if (!w || !contentW) return;
+    ref.current?.scrollTo({ x: offsetFor(selected), animated: !first.current });
+    first.current = false;
+  }, [w, contentW, selected, offsetFor]);
   const weeks = Array.from({ length: 38 }, (_, i) => i + 4);
   return (
-    <ScrollView ref={ref} horizontal showsHorizontalScrollIndicator={false} onLayout={(e) => setW(e.nativeEvent.layout.width)} contentContainerStyle={{ paddingHorizontal: 20, gap: GAP, alignItems: 'center' }} snapToInterval={DOT + GAP} decelerationRate="fast">
+    <ScrollView ref={ref} horizontal showsHorizontalScrollIndicator={false} onLayout={(e) => setW(e.nativeEvent.layout.width)} onContentSizeChange={(cw) => setContentW(cw)} contentContainerStyle={{ paddingHorizontal: 20, gap: GAP, alignItems: 'center' }} snapToInterval={DOT + GAP} decelerationRate="fast">
       {weeks.map((n) => {
         const on = n === selected;
         const isNow = n === current;
         return (
-          <Press key={n} accessibilityLabel={`Semana ${n}${isNow ? ', semana atual' : ''}`} accessibilityState={{ selected: on }} onPress={() => onPick(n)} style={{ width: DOT, height: DOT, borderRadius: DOT / 2, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.ink : isNow ? colors.peach : 'transparent' }}>
+          <Press key={n} accessibilityLabel={`Semana ${n}${isNow ? ', semana atual' : ''}`} accessibilityState={{ selected: on }} onPress={() => onPick(n)} style={{ width: DOT, height: DOT, borderRadius: DOT / 2, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.terra : isNow ? colors.peach : 'transparent' }}>
             <Sans s={on ? 16 : 13} w={600} c={on ? colors.bg : isNow ? colors.terra : n < current ? colors.mutedStrong : '#B3A397'}>{n}</Sans>
           </Press>
         );
@@ -119,7 +124,7 @@ export default function Hoje() {
       <View>
         <Title s={18} style={{ marginBottom: 12 }}>Seu dia</Title>
         <View style={{ gap: 8 }}>
-          <RowButton title={mood ? 'Hoje: ' + mood : 'Registrar como você está'} sub={mood ? 'Toque para ajustar' : 'Leva menos de um minuto'} iconBg={colors.ink} icon={<Plus color={colors.bg} size={18} />} onPress={() => set({ sheet: true })} />
+          <RowButton title={mood ? 'Hoje: ' + mood : 'Registrar como você está'} sub={mood ? 'Toque para ajustar' : 'Leva menos de um minuto'} iconBg={colors.terra} icon={<Plus color={colors.card} size={18} />} onPress={() => set({ sheet: true })} />
           <RowButton title="Próxima consulta" sub={next ? [next.when, next.who].filter(Boolean).join(' · ') : 'Nenhuma marcada. Toque para adicionar'} iconBg={colors.sage} icon={<CalendarIcon color={colors.sageInk} />} onPress={() => router.push(next ? '/consultas' : '/nova-consulta')} />
           <View style={{ flexDirection: 'row', gap: 8 }}>
             {[

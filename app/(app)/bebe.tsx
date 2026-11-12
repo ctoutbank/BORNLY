@@ -30,7 +30,7 @@ export default function Bebe() {
       <View style={{ height: 440, zIndex: 1 }}>
         <LinearGradient colors={['#EADBCD', colors.avatar]} style={StyleSheet.absoluteFill} />
         <Pressable accessibilityRole="button" accessibilityLabel="Abrir o bebê em 3D" onPress={() => router.push('/bebe-3d')} style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}>
-          <View style={{ backgroundColor: colors.ink, borderRadius: 999, paddingVertical: 14, paddingHorizontal: 24 }}>
+          <View style={{ backgroundColor: colors.terra, borderRadius: 999, paddingVertical: 14, paddingHorizontal: 24 }}>
             <Sans s={14} w={600} c={colors.bg}>Ver o bebê em 3D</Sans>
           </View>
           <Sans s={12} c={colors.mutedStrong} style={{ marginTop: 10 }}>Gire e descubra o que já está se formando</Sans>
@@ -46,7 +46,7 @@ export default function Bebe() {
           <Press accessibilityLabel="Semana anterior" onPress={() => set({ weekView: Math.max(4, week - 1) })} style={[stepBtn, { backgroundColor: colors.card }]}><ArrowLeft color={colors.ink} /></Press>
           <Stat label="Comprimento" value={baby.cm} />
           <Stat label="Peso" value={baby.kg} />
-          <Press accessibilityLabel="Próxima semana" onPress={() => set({ weekView: Math.min(41, week + 1) })} style={[stepBtn, { backgroundColor: colors.ink }]}><ArrowRight color={colors.bg} /></Press>
+          <Press accessibilityLabel="Próxima semana" onPress={() => set({ weekView: Math.min(41, week + 1) })} style={[stepBtn, { backgroundColor: colors.terra }]}><ArrowRight color={colors.bg} /></Press>
         </View>
       </View>
       <View style={{ paddingTop: 64, paddingHorizontal: 22, gap: 20 }}>

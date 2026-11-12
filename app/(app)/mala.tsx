@@ -17,7 +17,7 @@ export default function Mala() {
           const on = s.malaTab === c;
           const fg = on ? colors.bg : colors.ink;
           return (
-            <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ malaTab: c })} style={{ flex: 1, borderRadius: 24, paddingVertical: 14, paddingHorizontal: 12, gap: 10, minHeight: 96, backgroundColor: on ? colors.ink : colors.card }}>
+            <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ malaTab: c })} style={{ flex: 1, borderRadius: 24, paddingVertical: 14, paddingHorizontal: 12, gap: 10, minHeight: 96, backgroundColor: on ? colors.terra : colors.card }}>
               <Sans s={12} w={600} c={fg} numberOfLines={1}>{c === 'Acompanhante' ? 'Acomp.' : c}</Sans>
               <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                 <Title s={22} lh={1.05} c={fg}>{MALA[c].filter((l) => s.mala[l]).length}</Title>

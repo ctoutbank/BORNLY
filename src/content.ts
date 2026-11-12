@@ -16,6 +16,6 @@ export const DURATION = ['Minutos', 'Horas', 'O dia todo'];
 
 export const MOMENTS: [string, string, string][] = [
   ['descobri', 'Acabei de descobrir', 'Primeiras semanas, muitas perguntas'],
-  ['tentante', 'Estou tentando engravidar', 'Acompanhar ciclo e saúde'],
   ['gravida', 'Já sei que estou grávida', 'Acompanhar semana a semana'],
+  ['tentante', 'Estou tentando engravidar', 'Acompanhar ciclo e saúde'],
 ];

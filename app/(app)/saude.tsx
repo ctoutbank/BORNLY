@@ -18,7 +18,7 @@ export default function Saude() {
   const rows = [
     { num: '07', label: 'Meu diário', sub: entry ? 'Registrado hoje' : 'Como você está hoje?', href: '/diario' },
     { num: '08', label: 'Sintomas', sub: logged ? `${logged} registrados hoje` : 'Nenhum registrado hoje', href: '/sintomas' },
-    { num: '09', label: 'Consultas e exames', sub: upcoming ? `${upcoming} próximos compromissos` : 'Nenhum compromisso marcado', href: '/consultas' },
+    { num: '09', label: 'Consultas e exames', sub: upcoming ? `${upcoming} ${upcoming === 1 ? "próximo compromisso" : "próximos compromissos"}` : 'Nenhum compromisso marcado', href: '/consultas' },
     { num: '11', label: 'Meu histórico', sub: 'Registros, peso e evolução', href: '/historico' },
   ] as const;
 
@@ -27,9 +27,9 @@ export default function Saude() {
       <TabTitle
         title="Minha saúde"
         sub="Seus registros ficam na sua conta."
-        right={<CircleButton label="Novo registro" bg={colors.ink} onPress={() => router.push('/diario')}><Plus color={colors.bg} /></CircleButton>}
+        right={<CircleButton label="Novo registro" bg={colors.terra} onPress={() => router.push('/diario')}><Plus color={colors.bg} /></CircleButton>}
       />
-      <Press onPress={() => router.push(next ? '/consultas' : '/nova-consulta')} style={{ borderRadius: 28, backgroundColor: colors.ink, padding: 20, gap: 14 }}>
+      <Press onPress={() => router.push(next ? '/consultas' : '/nova-consulta')} style={{ borderRadius: 28, backgroundColor: colors.terra, padding: 20, gap: 14 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <Sans s={11} w={600} c={colors.onInkSoft} style={{ letterSpacing: 0.7, textTransform: 'uppercase' }}>Próxima consulta</Sans>
           {next ? <Sans s={12} c={colors.onInkMid}>{next.inDays === 0 ? 'hoje' : next.inDays === 1 ? 'amanhã' : `em ${next.inDays} dias`}</Sans> : null}

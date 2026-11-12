@@ -35,7 +35,7 @@ export default function Diario() {
             const dot = 18 - i * 2.5;
             return (
               <Press key={label} accessibilityState={{ selected: on }} accessibilityLabel={label} onPress={() => setFeel(i)} style={{ alignItems: 'center', gap: 8, flex: 1 }}>
-                <View style={{ width: 52, height: 52, borderRadius: 26, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.ink : colors.bg, borderColor: on ? colors.ink : colors.line }}>
+                <View style={{ width: 52, height: 52, borderRadius: 26, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.terra : colors.bg, borderColor: on ? colors.terra : colors.line }}>
                   <View style={{ width: dot, height: dot, borderRadius: dot / 2, backgroundColor: on ? colors.bg : FEEL_DOTS[i] }} />
                 </View>
                 <Sans s={11} w={600} c={on ? colors.ink : colors.muted} style={{ textAlign: 'center' }}>{label}</Sans>

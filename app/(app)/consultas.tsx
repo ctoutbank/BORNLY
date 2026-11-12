@@ -29,7 +29,7 @@ export default function Consultas() {
           const on = s.calSel === i;
           const has = s.appointments.some((a) => new Date(a.startsAt).toDateString() === d.toDateString());
           return (
-            <Press key={i} accessibilityState={{ selected: on }} onPress={() => set({ calSel: i })} style={{ flex: 1, alignItems: 'center', gap: 6, borderRadius: 20, paddingTop: 10, paddingBottom: 8, backgroundColor: on ? colors.ink : 'transparent' }}>
+            <Press key={i} accessibilityState={{ selected: on }} onPress={() => set({ calSel: i })} style={{ flex: 1, alignItems: 'center', gap: 6, borderRadius: 20, paddingTop: 10, paddingBottom: 8, backgroundColor: on ? colors.terra : 'transparent' }}>
               <Sans s={11} w={600} c={on ? colors.bg : colors.ink} style={{ opacity: 0.7, textTransform: 'uppercase' }}>{fmt(d, { weekday: 'short' }).replace(/\./g, '').slice(0, 3)}</Sans>
               <Title s={18} c={on ? colors.bg : colors.ink}>{d.getDate()}</Title>
               <View style={{ width: 5, height: 5, borderRadius: 3, backgroundColor: has ? (on ? colors.bg : colors.terra) : 'transparent' }} />
@@ -46,7 +46,7 @@ export default function Consultas() {
               const fg = i === 0 ? colors.bg : colors.ink;
               const meta = [`${d.getHours()}h${d.getMinutes() ? String(d.getMinutes()).padStart(2, '0') : ''}`, a.who, a.place].filter(Boolean).join(' · ');
               return (
-                <View key={a.id} style={{ flexDirection: 'row', gap: 14, alignItems: 'center', backgroundColor: i === 0 ? colors.ink : colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16 }}>
+                <View key={a.id} style={{ flexDirection: 'row', gap: 14, alignItems: 'center', backgroundColor: i === 0 ? colors.terra : colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16 }}>
                   <View style={{ width: 52, alignItems: 'center', borderRightWidth: 1, borderRightColor: i === 0 ? 'rgba(244,236,227,.2)' : 'rgba(42,37,34,.1)', paddingRight: 12 }}>
                     <Title s={22} lh={1.05} c={fg}>{d.getDate()}</Title>
                     <Sans s={11} w={600} c={fg} style={{ marginTop: 4, opacity: 0.7, textTransform: 'uppercase' }}>{fmt(d, { month: 'short' }).replace(/\./g, '')}</Sans>
@@ -82,7 +82,7 @@ export default function Consultas() {
         </View>
         <View style={{ flexDirection: 'row', gap: 8, marginTop: 14 }}>
           <TextInput value={s.qDraft} onChangeText={(qDraft) => set({ qDraft })} onSubmitEditing={addQuestion} returnKeyType="done" accessibilityLabel="Escreva uma pergunta" placeholder="Escreva uma pergunta" placeholderTextColor={colors.muted} style={{ flex: 1, minWidth: 0, height: 48, borderRadius: 999, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.bg, paddingHorizontal: 16, fontSize: 14, color: colors.ink, fontFamily: fonts.sans400 }} />
-          <CircleButton label="Adicionar pergunta" bg={colors.ink} size={48} onPress={addQuestion}><Plus color={colors.bg} /></CircleButton>
+          <CircleButton label="Adicionar pergunta" bg={colors.terra} size={48} onPress={addQuestion}><Plus color={colors.bg} /></CircleButton>
         </View>
       </Card>
       {past.length ? (

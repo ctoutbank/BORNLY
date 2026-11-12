@@ -163,7 +163,7 @@ export default function Conta() {
           <Sans s={13} lh={1.5} c={colors.terraText}>Isso apaga sua conta e todos os seus registros, sem volta. Digite sua senha para confirmar.</Sans>
           <Field value={password} onChangeText={setPassword} secureTextEntry placeholder="Sua senha" autoComplete="current-password" />
           {error ? <Sans s={13} c={colors.terraDark}>{error}</Sans> : null}
-          <PrimaryButton label="Excluir definitivamente" bg={colors.terraDark} onPress={confirmDelete} />
+          <PrimaryButton label="Excluir definitivamente" bg={colors.terraDark} heart={false} onPress={confirmDelete} />
           <TextButton label="Cancelar" onPress={() => setDeleting(false)} />
         </Card>
       ) : (

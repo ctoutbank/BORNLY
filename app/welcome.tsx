@@ -77,7 +77,7 @@ export default function Welcome() {
       <View style={{ paddingHorizontal: 26, paddingBottom: Math.max(insets.bottom, 16) + 8, gap: 10 }}>
         <Title s={28} lh={1.15}>Cada semana tem o seu cuidado.</Title>
         <Sans s={15} lh={1.5} c={colors.mutedStrong} style={{ marginBottom: 6 }}>O que muda no bebê, no seu corpo e o que levar para a próxima consulta.</Sans>
-        <Press accessibilityLabel="Começar" onPress={() => router.push('/moment')} style={{ height: 58, borderRadius: 999, backgroundColor: colors.ink, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 26, paddingRight: 8 }}>
+        <Press accessibilityLabel="Começar" onPress={() => router.push('/moment')} style={{ height: 58, borderRadius: 999, backgroundColor: colors.terra, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 26, paddingRight: 8 }}>
           <Sans s={15} w={600} c={colors.bg}>Começar</Sans>
           <View style={{ width: 42, height: 42, borderRadius: 21, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center' }}>
             <Svg width={18} height={14} viewBox="0 0 16 12"><Path d="M1 6h13M9.5 1.5L14 6l-4.5 4.5" stroke={colors.ink} strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" /></Svg>

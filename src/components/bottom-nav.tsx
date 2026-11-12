@@ -62,10 +62,10 @@ export function BottomNav() {
         const on = t.id === active;
         return (
           <Press key={t.id} accessibilityRole="tab" accessibilityState={{ selected: on }} accessibilityLabel={t.label} onPress={() => router.dismissTo(`/${t.id}`)} style={{ flex: 1, alignItems: 'center', gap: 4, paddingTop: 4, paddingBottom: 6 }}>
-            <View style={{ width: 42, height: 42, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.ink : 'transparent' }}>
+            <View style={{ width: 42, height: 42, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.terra : 'transparent' }}>
               {t.icon(on ? colors.bg : colors.mutedStrong)}
             </View>
-            <Sans s={11} lh={1.3} w={600} c={on ? colors.ink : colors.muted}>{t.label}</Sans>
+            <Sans s={11} lh={1.3} w={600} c={on ? colors.terraDark : colors.muted}>{t.label}</Sans>
           </Press>
         );
       })}

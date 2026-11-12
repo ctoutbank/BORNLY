@@ -10,7 +10,7 @@ export function Toast() {
   if (!s.toast) return null;
   return (
     <View pointerEvents="none" accessibilityLiveRegion="polite" style={{ position: 'absolute', top, left: 16, right: 16, alignItems: 'center' }}>
-      <View style={{ backgroundColor: colors.ink, borderRadius: 999, paddingVertical: 12, paddingHorizontal: 20 }}>
+      <View style={{ backgroundColor: colors.terraDark, borderRadius: 999, paddingVertical: 12, paddingHorizontal: 20 }}>
         <Sans s={13} w={600} c={colors.bg}>{s.toast}</Sans>
       </View>
     </View>

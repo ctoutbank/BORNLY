@@ -66,7 +66,7 @@ export default function Historico() {
                 <Svg width="100%" height={120} viewBox="0 0 320 120" preserveAspectRatio="none" style={{ marginTop: 14 }}>
                   <Path d={area} fill={colors.sand} />
                   <Polyline points={line} fill="none" stroke={colors.caramel} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
-                  <Circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r={4} fill={colors.ink} />
+                  <Circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r={4} fill={colors.terra} />
                 </Svg>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
                   {[w[0], last].map((x) => <Sans key={x.day} s={11} c={colors.muted}>{fmt(fromIso(x.day), { day: 'numeric', month: 'short' }).replace(/\./g, '')}</Sans>)}
@@ -90,7 +90,7 @@ export default function Historico() {
         <View style={{ flexDirection: 'row', gap: 8, alignItems: 'flex-end', minHeight: 96, marginTop: 16 }}>
           {bars.map((b, i) => (
             <View key={i} style={{ flex: 1, alignItems: 'center', gap: 6, justifyContent: 'flex-end' }}>
-              <View style={{ width: '100%', maxWidth: 26, height: Math.min(72, b.count * 18) + 6, borderRadius: 10, backgroundColor: i === 6 ? colors.ink : '#E0CDBE' }} />
+              <View style={{ width: '100%', maxWidth: 26, height: Math.min(72, b.count * 18) + 6, borderRadius: 10, backgroundColor: i === 6 ? colors.terra : '#E0CDBE' }} />
               <Sans s={11} w={600} c={colors.muted}>{fmt(b.d, { weekday: 'narrow' }).toUpperCase()}</Sans>
             </View>
           ))}

@@ -224,7 +224,7 @@ export default function Baby3D() {
           <Sans s={12} w={600} c={colors.terra} style={{ letterSpacing: 0.6, textTransform: 'uppercase' }}>{PARTS[selected].label} · semana {week}</Sans>
           <Title s={22} style={{ marginTop: 6 }}>{info.title}</Title>
           <Sans s={14} lh={1.55} c={colors.body} style={{ marginTop: 8 }}>{info.text}</Sans>
-          <Press onPress={closeSheet} style={{ marginTop: 16, height: 50, borderRadius: 999, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}>
+          <Press onPress={closeSheet} style={{ marginTop: 16, height: 50, borderRadius: 999, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center' }}>
             <Sans s={14} w={600} c={colors.bg}>Voltar para o bebê</Sans>
           </Press>
         </View>

@@ -14,7 +14,7 @@ function Stepper({ label, value, onDec, onInc }: { label: string; value: number;
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
         <Press accessibilityLabel={`Diminuir ${label}`} onPress={onDec} style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.sand, alignItems: 'center', justifyContent: 'center' }}><Sans s={18}>−</Sans></Press>
         <Title s={28} lh={1.1}>{value}</Title>
-        <Press accessibilityLabel={`Aumentar ${label}`} onPress={onInc} style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}><Sans s={18} c={colors.bg}>+</Sans></Press>
+        <Press accessibilityLabel={`Aumentar ${label}`} onPress={onInc} style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center' }}><Sans s={18} c={colors.bg}>+</Sans></Press>
       </View>
     </Card>
   );
@@ -59,7 +59,7 @@ export default function DateScreen() {
           />
         </View>
       )}
-      <Card bg={colors.ink} style={{ padding: 22 }}>
+      <Card bg={colors.terra} style={{ padding: 22 }}>
         <Overline c={colors.onInkSoft}>Pelo que você informou</Overline>
         <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8, marginTop: 10 }}>
           <Title s={40} lh={1.05} c={colors.bg}>{g.week}</Title>

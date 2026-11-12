@@ -48,7 +48,7 @@ export default function Contracoes() {
       <Card radius={28} style={{ padding: 22, alignItems: 'center', gap: 6 }}>
         <Sans s={12} c={colors.muted}>{startedAt ? 'Contração em andamento' : list[0] ? `Última há ${span(now - new Date(list[0].startedAt).getTime())}` : 'Toque quando a contração começar'}</Sans>
         <Title s={52} lh={1.1}>{startedAt ? span(now - startedAt) : '0s'}</Title>
-        <Press accessibilityLabel={startedAt ? 'Terminou' : 'Começou'} onPress={toggle} style={{ marginTop: 14, width: 168, height: 168, borderRadius: 84, backgroundColor: startedAt ? colors.ink : colors.terra, alignItems: 'center', justifyContent: 'center' }}>
+        <Press accessibilityLabel={startedAt ? 'Terminou' : 'Começou'} onPress={toggle} style={{ marginTop: 14, width: 168, height: 168, borderRadius: 84, backgroundColor: startedAt ? colors.terraDark : colors.terra, alignItems: 'center', justifyContent: 'center' }}>
           <Title s={22} c={colors.bg}>{startedAt ? 'Terminou' : 'Começou'}</Title>
         </Press>
       </Card>

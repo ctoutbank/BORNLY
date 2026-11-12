@@ -26,7 +26,7 @@ export function ArticleRow({ article }: { article: Article }) {
       </Press>
       <CircleButton
         label={on ? 'Remover dos salvos' : 'Salvar'}
-        bg={on ? colors.ink : colors.sand}
+        bg={on ? colors.terra : colors.sand}
         onPress={() => {
           save(`/saved/${article.id}`, 'PUT', { saved: !on }, (st) => ({ saved: { ...st.saved, [article.id]: !on } })).then((ok) => {
             if (ok) flash(on ? 'Removido dos salvos' : 'Salvo para ler depois');

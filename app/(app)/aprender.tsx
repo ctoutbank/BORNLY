@@ -75,7 +75,7 @@ export default function Aprender() {
           <Title s={18}>Guia de dúvidas</Title>
           <Sans s={12} c={colors.sageInk} style={{ marginTop: 4 }}>Respostas curtas, com fonte identificada</Sans>
         </View>
-        <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}><ArrowRight color={colors.bg} w={10} h={17} /></View>
+        <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center' }}><ArrowRight color={colors.bg} w={10} h={17} /></View>
       </Press>
     </Screen>
   );

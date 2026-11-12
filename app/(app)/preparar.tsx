@@ -55,7 +55,7 @@ export default function Preparar() {
                 <Title s={16}>{r.label}</Title>
                 <Sans s={12} lh={1.35} c={colors.muted} style={{ marginTop: 3 }}>{r.sub}</Sans>
               </View>
-              <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}><ArrowRight color={colors.bg} w={10} h={17} /></View>
+              <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center' }}><ArrowRight color={colors.bg} w={10} h={17} /></View>
             </View>
             <View style={{ height: 6, borderRadius: 999, backgroundColor: colors.sand, overflow: 'hidden' }}>
               <View style={{ height: '100%', borderRadius: 999, backgroundColor: colors.caramel, width: `${Math.round(r.pct * 100)}%` }} />

@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
-import { ReactNode } from 'react';
-import { Pressable, PressableProps, ScrollView, StyleProp, Switch, Text, TextInput, TextInputProps, TextProps, TextStyle, View, ViewStyle } from 'react-native';
+import { ReactNode, useEffect, useState } from 'react';
+import { Animated, Easing, Pressable, PressableProps, ScrollView, StyleProp, Switch, Text, TextInput, TextInputProps, TextProps, TextStyle, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
@@ -141,10 +141,11 @@ export function useGoBack(fallback: '/hoje' | '/saude' | '/preparar' | '/aprende
   return () => (router.canGoBack() ? router.back() : router.replace(fallback));
 }
 
-export function BackButton({ onPress, light = false }: { onPress: () => void; light?: boolean }) {
+// Botão de voltar claro em todas as telas (o parâmetro light fica por compatibilidade).
+export function BackButton({ onPress }: { onPress: () => void; light?: boolean }) {
   return (
-    <Press onPress={onPress} accessibilityLabel="Voltar" style={[styles.circle, { backgroundColor: light ? colors.card : colors.ink }]}>
-      <ArrowLeft color={light ? colors.ink : colors.bg} />
+    <Press onPress={onPress} accessibilityLabel="Voltar" style={[styles.circle, { backgroundColor: colors.card }]}>
+      <ArrowLeft color={colors.terraDark} />
     </Press>
   );
 }
@@ -184,12 +185,41 @@ export function TabTitle({ title, sub, right }: { title: string; sub: string; ri
   );
 }
 
-export function PrimaryButton({ label, onPress, bg = colors.ink, icon }: { label: string; onPress: () => void; bg?: string; icon?: ReactNode }) {
+const HEART_PATH = 'M12 21s-7.5-4.7-7.5-10.6A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.8C19.5 16.3 12 21 12 21z';
+
+// Coração que bate devagar, em dois tempos, como um batimento.
+function BeatingHeart({ color }: { color: string }) {
+  const [beat] = useState(() => new Animated.Value(0));
+  useEffect(() => {
+    const pulse = Animated.loop(
+      Animated.sequence([
+        Animated.timing(beat, { toValue: 1, duration: 180, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+        Animated.timing(beat, { toValue: 0, duration: 180, useNativeDriver: true }),
+        Animated.timing(beat, { toValue: 0.7, duration: 160, useNativeDriver: true }),
+        Animated.timing(beat, { toValue: 0, duration: 520, useNativeDriver: true }),
+      ]),
+    );
+    pulse.start();
+    return () => pulse.stop();
+  }, [beat]);
   return (
-    <Press onPress={onPress} accessibilityLabel={label} style={{ height: 58, borderRadius: 999, backgroundColor: bg, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 }}>
-      {icon}
-      <Sans s={15} w={600} c={colors.bg}>{label}</Sans>
-    </Press>
+    <Animated.View style={{ transform: [{ scale: beat.interpolate({ inputRange: [0, 1], outputRange: [1, 1.28] }) }] }}>
+      <Svg width={18} height={18} viewBox="0 0 24 24"><Path d={HEART_PATH} fill={color} /></Svg>
+    </Animated.View>
+  );
+}
+
+// Botão principal: terracota, com coração que pulsa e um leve aperto ao tocar.
+export function PrimaryButton({ label, onPress, bg = colors.terra, icon, heart = true }: { label: string; onPress: () => void; bg?: string; icon?: ReactNode; heart?: boolean }) {
+  const [scale] = useState(() => new Animated.Value(1));
+  const to = (v: number) => Animated.spring(scale, { toValue: v, useNativeDriver: true, speed: 40, bounciness: 8 }).start();
+  return (
+    <Animated.View style={{ transform: [{ scale }] }}>
+      <Pressable onPress={onPress} onPressIn={() => to(0.96)} onPressOut={() => to(1)} accessibilityRole="button" accessibilityLabel={label} style={{ height: 58, borderRadius: 999, backgroundColor: bg, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 }}>
+        {icon ?? (heart ? <BeatingHeart color={colors.card} /> : null)}
+        <Sans s={15} w={600} c={colors.card}>{label}</Sans>
+      </Pressable>
+    </Animated.View>
   );
 }
 
@@ -207,7 +237,7 @@ export function Segmented({ options, value, onChange, fontSize = 13, minHeight =
       {options.map((o) => {
         const on = o.id === value;
         return (
-          <Press key={o.id} onPress={() => onChange(o.id)} accessibilityLabel={o.label} accessibilityState={{ selected: on }} style={{ flex: 1, borderRadius: 999, minHeight, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, backgroundColor: on ? colors.ink : 'transparent' }}>
+          <Press key={o.id} onPress={() => onChange(o.id)} accessibilityLabel={o.label} accessibilityState={{ selected: on }} style={{ flex: 1, borderRadius: 999, minHeight, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, backgroundColor: on ? colors.terra : 'transparent' }}>
             <Sans s={fontSize} w={600} c={on ? colors.bg : colors.mutedStrong} style={{ textAlign: 'center' }}>{o.label}</Sans>
           </Press>
         );
@@ -222,7 +252,7 @@ export function Chip({ label, on, onPress, compact = false, offBg = colors.card,
       onPress={onPress}
       accessibilityLabel={label}
       accessibilityState={{ selected: on }}
-      style={{ borderWidth: 1.5, borderColor: on ? colors.ink : offBorder, backgroundColor: on ? colors.ink : offBg, borderRadius: 999, paddingHorizontal: compact ? 14 : 16, minHeight: compact ? 40 : 44, justifyContent: 'center' }}>
+      style={{ borderWidth: 1.5, borderColor: on ? colors.terra : offBorder, backgroundColor: on ? colors.terra : offBg, borderRadius: 999, paddingHorizontal: compact ? 14 : 16, minHeight: compact ? 40 : 44, justifyContent: 'center' }}>
       <Sans s={13} w={500} c={on ? colors.bg : colors.ink}>{label}</Sans>
     </Press>
   );
@@ -254,7 +284,7 @@ export function CheckRow({ label, on, last, onPress, plain = false }: { label: s
       accessibilityRole="checkbox"
       accessibilityState={{ checked: on }}
       style={{ flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 14, minHeight: 54, borderBottomWidth: last ? 0 : 1, borderBottomColor: colors.lineSoft }}>
-      <View style={[styles.circle, { width: 26, height: 26, borderWidth: 1.5, backgroundColor: on ? colors.ink : 'transparent', borderColor: on ? colors.ink : colors.check }]}>
+      <View style={[styles.circle, { width: 26, height: 26, borderWidth: 1.5, backgroundColor: on ? colors.terra : 'transparent', borderColor: on ? colors.terra : colors.check }]}>
         {on ? (
           <CheckMark color={colors.bg} />
         ) : null}

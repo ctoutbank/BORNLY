@@ -35,7 +35,7 @@ export default function Enxoval() {
           const on = s.enxCat === c;
           const labels = labelsOf(c);
           return (
-            <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ enxCat: c })} style={{ borderRadius: 999, paddingHorizontal: 16, minHeight: 42, flexDirection: 'row', gap: 6, alignItems: 'center', backgroundColor: on ? colors.ink : colors.card }}>
+            <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ enxCat: c })} style={{ borderRadius: 999, paddingHorizontal: 16, minHeight: 42, flexDirection: 'row', gap: 6, alignItems: 'center', backgroundColor: on ? colors.terra : colors.card }}>
               <Sans s={13} w={600} c={on ? colors.bg : colors.ink}>{c}</Sans>
               <Sans s={13} w={500} c={on ? colors.bg : colors.ink} style={{ opacity: 0.6 }}>{labels.filter((l) => s.enx[l]).length}/{labels.length}</Sans>
             </Press>

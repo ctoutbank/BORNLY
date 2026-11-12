@@ -66,7 +66,7 @@ export default function NovaConsulta() {
           {KINDS.map((k) => {
             const on = title === k.id;
             return (
-              <Press key={k.id} accessibilityLabel={k.id} accessibilityState={{ selected: on }} onPress={() => setTitle(k.id)} style={{ flexBasis: '48%', flexGrow: 1, flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 56, paddingHorizontal: 14, borderRadius: 18, backgroundColor: on ? colors.ink : colors.card, borderWidth: 1.5, borderColor: on ? colors.ink : colors.line }}>
+              <Press key={k.id} accessibilityLabel={k.id} accessibilityState={{ selected: on }} onPress={() => setTitle(k.id)} style={{ flexBasis: '48%', flexGrow: 1, flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 56, paddingHorizontal: 14, borderRadius: 18, backgroundColor: on ? colors.terra : colors.card, borderWidth: 1.5, borderColor: on ? colors.terra : colors.line }}>
                 {k.icon(on ? colors.bg : colors.terra)}
                 <Sans s={13} w={600} c={on ? colors.bg : colors.ink} style={{ flex: 1 }} numberOfLines={1}>{k.label ?? k.id}</Sans>
               </Press>
@@ -88,7 +88,7 @@ export default function NovaConsulta() {
               const id = iso(d);
               const on = id === day;
               return (
-                <Press key={id} accessibilityLabel={fmt(d, { weekday: 'long', day: 'numeric', month: 'long' })} accessibilityState={{ selected: on }} onPress={() => setDay(id)} style={{ width: 58, paddingVertical: 10, borderRadius: 18, alignItems: 'center', gap: 2, backgroundColor: on ? colors.ink : colors.card }}>
+                <Press key={id} accessibilityLabel={fmt(d, { weekday: 'long', day: 'numeric', month: 'long' })} accessibilityState={{ selected: on }} onPress={() => setDay(id)} style={{ width: 58, paddingVertical: 10, borderRadius: 18, alignItems: 'center', gap: 2, backgroundColor: on ? colors.terra : colors.card }}>
                   <Sans s={11} w={600} c={on ? colors.onInkMid : colors.muted}>{fmt(d, { weekday: 'short' }).replace(/\./g, '').toUpperCase()}</Sans>
                   <Title s={20} lh={1.15} c={on ? colors.bg : colors.ink}>{d.getDate()}</Title>
                   <Sans s={11} c={on ? colors.onInkMid : colors.muted}>{fmt(d, { month: 'short' }).replace(/\./g, '')}</Sans>
@@ -111,7 +111,7 @@ export default function NovaConsulta() {
             {TIMES.map((t) => {
               const on = t === time;
               return (
-                <Press key={t} accessibilityLabel={`Às ${t}`} accessibilityState={{ selected: on }} onPress={() => setTime(t)} style={{ minWidth: 66, height: 44, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12, backgroundColor: on ? colors.ink : colors.card, borderWidth: 1.5, borderColor: on ? colors.ink : colors.line }}>
+                <Press key={t} accessibilityLabel={`Às ${t}`} accessibilityState={{ selected: on }} onPress={() => setTime(t)} style={{ minWidth: 66, height: 44, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12, backgroundColor: on ? colors.terra : colors.card, borderWidth: 1.5, borderColor: on ? colors.terra : colors.line }}>
                   <Sans s={13} w={600} c={on ? colors.bg : colors.ink}>{t}</Sans>
                 </Press>
               );
