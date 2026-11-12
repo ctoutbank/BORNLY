@@ -15,7 +15,7 @@ export const ARTICLES: Article[] = [
   {
     key: 'pre-natal-quando-comecar', title: 'Pré-natal: quando começar e quantas consultas', category: 'Pré-natal', minutes: 3, weekFrom: 4, weekTo: 16, sourceName: `${MS} · Pré-natal`, sourceUrl: PRENATAL,
     summary: 'O acompanhamento começa na Unidade Básica de Saúde, de preferência até a 12ª semana.',
-    body: 'O pré-natal é o acompanhamento da gestação pela equipe de saúde. No SUS, ele começa na Unidade Básica de Saúde mais próxima de casa, assim que a gravidez é suspeitada ou confirmada.\n\nO Ministério da Saúde orienta iniciar até a 12ª semana e realizar pelo menos sete consultas, alternando entre médico e enfermeiro, além de pelo menos uma consulta odontológica.\n\nAs consultas costumam ser mensais até a 28ª semana, quinzenais até a 36ª e semanais até o parto. Gestações com condições como hipertensão ou diabetes podem precisar de acompanhamento mais frequente.\n\nO acompanhamento não termina antes do parto: ele segue até o nascimento e continua no pós-parto.',
+    body: 'O pré-natal é o acompanhamento da gestação pela equipe de saúde. No SUS, ele começa na Unidade Básica de Saúde mais próxima de casa, assim que a gravidez é suspeitada ou confirmada.\n\nO Ministério da Saúde orienta iniciar até a 12ª semana e realizar pelo menos sete consultas, alternando entre médico e enfermeiro, além de pelo menos uma consulta odontológica.\n\nAs consultas costumam ser mensais até a 28ª semana, quinzenais até a 36ª e semanais até o parto. Gestações com condições como hipertensão ou diabetes podem precisar de acompanhamento mais frequente.\n\nO acompanhamento não termina no parto: ele continua no pós-parto.',
   },
   {
     key: 'exames-do-pre-natal', title: 'Exames do pré-natal no SUS', category: 'Exames', minutes: 3, weekFrom: 4, weekTo: 41, sourceName: `${MS} · Exames e vacinas`, sourceUrl: EXAMES,
@@ -85,7 +85,7 @@ export const ARTICLES: Article[] = [
   {
     key: 'dez-passos-amamentacao', title: 'Os dez passos para o sucesso da amamentação', category: 'Amamentação', minutes: 2, weekFrom: 30, weekTo: 41, sourceName: `${MS} · Notícias`, sourceUrl: DEZ_PASSOS,
     summary: 'Uma iniciativa que orienta maternidades a apoiar a amamentação desde o nascimento.',
-    body: 'Os dez passos para o sucesso da amamentação orientam as maternidades a apoiar a mãe desde o nascimento, como o contato pele a pele e o início da amamentação na primeira hora.\n\nHospitais que seguem esses passos podem receber o título de Hospital Amigo da Criança.\n\nNa visita à maternidade, pergunte como ela apoia a amamentação.',
+    body: 'Os dez passos para o sucesso da amamentação orientam as maternidades a apoiar a mãe desde o nascimento, com ações como o contato pele a pele e o início da amamentação na primeira hora.\n\nHospitais que seguem esses passos podem receber o título de Hospital Amigo da Criança.\n\nNa visita à maternidade, pergunte como ela apoia a amamentação.',
   },
   {
     key: 'pos-parto', title: 'Pós-parto: o cuidado continua', category: 'Pós-parto', minutes: 2, weekFrom: 34, weekTo: 41, sourceName: `${MS} · Saúde materna`, sourceUrl: SAUDE_MATERNA,
@@ -97,6 +97,8 @@ export const ARTICLES: Article[] = [
 // Capas: ilustrações próprias do Bornly, servidas pelo Worker (server/public/img/artigos). Trocáveis pela administração.
 const COVERS = 'https://bornly-api.wt-pedagogia.workers.dev/img/artigos';
 for (const a of ARTICLES) {
+  // Tempo de leitura pelo tamanho do texto (cerca de 200 palavras por minuto).
+  a.minutes = Math.max(1, Math.ceil(a.body.split(/\s+/).length / 200));
   a.image ??= `${COVERS}/${a.key}.jpg`;
   a.imageCredit ??= 'Ilustração: Bornly';
 }

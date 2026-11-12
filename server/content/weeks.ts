@@ -7,7 +7,7 @@ const BIWEEKLY = 'Entre a 28ª e a 36ª semana, as consultas costumam ficar quin
 const WEEKLY = 'Da 36ª semana até o parto, as consultas costumam ser semanais. Tenha à mão a caderneta e os documentos.';
 
 export const WEEKS: Week[] = [
-  [4, 'uma semente de papoula', 0.1, 0, 'O embrião acabou de se implantar no útero e começa a formar as estruturas que darão origem à placenta.', 'A menstruação atrasa. Algumas mulheres sentem cansaço, seios mais sensíveis ou leve cólica.', 'Um teste de gravidez positivo é o momento de procurar a Unidade Básica de Saúde. ' + PRENATAL_EARLY],
+  [4, 'uma semente de papoula', 0.1, 0, 'O embrião acabou de se implantar no útero e começa a formar as estruturas que darão origem à placenta.', 'A menstruação atrasa. Algumas mulheres sentem cansaço, seios mais sensíveis ou leve cólica.', 'Um teste de gravidez positivo é o momento de procurar a Unidade Básica de Saúde mais próxima. O ideal é iniciar o pré-natal até a 12ª semana.'],
   [5, 'uma semente de gergelim', 0.2, 0, 'O tubo neural, que dará origem ao cérebro e à medula, começa a se formar.', 'Enjoo, sono e vontade de urinar com mais frequência podem aparecer.', PRENATAL_EARLY + ' Pergunte sobre o ácido fólico.'],
   [6, 'uma lentilha', 0.6, 0, 'O coração primitivo começa a pulsar e surgem os brotos dos braços e das pernas.', 'O enjoo costuma aumentar. Comer pouco e várias vezes ao dia pode ajudar.', PRENATAL_EARLY],
   [7, 'um mirtilo', 1.0, 0, 'O rosto começa a se desenhar e o cérebro cresce rápido.', 'Os seios podem aumentar e ficar mais sensíveis. Sono e cansaço são comuns.', 'Na primeira consulta, a equipe pede exames de sangue e urina e oferece testes rápidos.'],
@@ -28,9 +28,9 @@ export const WEEKS: Week[] = [
   [22, 'um mamão papaia', 27.8, 430, 'Os olhos estão formados, mas as pálpebras seguem fechadas.', 'O umbigo pode ficar mais saliente.', MONTHLY],
   [23, 'uma toranja', 28.9, 500, 'O bebê já percebe seus movimentos e sua voz.', 'Os pés podem inchar no fim do dia. Elevar as pernas alivia.', MONTHLY],
   [24, 'uma espiga de milho', 30, 600, 'Os pulmões começam a formar as ramificações que vão respirar.', 'A barriga ganha volume rápido. Dor nas costas e pés inchados ao fim do dia são comuns.', 'Entre a 24ª e a 28ª semana, a equipe pode pedir o exame de glicose para investigar diabetes gestacional.'],
-  [25, 'uma couve-flor', 34.6, 660, 'Começa a responder à sua voz e aos sons do ambiente.', 'O sono pode ficar mais leve. Uma almofada entre os joelhos costuma ajudar.', MONTHLY],
-  [26, 'um pé de alface', 35.6, 760, 'Os olhos começam a se abrir e já reagem à luz.', 'Azia e falta de ar leve aparecem conforme o útero sobe.', MONTHLY],
-  [27, 'uma couve', 36.6, 875, 'Já dorme e acorda em ciclos, e pode até soluçar.', 'Cãibras nas pernas à noite são frequentes. Alongar antes de dormir ajuda.', 'Fim do segundo trimestre. Pergunte sobre os exames do terceiro trimestre.'],
+  [25, 'uma couve-flor', 31.9, 660, 'Começa a responder à sua voz e aos sons do ambiente.', 'O sono pode ficar mais leve. Uma almofada entre os joelhos costuma ajudar.', MONTHLY],
+  [26, 'um pé de alface', 33.8, 760, 'Os olhos começam a se abrir e já reagem à luz.', 'Azia e falta de ar leve aparecem conforme o útero sobe.', MONTHLY],
+  [27, 'uma couve', 35.7, 875, 'Já dorme e acorda em ciclos, e pode até soluçar.', 'Cãibras nas pernas à noite são frequentes. Alongar antes de dormir ajuda.', 'Fim do segundo trimestre. Pergunte sobre os exames do terceiro trimestre.'],
   [28, 'uma berinjela', 37.6, 1000, 'Os olhos abrem e fecham, e o cérebro forma os primeiros sulcos. Começa a sonhar.', 'Último trimestre. A barriga cresce mais rápido; falta de ar, azia e cansaço são esperados.', BIWEEKLY + ' Comece a observar o padrão de movimentos do bebê.'],
   [29, 'uma abóbora pequena', 38.6, 1150, 'Ganha gordura e já regula melhor a própria temperatura.', 'Você pode sentir mais fome. Refeições menores e mais frequentes aliviam a azia.', BIWEEKLY],
   [30, 'um repolho', 39.9, 1300, 'Os movimentos ficam mais fortes, com menos espaço para virar.', 'Contrações de treino podem aparecer. Irregulares e sem dor são esperadas.', BIWEEKLY + ' No terceiro trimestre, os testes de sífilis e HIV costumam ser repetidos.'],
@@ -42,7 +42,7 @@ export const WEEKS: Week[] = [
   [36, 'um mamão grande', 47.4, 2600, 'Começa a se posicionar para o nascimento, em geral de cabeça para baixo.', 'Você pode sentir a barriga baixar e respirar um pouco melhor.', WEEKLY],
   [37, 'uma abóbora-moranga', 48.6, 2900, 'O bebê é considerado a termo a partir desta semana.', 'Contrações de treino podem ficar mais frequentes.', WEEKLY + ' Combine com a equipe quando ir para a maternidade.'],
   [38, 'uma abóbora', 49.8, 3100, 'Está pronto para nascer e segue ganhando gordura.', 'Contrações mais regulares podem começar. Siga o plano combinado com sua equipe.', WEEKLY],
-  [39, 'uma melancia pequena', 50.7, 3300, 'Os órgãos estão maduros; o bebê segue crescendo devagar.', 'Ansiedade é comum nesta reta final. Descanse quando puder.', WEEKLY],
+  [39, 'uma jaca pequena', 50.7, 3300, 'Os órgãos estão maduros; o bebê segue crescendo devagar.', 'Ansiedade é comum nesta reta final. Descanse quando puder.', WEEKLY],
   [40, 'uma melancia pequena', 51.2, 3400, 'Chegou a data provável. Cada bebê tem seu tempo.', 'Mantenha contato com sua equipe e observe os movimentos do bebê.', 'Depois da data provável, a equipe acompanha de perto o bem-estar seu e do bebê.'],
   [41, 'uma melancia', 51.7, 3600, 'O bebê continua sendo acompanhado até o nascimento.', 'É comum ficar ansiosa. Siga as orientações da equipe sobre os próximos passos.', 'Com 41 semanas, a equipe costuma avaliar a melhor conduta. Não deixe de comparecer às consultas.'],
 ];
