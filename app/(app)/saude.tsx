@@ -30,20 +30,20 @@ export default function Saude() {
         sub="Seus registros ficam na sua conta."
         right={<CircleButton label="Novo registro" bg={colors.peach} onPress={() => router.push('/diario')}><Plus color={colors.terra} /></CircleButton>}
       />
-      <Press onPress={() => router.push(next ? '/consultas' : '/nova-consulta')} style={{ borderRadius: 28, backgroundColor: colors.terra, padding: 20, gap: 14, overflow: 'hidden' }}>
-        <HeartsBackdrop color={colors.card} low />
+      <Press onPress={() => router.push(next ? '/consultas' : '/nova-consulta')} style={{ borderRadius: 28, backgroundColor: colors.peach, padding: 20, gap: 14, overflow: 'hidden' }}>
+        <HeartsBackdrop />
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Sans s={11} w={600} c={colors.onInkSoft} style={{ letterSpacing: 0.7, textTransform: 'uppercase' }}>Próxima consulta</Sans>
-          {next ? <Sans s={12} c={colors.onInkMid}>{next.inDays === 0 ? 'hoje' : next.inDays === 1 ? 'amanhã' : `em ${next.inDays} dias`}</Sans> : null}
+          <Sans s={11} w={700} c={colors.terra} style={{ letterSpacing: 0.7, textTransform: 'uppercase' }}>Próxima consulta</Sans>
+          {next ? <View style={{ backgroundColor: colors.card, borderRadius: 999, paddingVertical: 4, paddingHorizontal: 10 }}><Sans s={11} w={700} c={colors.terraDark}>{next.inDays === 0 ? 'hoje' : next.inDays === 1 ? 'amanhã' : `em ${next.inDays} dias`}</Sans></View> : null}
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-          <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: 'rgba(251,247,242,.92)', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center' }}>
             {next ? kindLook(next.title).icon(colors.terra, 24) : <CalendarHeart color={colors.terra} size={24} />}
           </View>
           <View style={{ flex: 1, minWidth: 0 }}>
-            <Title s={21} c={colors.bg}>{next ? next.when : 'Nenhuma marcada'}</Title>
-            <Sans s={13} w={600} c={colors.bg} style={{ marginTop: 2 }}>{next ? next.title : 'Toque para adicionar'}</Sans>
-            {next && (next.who || next.place) ? <Sans s={12} c={colors.onInkMid} numberOfLines={1}>{[next.who, next.place].filter(Boolean).join(' · ')}</Sans> : null}
+            <Title s={21}>{next ? next.when : 'Nenhuma marcada'}</Title>
+            <Sans s={13} w={600} c={colors.terraDark} style={{ marginTop: 2 }}>{next ? next.title : 'Toque para adicionar'}</Sans>
+            {next && (next.who || next.place) ? <Sans s={12} c={colors.mutedStrong} numberOfLines={1}>{[next.who, next.place].filter(Boolean).join(' · ')}</Sans> : null}
           </View>
         </View>
       </Press>
