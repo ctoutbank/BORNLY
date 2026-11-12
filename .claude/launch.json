@@ -28,7 +28,7 @@
       "name": "bornly-web-local",
       "runtimeExecutable": "env",
       "runtimeArgs": [
-        "EXPO_PUBLIC_API_URL=http://localhost:3000",
+        "EXPO_PUBLIC_API_URL=http://localhost:8787",
         "npx",
         "expo",
         "start",

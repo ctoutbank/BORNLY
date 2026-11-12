@@ -56,7 +56,7 @@ export default function Chutes() {
           }}
           style={{ marginTop: 16, width: 184, height: 184, borderRadius: 92, backgroundColor: 'rgba(163,96,78,.14)', alignItems: 'center', justifyContent: 'center' }}>
           <View style={{ width: 156, height: 156, borderRadius: 78, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-            <FootIcon color={colors.card} size={30} filled />
+            <FootIcon color={colors.card} size={42} filled />
             <Title s={22} c={colors.card}>{startedAt ? 'Mexeu' : 'Começar'}</Title>
           </View>
         </Press>
