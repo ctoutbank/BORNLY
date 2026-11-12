@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
-import { ClockIcon, Heart, HeartsBackdrop, InfoHeart, NoteCard } from '@/components/love';
+import { ClockIcon, FootIcon, HeartsBackdrop, InfoHeart, NoteCard } from '@/components/love';
 import { useContent } from '@/content-provider';
 import { fmt, useStore } from '@/store';
 import { colors } from '@/theme';
@@ -56,7 +56,7 @@ export default function Chutes() {
           }}
           style={{ marginTop: 16, width: 184, height: 184, borderRadius: 92, backgroundColor: 'rgba(163,96,78,.14)', alignItems: 'center', justifyContent: 'center' }}>
           <View style={{ width: 156, height: 156, borderRadius: 78, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-            <Heart color={colors.card} size={22} filled />
+            <FootIcon color={colors.card} size={30} filled />
             <Title s={22} c={colors.card}>{startedAt ? 'Mexeu' : 'Começar'}</Title>
           </View>
         </Press>
@@ -82,7 +82,7 @@ export default function Chutes() {
           <Card style={{ paddingVertical: 4, paddingHorizontal: 18 }}>
             {s.kicks.slice(0, 20).map((k, i, all) => (
               <View key={k.id} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, borderBottomWidth: i === all.length - 1 ? 0 : 1, borderBottomColor: colors.lineSoft }}>
-                <View style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' }}><Heart color={colors.terra} size={16} filled /></View>
+                <View style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' }}><FootIcon color={colors.terra} size={20} /></View>
                 <View style={{ flex: 1 }}>
                   <Sans s={14} w={600}>{k.kicks} movimentos</Sans>
                   <Sans s={12} c={colors.muted}>{fmt(new Date(k.startedAt), { day: 'numeric', month: 'short' }).replace(/\./g, '')} · {new Date(k.startedAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</Sans>

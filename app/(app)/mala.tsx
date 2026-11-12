@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 
 import { useContent } from '@/content-provider';
-import { BabyIcon, BagIcon, Heart, PeopleIcon } from '@/components/love';
+import { BabyIcon, BagIcon, FlowerIcon, PeopleIcon } from '@/components/love';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
 import { Checklist, PageHeader, Press, Sans, Screen, Title } from '@/ui';
@@ -17,7 +17,7 @@ export default function Mala() {
         {Object.keys(MALA).map((c) => {
           const on = s.malaTab === c;
           const fg = on ? colors.terraDark : colors.ink;
-          const icon = c === 'Mamãe' ? <Heart color={colors.terra} size={16} /> : c === 'Bebê' ? <BabyIcon color={colors.sageInk} size={17} /> : <PeopleIcon color={colors.mutedStrong} size={17} />;
+          const icon = c === 'Mamãe' ? <FlowerIcon color={colors.terra} size={17} /> : c === 'Bebê' ? <BabyIcon color={colors.sageInk} size={17} /> : <PeopleIcon color={colors.mutedStrong} size={17} />;
           return (
             <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ malaTab: c })} style={{ flex: 1, borderRadius: 24, paddingVertical: 14, paddingHorizontal: 12, gap: 8, minHeight: 104, borderWidth: 1.5, borderColor: on ? colors.terra : 'transparent', backgroundColor: on ? colors.peach : colors.card }}>
               <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: on ? colors.card : colors.bg, alignItems: 'center', justifyContent: 'center' }}>{icon}</View>

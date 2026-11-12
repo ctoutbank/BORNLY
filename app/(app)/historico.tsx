@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import Svg, { Circle, Path, Polyline } from 'react-native-svg';
 
 import { DAY, fmt, fromIso, iso, startOfToday, todayIso, useStore } from '@/store';
-import { ChartIcon, Heart, PulseIcon } from '@/components/love';
+import { ChartIcon, PulseIcon } from '@/components/love';
 import { FEEL_DOTS, FEELINGS } from '@/content';
 import { colors } from '@/theme';
 import { Card, Field, PageHeader, Press, PrimaryButton, Sans, Screen, Title } from '@/ui';
@@ -119,7 +119,7 @@ export default function Historico() {
             {entries.map(([day, e]) => (
               <Card key={day} radius={20} style={{ paddingVertical: 14, paddingHorizontal: 16 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                  <Heart color={FEEL_DOTS[e.feel]} size={18} filled />
+                  <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: FEEL_DOTS[e.feel] }} />
                   <Sans s={12} c={colors.muted} style={{ flex: 1 }}>{fmt(fromIso(day), { weekday: 'long', day: 'numeric', month: 'short' }).replace(/\./g, '')}</Sans>
                   <View style={{ backgroundColor: colors.peach, borderRadius: 999, paddingVertical: 3, paddingHorizontal: 9 }}><Sans s={11} w={600} c={colors.terraDark}>{FEELINGS[e.feel]}</Sans></View>
                 </View>

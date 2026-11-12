@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Share, StyleSheet, View } from 'react-native';
+import { Share, View } from 'react-native';
 import Svg, { Path, Rect } from 'react-native-svg';
 
 import { api } from '@/api';
+import { FlowerIcon, HeartsBackdrop } from '@/components/love';
 import { API_URL, authClient, authErrorMessage } from '@/auth-client';
 import { fmt, gestation, useStore } from '@/store';
 import { colors } from '@/theme';
@@ -20,23 +21,6 @@ const ICONS = {
   maternidade: (c: string) => <Svg width={20} height={20} viewBox="0 0 24 24"><Path d="M4 20V10l8-5 8 5v10z" {...line(c)} /><Path d="M12 16.6s-2.6-1.6-2.6-3.3a1.4 1.4 0 0 1 2.6-.8 1.4 1.4 0 0 1 2.6.8c0 1.7-2.6 3.3-2.6 3.3z" fill={c} /></Svg>,
   copia: (c: string) => <Svg width={20} height={20} viewBox="0 0 24 24"><Path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14" {...line(c)} /></Svg>,
 };
-
-// Corações soltos no fundo do cartão principal
-function HeartsBackdrop() {
-  const spots = [
-    { x: 250, y: 18, s: 26, o: 0.35 },
-    { x: 300, y: 70, s: 16, o: 0.28 },
-    { x: 214, y: 92, s: 12, o: 0.25 },
-    { x: 286, y: 132, s: 22, o: 0.3 },
-  ];
-  return (
-    <Svg style={StyleSheet.absoluteFill} viewBox="0 0 340 200" preserveAspectRatio="xMaxYMin slice" pointerEvents="none">
-      {spots.map((p, i) => (
-        <Path key={i} d={HEART} fill={colors.terra} opacity={p.o} transform={`translate(${p.x} ${p.y}) scale(${p.s / 24})`} />
-      ))}
-    </Svg>
-  );
-}
 
 export default function Conta() {
   const { s, save, flash, reset } = useStore();
@@ -153,7 +137,6 @@ export default function Conta() {
       </View>
 
       <Press accessibilityLabel="Sair" onPress={signOut} style={{ height: 56, borderRadius: 999, backgroundColor: colors.peach, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-        <Heart color={colors.terraDark} size={16} />
         <Sans s={15} w={600} c={colors.terraDark}>Sair da conta</Sans>
       </Press>
 
@@ -171,7 +154,7 @@ export default function Conta() {
       )}
 
       <View style={{ alignItems: 'center', gap: 6, paddingHorizontal: 8 }}>
-        <Heart color={colors.terra} size={18} filled />
+        <FlowerIcon color={colors.terra} size={18} />
         <Sans s={12} lh={1.5} c={colors.muted} style={{ textAlign: 'center' }}>Feito com carinho para acompanhar você e seu bebê. O Bornly organiza informações entre consultas e não substitui o atendimento da sua equipe de saúde nem serviços de emergência.</Sans>
       </View>
     </Screen>

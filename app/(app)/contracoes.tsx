@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
-import { ClockIcon, Heart, HeartsBackdrop, InfoHeart, NoteCard, PulseIcon } from '@/components/love';
+import { ClockIcon, HeartsBackdrop, InfoHeart, NoteCard, PulseIcon } from '@/components/love';
 import { useContent } from '@/content-provider';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
@@ -55,7 +55,7 @@ export default function Contracoes() {
         <Title s={52} lh={1.1}>{startedAt ? span(now - startedAt) : '0s'}</Title>
         <Press accessibilityLabel={startedAt ? 'Terminou' : 'Começou'} onPress={toggle} style={{ marginTop: 14, width: 184, height: 184, borderRadius: 92, backgroundColor: 'rgba(163,96,78,.14)', alignItems: 'center', justifyContent: 'center' }}>
           <View style={{ width: 156, height: 156, borderRadius: 78, backgroundColor: startedAt ? colors.terraDark : colors.terra, alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-            <Heart color={colors.card} size={22} filled />
+            <PulseIcon color={colors.card} size={28} />
             <Title s={22} c={colors.card}>{startedAt ? 'Terminou' : 'Começou'}</Title>
           </View>
         </Press>

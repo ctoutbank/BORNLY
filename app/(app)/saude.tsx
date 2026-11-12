@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
-import { CalendarHeart, ChartIcon, DiaryIcon, Heart, HeartsBackdrop, kindLook, PillIcon, PulseIcon } from '@/components/love';
+import { BulbIcon, CalendarHeart, ChartIcon, DiaryIcon, HeartsBackdrop, kindLook, PillIcon, PulseIcon, SmileIcon } from '@/components/love';
 import { FEELINGS } from '@/content';
 import { isUpcoming, nextAppointment, todayIso, useStore } from '@/store';
 import { colors } from '@/theme';
@@ -51,7 +51,7 @@ export default function Saude() {
         <Press onPress={() => router.push('/diario')} style={{ flex: 1, borderRadius: 24, backgroundColor: colors.card, padding: 16, minHeight: 120, justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Sans s={12} c={colors.muted}>Diário de hoje</Sans>
-            <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' }}><Heart color={colors.terra} size={16} filled={!!entry} /></View>
+            <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' }}><SmileIcon color={colors.terra} size={17} /></View>
           </View>
           <View>
             <Title s={18}>{entry ? 'Registrado' : 'Pendente'}</Title>
@@ -90,7 +90,7 @@ export default function Saude() {
         <Chevron />
       </Press>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: colors.card, borderRadius: 20, padding: 14 }}>
-        <Heart color={colors.terra} size={18} filled />
+        <BulbIcon color={colors.terra} size={18} />
         <Sans s={12} lh={1.45} c={colors.mutedStrong} style={{ flex: 1 }}>Registrar como você se sente ajuda a conversar com sua equipe nas consultas.</Sans>
       </View>
     </Screen>

@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { TextInput, View } from 'react-native';
 
-import { CheckCircle, Heart } from '@/components/love';
+import { BulbIcon, CheckCircle, Heart } from '@/components/love';
 import { DAY, fmt, isUpcoming, startOfToday, useStore } from '@/store';
 import { colors, fonts } from '@/theme';
 import { Card, CircleButton, PageHeader, Plus, Press, PrimaryButton, Sans, Screen, Title } from '@/ui';
@@ -33,7 +33,7 @@ export default function Consultas() {
             <Press key={i} accessibilityState={{ selected: on }} onPress={() => set({ calSel: i })} style={{ flex: 1, alignItems: 'center', gap: 6, borderRadius: 20, paddingTop: 10, paddingBottom: 8, backgroundColor: on ? colors.terra : 'transparent' }}>
               <Sans s={11} w={600} c={on ? colors.bg : colors.ink} style={{ opacity: 0.7, textTransform: 'uppercase' }}>{fmt(d, { weekday: 'short' }).replace(/\./g, '').slice(0, 3)}</Sans>
               <Title s={18} c={on ? colors.bg : colors.ink}>{d.getDate()}</Title>
-              {on || has ? <Heart color={on ? colors.card : colors.terra} size={10} filled /> : <View style={{ height: 10 }} />}
+              {on ? <Heart color={colors.card} size={10} filled /> : <View style={{ height: 10, justifyContent: 'center' }}>{has ? <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: colors.terra }} /> : null}</View>}
             </Press>
           );
         })}
@@ -104,7 +104,7 @@ export default function Consultas() {
       ) : null}
 
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: colors.card, borderRadius: 20, padding: 14 }}>
-        <Heart color={colors.terra} size={18} filled />
+        <BulbIcon color={colors.terra} size={18} />
         <Sans s={12} lh={1.45} c={colors.mutedStrong} style={{ flex: 1 }}>Leve a Caderneta da Gestante e seus exames em todas as consultas.</Sans>
       </View>
     </Screen>

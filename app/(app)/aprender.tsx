@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
 
 import { ArticleRow, ArticleThumb } from '@/components/article-row';
-import { categoryLook, ChatHeart, Heart } from '@/components/love';
+import { categoryLook, ChatHeart, SparkleIcon } from '@/components/love';
 import { articlesForWeek, useContent } from '@/content-provider';
 import { gestation, useStore } from '@/store';
 import { colors, fonts } from '@/theme';
@@ -41,7 +41,7 @@ export default function Aprender() {
       <>
       <View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Heart color={colors.terra} size={14} filled /><Title s={18}>Para sua semana {week}</Title></View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><SparkleIcon color={colors.terra} size={15} /><Title s={18}>Para sua semana {week}</Title></View>
           <Press onPress={() => router.push('/semana')} hitSlop={8} style={{ minHeight: 44, justifyContent: 'center' }}><Sans s={12} w={600} c={colors.terra}>Ver tudo</Sans></Press>
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -20 }} contentContainerStyle={{ gap: 10, paddingHorizontal: 20 }}>

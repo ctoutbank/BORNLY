@@ -6,6 +6,7 @@ import { FEELINGS } from '@/content';
 import { babyFor, dailyMessage, useContent } from '@/content-provider';
 import { fmt, gestation, nextAppointment, todayIso, trimester, useStore } from '@/store';
 import { BabyArt } from '@/components/baby-art';
+import { FootIcon } from '@/components/love';
 import { colors, fonts } from '@/theme';
 import { BookIcon, CalendarIcon, Card, Overline, Plus, Press, RowButton, Sans, Screen, Title } from '@/ui';
 
@@ -129,7 +130,7 @@ export default function Hoje() {
           <View style={{ flexDirection: 'row', gap: 8 }}>
             {[
               { title: 'Orientação', sub: 'desta semana', bg: colors.peach, icon: <BookIcon color={colors.terra} />, href: '/semana' as const },
-              { title: 'Movimentos', sub: s.kicks[0] ? `última: ${s.kicks[0].kicks}` : 'contar agora', bg: colors.sage, icon: <Plus color={colors.sageInk} size={18} />, href: '/chutes' as const },
+              { title: 'Movimentos', sub: s.kicks[0] ? `última: ${s.kicks[0].kicks}` : 'contar agora', bg: colors.sage, icon: <FootIcon color={colors.sageInk} size={20} />, href: '/chutes' as const },
               { title: 'Contrações', sub: 'cronômetro', bg: colors.sand, icon: <CalendarIcon color={colors.mutedStrong} />, href: '/contracoes' as const },
             ].map((tile) => (
               <Press key={tile.href} accessibilityLabel={`${tile.title}, ${tile.sub}`} onPress={() => router.push(tile.href)} style={{ flex: 1, backgroundColor: colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 10, gap: 12, minHeight: 112 }}>

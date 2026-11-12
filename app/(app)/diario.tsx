@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
-import { Heart, HeartsBackdrop, MoonIcon, PencilIcon, PulseIcon, SectionLabel, SmileIcon } from '@/components/love';
+import { HeartsBackdrop, SparkleIcon, MoonIcon, PencilIcon, PulseIcon, SectionLabel, SmileIcon } from '@/components/love';
 import { FEEL_DOTS, FEELINGS, HUMORS, SLEEP } from '@/content';
 import { capitalize, fmt, startOfToday, todayIso, useStore } from '@/store';
 import { colors, fonts } from '@/theme';
@@ -31,7 +31,7 @@ export default function Diario() {
       <View style={{ backgroundColor: colors.peach, borderRadius: 28, padding: 20, overflow: 'hidden' }}>
         <HeartsBackdrop />
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <Heart color={colors.terra} size={14} filled />
+          <SparkleIcon color={colors.terra} size={15} />
           <Title s={18}>Como você está hoje?</Title>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 16 }}>

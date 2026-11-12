@@ -11,28 +11,52 @@ export const Heart = ({ color, size = 18, filled = false }: { color: string; siz
   <Svg width={size} height={size} viewBox="0 0 24 24"><Path d={HEART} {...line(color)} fill={filled ? color : 'none'} /></Svg>
 );
 
-// Corações soltos no canto do cartão
+// Elementos soltos no canto do cartão: um coração entre estrelinhas, flores e pontinhos
+export const SPARKLE = 'M12 4.5c.7 5 2.5 6.8 7.5 7.5-5 .7-6.8 2.5-7.5 7.5-.7-5-2.5-6.8-7.5-7.5 5-.7 6.8-2.5 7.5-7.5z';
+const FLOWER = [0, 72, 144, 216, 288].map((a) => [12 + 4.2 * Math.sin((a * Math.PI) / 180), 12 - 4.2 * Math.cos((a * Math.PI) / 180)]);
+type Spot = { k: 'heart' | 'sparkle' | 'dot' | 'flower'; x: number; y: number; s: number; o: number };
+function Mark({ k, x, y, s, o, color }: Spot & { color: string }) {
+  const tr = `translate(${x} ${y}) scale(${s / 24})`;
+  if (k === 'dot') return <Circle cx={x + s / 2} cy={y + s / 2} r={s / 2} fill={color} opacity={o} />;
+  if (k === 'flower') return <G transform={tr} opacity={o}>{FLOWER.map(([cx, cy], i) => <Circle key={i} cx={cx} cy={cy} r={3.4} fill={color} />)}<Circle cx={12} cy={12} r={2.4} fill={colors.card} /></G>;
+  return <Path d={k === 'heart' ? HEART : SPARKLE} fill={color} opacity={o} transform={tr} />;
+}
 export function HeartsBackdrop({ color = colors.terra, low = false }: { color?: string; low?: boolean }) {
-  const spots = low ? [
-    { x: 262, y: 120, s: 24, o: 0.22 },
-    { x: 312, y: 96, s: 14, o: 0.18 },
-    { x: 226, y: 150, s: 12, o: 0.16 },
+  const spots: Spot[] = low ? [
+    { k: 'flower', x: 262, y: 118, s: 26, o: 0.2 },
+    { k: 'sparkle', x: 312, y: 94, s: 16, o: 0.22 },
+    { k: 'dot', x: 232, y: 156, s: 7, o: 0.2 },
   ] : [
-    { x: 250, y: 18, s: 26, o: 0.32 },
-    { x: 300, y: 70, s: 16, o: 0.26 },
-    { x: 214, y: 92, s: 12, o: 0.22 },
-    { x: 290, y: 132, s: 20, o: 0.26 },
+    { k: 'heart', x: 250, y: 18, s: 26, o: 0.3 },
+    { k: 'sparkle', x: 302, y: 66, s: 18, o: 0.3 },
+    { k: 'dot', x: 220, y: 98, s: 7, o: 0.24 },
+    { k: 'flower', x: 284, y: 128, s: 24, o: 0.22 },
+    { k: 'dot', x: 318, y: 22, s: 5, o: 0.24 },
   ];
   return (
     <Svg style={StyleSheet.absoluteFill} viewBox="0 0 340 200" preserveAspectRatio="xMaxYMin slice" pointerEvents="none">
-      {spots.map((p, i) => <Path key={i} d={HEART} fill={color} opacity={p.o} transform={`translate(${p.x} ${p.y}) scale(${p.s / 24})`} />)}
+      {spots.map((p, i) => <Mark key={i} {...p} color={color} />)}
     </Svg>
   );
 }
 
+// Outros elementos além do coração
+export const SparkleIcon = ({ color, size = 16, filled = true }: { color: string; size?: number; filled?: boolean }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d={SPARKLE} {...line(color, 1.6)} fill={filled ? color : 'none'} /></Svg>
+);
+export const FlowerIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">{FLOWER.map(([cx, cy], i) => <Circle key={i} cx={cx} cy={cy} r={3.3} {...line(color, 1.6)} />)}<Circle cx={12} cy={12} r={1.8} fill={color} /></Svg>
+);
+export const BulbIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M12 3.5a5.5 5.5 0 0 0-3.3 9.9c.6.5.9 1.1.9 1.8v.8h4.8v-.8c0-.7.3-1.3.9-1.8A5.5 5.5 0 0 0 12 3.5z" {...line(color)} /><Path d="M9.8 19h4.4M10.8 21.3h2.4" {...line(color)} /></Svg>
+);
+export const StethoIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M6 3.5V8a4 4 0 0 0 8 0V3.5M10 12v3a4.5 4.5 0 0 0 9 0v-1.5" {...line(color)} /><Circle cx="19" cy="11.5" r="2" {...line(color)} /></Svg>
+);
+
 // Tipos de compromisso: ícone e cores de cada um (mesmos da Nova consulta)
 export const KIND_LOOK: Record<string, { short: string; bg: string; ink: string; icon: (c: string, size?: number) => React.ReactNode }> = {
-  'Consulta pré-natal': { short: 'Pré-natal', bg: colors.peach, ink: colors.terra, icon: (c, s = 20) => <Svg width={s} height={s} viewBox="0 0 24 24"><Path d={HEART} {...line(c)} /></Svg> },
+  'Consulta pré-natal': { short: 'Pré-natal', bg: colors.peach, ink: colors.terra, icon: (c, s = 20) => <StethoIcon color={c} size={s} /> },
   Exame: { short: 'Exame', bg: colors.sage, ink: colors.sageInk, icon: (c, s = 20) => <Svg width={s} height={s} viewBox="0 0 24 24"><Rect x="5" y="4" width="14" height="17" rx="3" {...line(c)} /><Path d="M9 4.5V3.5h6v1M8.5 11l1.5 1.5 3-3M8.5 16.5h7" {...line(c)} /></Svg> },
   Ultrassom: { short: 'Ultrassom', bg: colors.sand, ink: colors.mutedStrong, icon: (c, s = 20) => <Svg width={s} height={s} viewBox="0 0 24 24"><Path d="M4 13c2-6 6-6 8 0s6 6 8 0" {...line(c)} /><Circle cx="12" cy="13" r="1.4" fill={c} /></Svg> },
   Vacina: { short: 'Vacina', bg: colors.avatar, ink: colors.terraDark, icon: (c, s = 20) => <Svg width={s} height={s} viewBox="0 0 24 24"><Path d="M12 3c2.6 1.6 4.7 2 6.5 2v6c0 4.4-3 7.4-6.5 9-3.5-1.6-6.5-4.6-6.5-9V5C7.3 5 9.4 4.6 12 3z" {...line(c)} /><Path d="M9.2 12l2 2 3.6-3.6" {...line(c)} /></Svg> },
@@ -140,14 +164,14 @@ const CATEGORY: Record<string, { icon: (c: string) => React.ReactNode; bg: strin
   'Pré-natal': { icon: (c) => <CalendarHeart color={c} size={18} />, bg: colors.peach, ink: colors.terra },
   Exames: { icon: (c) => <ClipboardIcon color={c} size={18} />, bg: colors.sage, ink: colors.sageInk },
   Vacinas: { icon: (c) => <ShieldIcon color={c} size={18} />, bg: colors.avatar, ink: colors.terraDark },
-  Cuidados: { icon: (c) => <Heart color={c} size={17} />, bg: colors.peach, ink: colors.terra },
+  Cuidados: { icon: (c) => <FlowerIcon color={c} size={18} />, bg: colors.peach, ink: colors.terra },
   Direitos: { icon: (c) => <HouseHeartIcon color={c} size={18} />, bg: colors.sand, ink: colors.mutedStrong },
   Gravidez: { icon: (c) => <BabyIcon color={c} size={18} />, bg: colors.sage, ink: colors.sageInk },
   'Alimentação': { icon: (c) => <LeafIcon color={c} size={18} />, bg: colors.sage, ink: colors.sageInk },
   'Amamentação': { icon: (c) => <DropIcon color={c} size={18} />, bg: colors.avatar, ink: colors.terraDark },
   'Pós-parto': { icon: (c) => <MoonIcon color={c} size={17} />, bg: colors.sand, ink: colors.mutedStrong },
 };
-export const categoryLook = (name: string) => CATEGORY[name] ?? { icon: (c: string) => <Heart color={c} size={17} />, bg: colors.peach, ink: colors.terra };
+export const categoryLook = (name: string) => CATEGORY[name] ?? { icon: (c: string) => <SparkleIcon color={c} size={17} filled={false} />, bg: colors.peach, ink: colors.terra };
 export const MailIcon = ({ color, size = 22 }: { color: string; size?: number }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24"><Rect x="3.5" y="5.5" width="17" height="13" rx="3" {...line(color)} /><Path d="M4.5 7l7.5 6 7.5-6" {...line(color)} /></Svg>
 );
@@ -164,3 +188,15 @@ export function NoteCard({ children, tone = 'peach' }: { children: React.ReactNo
     </View>
   );
 }
+
+// Pezinho de bebê (Movimentos): planta do pé com cinco dedinhos
+export const FootIcon = ({ color, size = 20, filled = false }: { color: string; size?: number; filled?: boolean }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M9.2 9.5c2.2-.6 4.6.3 5.3 2.9.8 3-.2 6.6-2.7 8.4-1.9 1.3-4.4.6-5-1.6-.4-1.5.3-2.6.5-4 .3-2-1-4.9 1.9-5.7z" {...line(color)} fill={filled ? color : 'none'} />
+    <Circle cx="15.6" cy="8.6" r="1.5" fill={color} />
+    <Circle cx="13" cy="6.4" r="1.3" fill={color} />
+    <Circle cx="10.4" cy="5.6" r="1.15" fill={color} />
+    <Circle cx="8" cy="6" r="1" fill={color} />
+    <Circle cx="6.1" cy="7.4" r="0.9" fill={color} />
+  </Svg>
+);

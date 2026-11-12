@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { CheckCircle, Heart, HeartsBackdrop, PillIcon } from '@/components/love';
+import { BulbIcon, CheckCircle, HeartsBackdrop, PillIcon } from '@/components/love';
 import { formatTime, timeSlot, todayIso, useStore } from '@/store';
 import { colors } from '@/theme';
 import { Card, CircleButton, Field, PageHeader, Plus, Press, PrimaryButton, Sans, Screen, Title } from '@/ui';
@@ -87,7 +87,7 @@ export default function Meds() {
                     </Press>
                   </View>
                   <Press accessibilityLabel={on ? `${m.name}: tomado` : `Marcar ${m.name} como tomado`} accessibilityState={{ selected: on }} onPress={() => toggle(m.id)} style={{ borderRadius: 999, paddingHorizontal: 14, height: 44, flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: on ? colors.sage : colors.peach }}>
-                    {on ? <CheckCircle color={colors.sageInk} size={16} /> : <Heart color={colors.terra} size={14} />}
+                    {on ? <CheckCircle color={colors.sageInk} size={16} /> : <View style={{ width: 14, height: 14, borderRadius: 7, borderWidth: 1.6, borderColor: colors.terra }} />}
                     <Sans s={13} w={600} c={on ? colors.sageInk : colors.terraDark}>{on ? 'Tomado' : 'Marcar'}</Sans>
                   </Press>
                 </Card>
@@ -102,7 +102,7 @@ export default function Meds() {
         </Card>
       )}
       <Card radius={24} style={{ paddingVertical: 16, paddingHorizontal: 18, flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-        <Heart color={colors.terra} size={18} filled />
+        <BulbIcon color={colors.terra} size={18} />
         <Sans s={13} lh={1.5} c={colors.mutedStrong} style={{ flex: 1 }}>O Bornly organiza o que foi prescrito. Não recomenda medicamentos nem altera doses; qualquer mudança é com sua equipe de saúde.</Sans>
       </Card>
     </Screen>
