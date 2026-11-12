@@ -316,10 +316,11 @@ export function OnboardingShell({ step, children, gap = 24, total = 4 }: { step:
     <Screen gap={gap} bottom={Math.max(insets.bottom, 16) + 16}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <BackButton onPress={back} light />
-        <View style={{ flex: 1, flexDirection: 'row', gap: 6 }}>
-          {Array.from({ length: total }, (_, i) => i + 1).map((n) => (
-            <View key={n} style={{ flex: 1, height: 4, borderRadius: 9, backgroundColor: n <= step ? colors.ink : colors.line }} />
-          ))}
+        <View accessible accessibilityRole="progressbar" accessibilityLabel={`Etapa ${step} de ${total}`} style={{ flex: 1, height: 8, borderRadius: 9, backgroundColor: colors.sand, overflow: 'hidden' }}>
+          <View style={{ width: `${(Math.min(step, total) / total) * 100}%`, height: '100%', borderRadius: 9, backgroundColor: colors.terra }} />
+        </View>
+        <View style={{ backgroundColor: colors.card, borderRadius: 999, paddingVertical: 5, paddingHorizontal: 10 }}>
+          <Sans s={12} w={700}>{Math.min(step, total)}/{total}</Sans>
         </View>
       </View>
       {children}
