@@ -71,8 +71,8 @@ export default function Saude() {
       <Press onPress={() => router.push('/conta')} style={{ flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.card, borderRadius: 24, paddingVertical: 14, paddingHorizontal: 16, minHeight: 64 }}>
         <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.avatar, alignItems: 'center', justifyContent: 'center' }}><Title s={16} c={colors.terraDark}>{(s.name || 'M').trim().charAt(0).toUpperCase()}</Title></View>
         <View style={{ flex: 1 }}>
-          <Sans s={14} w={600}>Conta e privacidade</Sans>
-          <Sans s={12} c={colors.muted} style={{ marginTop: 2 }}>Dados da gravidez, cópia dos dados, sair</Sans>
+          <Sans s={14} w={600}>Meu perfil</Sans>
+          <Sans s={12} c={colors.muted} style={{ marginTop: 2 }}>Gravidez, lembretes e privacidade</Sans>
         </View>
         <Chevron />
       </Press>

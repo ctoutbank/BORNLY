@@ -157,12 +157,12 @@ export function CircleButton({ children, onPress, bg = colors.card, label, size 
   );
 }
 
-export function PageHeader({ title, sub, fallback, right }: { title: string; sub?: string; fallback: '/hoje' | '/saude' | '/preparar' | '/aprender'; right?: ReactNode }) {
+export function PageHeader({ title, sub, fallback, right, light = false }: { title: string; sub?: string; fallback: '/hoje' | '/saude' | '/preparar' | '/aprender'; right?: ReactNode; light?: boolean }) {
   const back = useGoBack(fallback);
   // Título ao lado do botão de voltar, no mesmo tamanho dos títulos das abas (28). Se não couber, reduz até 22.
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-      <BackButton onPress={back} />
+      <BackButton onPress={back} light={light} />
       <View style={{ flex: 1, minWidth: 0 }}>
         <Title s={28} lh={1.15} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{title}</Title>
         {sub ? <Sans s={13} lh={1.35} c={colors.muted} style={{ marginTop: 2 }}>{sub}</Sans> : null}
