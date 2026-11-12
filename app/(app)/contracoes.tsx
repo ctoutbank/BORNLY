@@ -44,7 +44,7 @@ export default function Contracoes() {
 
   return (
     <Screen gap={20}>
-      <PageHeader title={tool?.title ?? 'Contrações'} sub="Duração e intervalo" fallback="/hoje" />
+      <PageHeader title="Contrações" sub="Cronômetro de duração e intervalo" fallback="/hoje" />
       <Card radius={28} style={{ padding: 22, alignItems: 'center', gap: 6 }}>
         <Sans s={12} c={colors.muted}>{startedAt ? 'Contração em andamento' : list[0] ? `Última há ${span(now - new Date(list[0].startedAt).getTime())}` : 'Toque quando a contração começar'}</Sans>
         <Title s={52} lh={1.1}>{startedAt ? span(now - startedAt) : '0s'}</Title>

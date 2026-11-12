@@ -75,7 +75,7 @@ export default function Welcome() {
       </View>
       <Timeline />
       <View style={{ paddingHorizontal: 26, paddingBottom: Math.max(insets.bottom, 16) + 8, gap: 10 }}>
-        <Title s={30} lh={1.15}>Cada semana tem o seu cuidado.</Title>
+        <Title s={28} lh={1.15}>Cada semana tem o seu cuidado.</Title>
         <Sans s={15} lh={1.5} c={colors.mutedStrong} style={{ marginBottom: 6 }}>O que muda no bebê, no seu corpo e o que levar para a próxima consulta.</Sans>
         <Press accessibilityLabel="Começar" onPress={() => router.push('/moment')} style={{ height: 58, borderRadius: 999, backgroundColor: colors.ink, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 26, paddingRight: 8 }}>
           <Sans s={15} w={600} c={colors.bg}>Começar</Sans>

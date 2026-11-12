@@ -39,7 +39,7 @@ export default function Artigo() {
       ) : (
         <ImageSlot label="ilustração" style={{ height: 160, borderRadius: 24 }} />
       )}
-      <Title s={24} lh={1.25}>{a.title}</Title>
+      <Title s={28} lh={1.2}>{a.title}</Title>
       {a.summary ? <Sans s={15} lh={1.55} w={500} c={colors.mutedStrong}>{a.summary}</Sans> : null}
       {a.body.split(/\n\s*\n/).map((p, i) => (
         <Sans key={i} s={15} lh={1.6} c={colors.body}>{p.trim()}</Sans>

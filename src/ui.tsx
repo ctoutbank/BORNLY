@@ -9,13 +9,37 @@ import { colors, fonts } from '@/theme';
 
 type TypeProps = TextProps & { s?: number; lh?: number; c?: string };
 
-export function Title({ s = 18, lh = 1.2, c = colors.ink, style, ...rest }: TypeProps) {
-  return <Text {...rest} style={[{ fontFamily: fonts.title, fontSize: s, lineHeight: s * lh, color: c }, style]} />;
+// Evita quebras ruins: uma palavra sozinha na última linha (a última palavra de cada parágrafo fica presa à anterior)
+// por um espaço que não quebra. Vale para qualquer largura de tela e para o conteúdo da administração.
+const NBSP = '\u00A0';
+export function noWidow(text: string) {
+  return text
+    .split('\n')
+    // palavras de uma letra (o, a, e, é) não terminam a linha: ficam presas à seguinte
+    .map((line) => line.replace(/(^|[ \u00A0])(\S) (?=\S)/g, `$1$2${NBSP}`).replace(/(^|[ \u00A0])(\S) (?=\S)/g, `$1$2${NBSP}`))
+    .map((line) => {
+      const i = line.trimEnd().lastIndexOf(' ');
+      if (i <= 0) return line;
+      const last = line.slice(i + 1);
+      // só em frases com mais de três palavras e quando a última não é longa demais
+      if (line.split(' ').length < 4 || last.length > 14) return line;
+      return line.slice(0, i) + NBSP + last;
+    })
+    .join('\n');
+}
+const tidy = (children: ReactNode): ReactNode => {
+  if (typeof children === 'string') return noWidow(children);
+  if (Array.isArray(children) && typeof children[children.length - 1] === 'string') return [...children.slice(0, -1), noWidow(children[children.length - 1] as string)];
+  return children;
+};
+
+export function Title({ s = 18, lh = 1.2, c = colors.ink, style, children, ...rest }: TypeProps) {
+  return <Text {...rest} style={[{ fontFamily: fonts.title, fontSize: s, lineHeight: s * lh, color: c }, style]}>{rest.numberOfLines === 1 ? children : tidy(children)}</Text>;
 }
 
-export function Sans({ s = 14, lh = 1.4, c = colors.ink, w = 400, style, ...rest }: TypeProps & { w?: 400 | 500 | 600 | 700 }) {
+export function Sans({ s = 14, lh = 1.4, c = colors.ink, w = 400, style, children, ...rest }: TypeProps & { w?: 400 | 500 | 600 | 700 }) {
   const fontFamily = { 400: fonts.sans400, 500: fonts.sans500, 600: fonts.sans600, 700: fonts.sans700 }[w];
-  return <Text {...rest} style={[{ fontFamily, fontSize: s, lineHeight: s * lh, color: c }, style]} />;
+  return <Text {...rest} style={[{ fontFamily, fontSize: s, lineHeight: s * lh, color: c }, style]}>{rest.numberOfLines === 1 ? children : tidy(children)}</Text>;
 }
 
 export function Overline({ children, c = colors.muted, style }: { children: ReactNode; c?: string; style?: StyleProp<TextStyle> }) {
@@ -135,14 +159,17 @@ export function CircleButton({ children, onPress, bg = colors.card, label, size 
 
 export function PageHeader({ title, sub, fallback, right }: { title: string; sub?: string; fallback: '/hoje' | '/saude' | '/preparar' | '/aprender'; right?: ReactNode }) {
   const back = useGoBack(fallback);
+  // Título grande embaixo do botão de voltar: mesmo tamanho dos títulos das abas (28).
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-      <BackButton onPress={back} />
-      <View style={{ flex: 1 }}>
-        <Title s={22} lh={1.15}>{title}</Title>
-        {sub ? <Sans s={12} lh={1.35} c={colors.muted} style={{ marginTop: 3 }}>{sub}</Sans> : null}
+    <View style={{ gap: 14 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 44 }}>
+        <BackButton onPress={back} />
+        {right}
       </View>
-      {right}
+      <View>
+        <Title s={28} lh={1.15}>{title}</Title>
+        {sub ? <Sans s={13} lh={1.35} c={colors.muted} style={{ marginTop: 4 }}>{sub}</Sans> : null}
+      </View>
     </View>
   );
 }

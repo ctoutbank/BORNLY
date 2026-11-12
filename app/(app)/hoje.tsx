@@ -4,8 +4,9 @@ import { useWindowDimensions, View } from 'react-native';
 import { FEELINGS } from '@/content';
 import { babyFor, dailyMessage, useContent } from '@/content-provider';
 import { fmt, gestation, nextAppointment, todayIso, trimester, useStore } from '@/store';
+import { BabyArt } from '@/components/baby-art';
 import { colors, fonts } from '@/theme';
-import { BookIcon, CalendarIcon, Card, ImageSlot, Overline, Plus, Press, RowButton, Sans, Screen, Title } from '@/ui';
+import { BookIcon, CalendarIcon, Card, Overline, Plus, Press, RowButton, Sans, Screen, Title } from '@/ui';
 
 function Ruler({ center, onPick }: { center: number; onPick: (n: number) => void }) {
   const { width } = useWindowDimensions();
@@ -70,7 +71,7 @@ export default function Hoje() {
           <Ruler center={g.week} onPick={openBaby} />
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8, gap: 8 }}>
-          <Sans s={12} c={colors.muted} style={{ flexShrink: 1 }}>{g.pct}% do tempo de gestação</Sans>
+          <Sans s={12} c={colors.muted} style={{ flexShrink: 1 }}>{g.pct}% da gestação</Sans>
           <Sans s={12} c={colors.muted}>DPP <Sans s={12} w={600}>{fmt(g.due, { day: 'numeric', month: 'short', year: 'numeric' }).replace(/\./g, '')}</Sans></Sans>
         </View>
       </Card>
@@ -81,7 +82,7 @@ export default function Hoje() {
           <Press onPress={() => openBaby(g.week)} hitSlop={8} style={{ minHeight: 44, justifyContent: 'center' }}><Sans s={12} w={600} c={colors.terra}>Ver mais</Sans></Press>
         </View>
         <Press onPress={() => openBaby(g.week)} style={{ backgroundColor: colors.card, borderRadius: 24, padding: 14, flexDirection: 'row', gap: 16, alignItems: 'center' }}>
-          <ImageSlot label="ilustração do bebê" style={{ width: 112, height: 112, borderRadius: 20 }} />
+          <BabyArt week={g.week} style={{ width: 112, height: 112, borderRadius: 20 }} />
           <View style={{ flex: 1, minWidth: 0 }}>
             <Sans s={12} c={colors.muted}>Do tamanho de</Sans>
             <Title s={18} style={{ marginTop: 2 }}>{baby.size}</Title>
@@ -104,9 +105,21 @@ export default function Hoje() {
         <View style={{ gap: 8 }}>
           <RowButton title={mood ? 'Hoje: ' + mood : 'Registrar como você está'} sub={mood ? 'Toque para ajustar' : 'Leva menos de um minuto'} iconBg={colors.ink} icon={<Plus color={colors.bg} size={18} />} onPress={() => set({ sheet: true })} />
           <RowButton title="Próxima consulta" sub={next ? [next.when, next.who].filter(Boolean).join(' · ') : 'Nenhuma marcada. Toque para adicionar'} iconBg={colors.sage} icon={<CalendarIcon color={colors.sageInk} />} onPress={() => router.push(next ? '/consultas' : '/nova-consulta')} />
-          <RowButton title="Orientação desta semana" sub="Cuidados desta fase" iconBg={colors.peach} icon={<BookIcon color={colors.terra} />} onPress={() => router.push('/semana')} />
-          <RowButton title="Contar movimentos" sub={s.kicks[0] ? `Última: ${s.kicks[0].kicks} movimentos` : 'Registre os movimentos do bebê'} iconBg={colors.sage} icon={<Plus color={colors.sageInk} size={18} />} onPress={() => router.push('/chutes')} />
-          <RowButton title="Cronômetro de contrações" sub="Duração e intervalo" iconBg={colors.sand} icon={<CalendarIcon color={colors.mutedStrong} />} onPress={() => router.push('/contracoes')} />
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            {[
+              { title: 'Orientação', sub: 'desta semana', bg: colors.peach, icon: <BookIcon color={colors.terra} />, href: '/semana' as const },
+              { title: 'Movimentos', sub: s.kicks[0] ? `última: ${s.kicks[0].kicks}` : 'contar agora', bg: colors.sage, icon: <Plus color={colors.sageInk} size={18} />, href: '/chutes' as const },
+              { title: 'Contrações', sub: 'cronômetro', bg: colors.sand, icon: <CalendarIcon color={colors.mutedStrong} />, href: '/contracoes' as const },
+            ].map((tile) => (
+              <Press key={tile.href} accessibilityLabel={`${tile.title}, ${tile.sub}`} onPress={() => router.push(tile.href)} style={{ flex: 1, backgroundColor: colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 10, gap: 12, minHeight: 112 }}>
+                <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: tile.bg, alignItems: 'center', justifyContent: 'center' }}>{tile.icon}</View>
+                <View>
+                  <Sans s={13} w={600} numberOfLines={1}>{tile.title}</Sans>
+                  <Sans s={11} c={colors.muted} style={{ marginTop: 2 }} numberOfLines={1}>{tile.sub}</Sans>
+                </View>
+              </Press>
+            ))}
+          </View>
         </View>
       </View>
 

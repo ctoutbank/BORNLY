@@ -38,7 +38,7 @@ export default function Chutes() {
 
   return (
     <Screen gap={20}>
-      <PageHeader title={tool?.title ?? 'Contador de movimentos'} sub="Movimentos do bebê" fallback="/hoje" />
+      <PageHeader title="Movimentos" sub="Contador de movimentos do bebê" fallback="/hoje" />
       <Card radius={28} style={{ padding: 22, alignItems: 'center', gap: 6 }}>
         <Sans s={12} c={colors.muted}>{startedAt ? `Contando há ${clock(now - startedAt)}` : 'Escolha um momento tranquilo, deitada de lado'}</Sans>
         <Title s={72} lh={1.1}>{count}</Title>

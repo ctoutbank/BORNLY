@@ -38,7 +38,7 @@ export default function Meds() {
 
   return (
     <Screen>
-      <PageHeader title="Medicamentos e vitaminas" sub="Conforme sua prescrição" fallback="/saude" right={<CircleButton label="Adicionar medicamento" onPress={() => setAdding(!adding)}><Plus color={colors.ink} /></CircleButton>} />
+      <PageHeader title="Medicamentos" sub="Remédios e vitaminas, conforme sua prescrição" fallback="/saude" right={<CircleButton label="Adicionar medicamento" onPress={() => setAdding(!adding)}><Plus color={colors.ink} /></CircleButton>} />
       {adding ? (
         <Card style={{ padding: 18, gap: 14 }}>
           <Field label="Nome" value={name} onChangeText={setName} placeholder="Como está na receita" />

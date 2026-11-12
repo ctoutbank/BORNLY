@@ -1,10 +1,11 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 
 import { useContent } from '@/content-provider';
 import { gestation, useStore } from '@/store';
 import { colors } from '@/theme';
-import { ArrowRight, ImageSlot, Press, Sans, Screen, Title, TabTitle } from '@/ui';
+import { ArrowRight, Press, Sans, Screen, Title, TabTitle } from '@/ui';
 
 export default function Preparar() {
   const { s } = useStore();
@@ -33,10 +34,17 @@ export default function Preparar() {
   return (
     <Screen gap={20}>
       <TabTitle title="Preparar" sub={`Faltam cerca de ${Math.max(0, 40 - week)} semanas para a DPP.`} />
-      <View style={{ height: 180, borderRadius: 28, overflow: 'hidden' }}>
-        <ImageSlot label="foto · quarto do bebê ou mala pronta" style={StyleSheet.absoluteFill} />
-        <View style={{ position: 'absolute', left: 14, bottom: 14, backgroundColor: 'rgba(251,247,242,.92)', borderRadius: 999, paddingVertical: 8, paddingHorizontal: 14 }}>
-          <Sans s={12} w={600}>{total}% de tudo pronto</Sans>
+      <View style={{ backgroundColor: colors.peach, borderRadius: 28, padding: 20, flexDirection: 'row', alignItems: 'center', gap: 18 }}>
+        <View style={{ width: 96, height: 96, alignItems: 'center', justifyContent: 'center' }}>
+          <Svg width={96} height={96} viewBox="0 0 96 96" style={StyleSheet.absoluteFill}>
+            <Circle cx="48" cy="48" r="40" stroke={colors.card} strokeWidth={10} fill="none" />
+            {total > 0 ? <Circle cx="48" cy="48" r="40" stroke={colors.terra} strokeWidth={10} fill="none" strokeLinecap="round" strokeDasharray={`${(2 * Math.PI * 40 * total) / 100} ${2 * Math.PI * 40}`} transform="rotate(-90 48 48)" /> : null}
+          </Svg>
+          <Title s={24}>{total}%</Title>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Title s={18} lh={1.25}>{total >= 100 ? 'Tudo pronto' : total ? 'Seu preparo está andando' : 'Vamos começar o preparo'}</Title>
+          <Sans s={13} lh={1.45} c={colors.mutedStrong} style={{ marginTop: 4 }}>Enxoval, mala, plano de parto e os passos para o nascimento.</Sans>
         </View>
       </View>
       <View style={{ gap: 10 }}>

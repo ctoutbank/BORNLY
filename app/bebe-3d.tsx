@@ -181,7 +181,7 @@ export default function Baby3D() {
           <ArrowLeft color={WHITE} />
         </Press>
         <View style={{ flex: 1 }}>
-          <Title s={22} lh={1.15} c={WHITE}>Semana {week}</Title>
+          <Title s={28} lh={1.15} c={WHITE}>Semana {week}</Title>
           <Sans s={12} c="rgba(255,247,240,.8)" style={{ marginTop: 2 }}>{trimester(week)}</Sans>
         </View>
         <View style={{ flexDirection: 'row', backgroundColor: GLASS, borderRadius: 999, padding: 4 }}>

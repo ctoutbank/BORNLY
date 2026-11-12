@@ -38,7 +38,7 @@ export default function Bebe() {
         <View style={{ position: 'absolute', top, left: 20, right: 20, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
           <BackButton onPress={back} />
           <View>
-            <Title s={22} lh={1.15}>Semana {week}</Title>
+            <Title s={28} lh={1.15}>Semana {week}</Title>
             <Sans s={12} c={colors.mutedStrong} style={{ marginTop: 2 }}>{trimester(week)}</Sans>
           </View>
         </View>
