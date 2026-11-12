@@ -4,6 +4,14 @@ import { betterAuth } from 'better-auth';
 import { pool } from './db.js';
 import { sendEmail, templates } from './email.js';
 
+// Links de confirmação sem destino (cadastro pelo app ou pela administração) levam à página "E-mail confirmado".
+export function withVerifiedPage(url: string) {
+  const u = new URL(url);
+  const cb = u.searchParams.get('callbackURL');
+  if (!cb || cb === '/') u.searchParams.set('callbackURL', `${process.env.BETTER_AUTH_URL ?? u.origin}/email-confirmado`);
+  return u.toString();
+}
+
 export const auth = betterAuth({
   appName: 'Bornly',
   database: pool,
@@ -28,7 +36,7 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
-      await sendEmail(user.email, templates.verify(user.name, url));
+      await sendEmail(user.email, templates.verify(user.name, withVerifiedPage(url)));
     },
   },
   user: {

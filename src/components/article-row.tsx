@@ -16,12 +16,14 @@ export function ArticleRow({ article }: { article: Article }) {
   const router = useRouter();
   const on = !!s.saved[article.id];
   return (
-    <Press onPress={() => router.push({ pathname: '/artigo', params: { id: article.id } })} style={{ flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.card, borderRadius: 20, padding: 10 }}>
-      <ArticleThumb article={article} style={{ width: 64, height: 64, borderRadius: 16 }} />
-      <View style={{ flex: 1, minWidth: 0 }}>
-        <Sans s={11} c={colors.muted}>{article.category}{article.minutes ? ` · ${article.minutes} min` : ''}</Sans>
-        <Sans s={14} w={600} lh={1.3} style={{ marginTop: 3 }}>{article.title}</Sans>
-      </View>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: colors.card, borderRadius: 20, padding: 10 }}>
+      <Press accessibilityLabel={`Ler: ${article.title}`} onPress={() => router.push({ pathname: '/artigo', params: { id: article.id } })} style={{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <ArticleThumb article={article} style={{ width: 64, height: 64, borderRadius: 16 }} />
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Sans s={11} c={colors.muted}>{article.category}{article.minutes ? ` · ${article.minutes} min` : ''}</Sans>
+          <Sans s={14} w={600} lh={1.3} style={{ marginTop: 3 }}>{article.title}</Sans>
+        </View>
+      </Press>
       <CircleButton
         label={on ? 'Remover dos salvos' : 'Salvar'}
         bg={on ? colors.ink : colors.sand}
@@ -32,6 +34,6 @@ export function ArticleRow({ article }: { article: Article }) {
         }}>
         <Bookmark stroke={on ? colors.bg : colors.ink} fill={on ? colors.bg : 'none'} />
       </CircleButton>
-    </Press>
+    </View>
   );
 }

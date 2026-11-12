@@ -417,6 +417,8 @@ app.get('/cron/lembretes', async (c) => {
 const page = (title: string, body: string) => `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>
 <body style="margin:0;background:#F4ECE3;color:#2A2522;font:16px/1.5 -apple-system,Segoe UI,Helvetica,Arial,sans-serif"><main style="max-width:420px;margin:0 auto;padding:48px 20px"><div style="font:24px Georgia,serif;margin-bottom:22px">Bornly</div><div style="background:#FBF7F2;border-radius:24px;padding:26px">${body}</div></main></body></html>`;
 
+app.get('/', (c) => c.html(page('Bornly', '<h1 style="font:400 24px Georgia,serif;margin:0 0 10px">Bornly</h1><p style="margin:0">Este é o servidor do app Bornly. Baixe o app para acompanhar sua gravidez.</p>')));
+
 app.get('/email-confirmado', (c) => c.html(page('E-mail confirmado', '<h1 style="font:400 24px Georgia,serif;margin:0 0 10px">E-mail confirmado</h1><p style="margin:0">Pronto. Você já pode voltar para o app.</p>')));
 
 app.get('/redefinir-senha', (c) =>

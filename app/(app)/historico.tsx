@@ -69,7 +69,7 @@ export default function Historico() {
                   <Circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r={4} fill={colors.ink} />
                 </Svg>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
-                  {[w[0], last].map((x) => <Sans key={x.day} s={11} c={colors.muted}>{fmt(fromIso(x.day), { day: 'numeric', month: 'short' }).replace('.', '')}</Sans>)}
+                  {[w[0], last].map((x) => <Sans key={x.day} s={11} c={colors.muted}>{fmt(fromIso(x.day), { day: 'numeric', month: 'short' }).replace(/\./g, '')}</Sans>)}
                 </View>
               </>
             ) : null}
@@ -112,7 +112,7 @@ export default function Historico() {
             {entries.map(([day, e]) => (
               <Card key={day} radius={20} style={{ paddingVertical: 14, paddingHorizontal: 16 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Sans s={12} c={colors.muted}>{fmt(fromIso(day), { weekday: 'long', day: 'numeric', month: 'short' }).replace('.', '')}</Sans>
+                  <Sans s={12} c={colors.muted}>{fmt(fromIso(day), { weekday: 'long', day: 'numeric', month: 'short' }).replace(/\./g, '')}</Sans>
                   <Sans s={12} c={colors.muted}>{FEELINGS[e.feel]}</Sans>
                 </View>
                 {e.note ? <Sans s={14} lh={1.5} c={colors.body} style={{ marginTop: 6 }}>{e.note}</Sans> : null}

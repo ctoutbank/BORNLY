@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
 import { DateField } from '@/components/date-field';
+import { profilePayload } from '@/profile';
 import { DAY, fmt, fromIso, gestation, iso, useStore } from '@/store';
 import { colors } from '@/theme';
 import { Card, OnboardingShell, Overline, Press, PrimaryButton, Sans, Segmented, Title, Spacer } from '@/ui';
@@ -20,7 +21,15 @@ function Stepper({ label, value, onDec, onInc }: { label: string; value: number;
 }
 
 export default function DateScreen() {
-  const { s, set } = useStore();
+  const { s, set, save, load, flash } = useStore();
+  // Quem já tem conta chega aqui pela tela Conta: salva e volta, sem refazer o cadastro.
+  const saveEdit = async () => {
+    if (!(await save('/profile', 'PUT', profilePayload(s, false)))) return;
+    await load();
+    flash('Dados da gravidez atualizados');
+    if (router.canGoBack()) router.back();
+    else router.replace('/conta');
+  };
   const router = useRouter();
   const g = gestation(s);
   const dppIso = iso(new Date(fromIso(s.dum).getTime() + 280 * DAY));
@@ -62,7 +71,7 @@ export default function DateScreen() {
         </Sans>
       </Card>
       <Spacer />
-      <PrimaryButton label="Continuar" onPress={() => router.push('/about')} />
+      {s.hasProfile ? <PrimaryButton label="Salvar" onPress={saveEdit} /> : <PrimaryButton label="Continuar" onPress={() => router.push('/about')} />}
     </OnboardingShell>
   );
 }

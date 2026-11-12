@@ -38,7 +38,7 @@ export default function Login() {
         <Sans s={14} lh={1.5} c={colors.muted} style={{ marginTop: 8 }}>Que bom ter você de volta.</Sans>
       </View>
       <Field label="E-mail" value={email} onChangeText={setEmail} autoCapitalize="none" autoComplete="email" keyboardType="email-address" textContentType="emailAddress" />
-      <Field label="Senha" value={password} onChangeText={setPassword} secureTextEntry autoComplete="current-password" textContentType="password" />
+      <Field label="Senha" value={password} onChangeText={setPassword} secureTextEntry autoComplete="current-password" textContentType="password" returnKeyType="go" onSubmitEditing={submit} />
       {error ? <Sans s={13} lh={1.45} c={colors.terraDark}>{error}</Sans> : null}
       <Spacer />
       <View style={{ gap: 4 }}>

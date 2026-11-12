@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { api } from '@/api';
-import { authClient, authErrorMessage } from '@/auth-client';
+import { API_URL, authClient, authErrorMessage } from '@/auth-client';
 import { profilePayload } from '@/profile';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
@@ -22,7 +22,7 @@ export default function Signup() {
     if (password.length < 8) return setError('A senha precisa ter pelo menos 8 caracteres.');
     setBusy(true);
     setError('');
-    const { error: failure } = await authClient.signUp.email({ name: s.name.trim(), email: email.trim().toLowerCase(), password });
+    const { error: failure } = await authClient.signUp.email({ name: s.name.trim(), email: email.trim().toLowerCase(), password, callbackURL: `${API_URL}/email-confirmado` });
     if (failure) {
       setBusy(false);
       return setError(authErrorMessage(failure));
@@ -44,7 +44,7 @@ export default function Signup() {
         <Sans s={14} lh={1.5} c={colors.muted} style={{ marginTop: 8 }}>Assim seus registros ficam guardados, mesmo se você trocar de celular.</Sans>
       </View>
       <Field label="E-mail" value={email} onChangeText={setEmail} autoCapitalize="none" autoComplete="email" keyboardType="email-address" textContentType="emailAddress" />
-      <Field label="Senha" value={password} onChangeText={setPassword} secureTextEntry autoComplete="new-password" textContentType="newPassword" placeholder="Pelo menos 8 caracteres" />
+      <Field label="Senha" value={password} onChangeText={setPassword} secureTextEntry autoComplete="new-password" textContentType="newPassword" placeholder="Pelo menos 8 caracteres" returnKeyType="go" onSubmitEditing={submit} />
       {error ? <Sans s={13} lh={1.45} c={colors.terraDark}>{error}</Sans> : null}
       <Spacer />
       <PrimaryButton label={busy ? 'Criando...' : 'Criar conta'} onPress={submit} />

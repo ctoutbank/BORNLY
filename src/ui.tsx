@@ -160,7 +160,7 @@ export function TabTitle({ title, sub, right }: { title: string; sub: string; ri
 
 export function PrimaryButton({ label, onPress, bg = colors.ink, icon }: { label: string; onPress: () => void; bg?: string; icon?: ReactNode }) {
   return (
-    <Press onPress={onPress} style={{ height: 58, borderRadius: 999, backgroundColor: bg, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 }}>
+    <Press onPress={onPress} accessibilityLabel={label} style={{ height: 58, borderRadius: 999, backgroundColor: bg, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 }}>
       {icon}
       <Sans s={15} w={600} c={colors.bg}>{label}</Sans>
     </Press>
@@ -169,7 +169,7 @@ export function PrimaryButton({ label, onPress, bg = colors.ink, icon }: { label
 
 export function TextButton({ label, onPress, c = colors.mutedStrong, w = 500, s = 13 }: { label: string; onPress: () => void; c?: string; w?: 500 | 600; s?: number }) {
   return (
-    <Press onPress={onPress} style={{ minHeight: 44, alignItems: 'center', justifyContent: 'center' }}>
+    <Press onPress={onPress} accessibilityLabel={label} style={{ minHeight: 44, alignItems: 'center', justifyContent: 'center' }}>
       <Sans s={s} w={w} c={c}>{label}</Sans>
     </Press>
   );
@@ -181,7 +181,7 @@ export function Segmented({ options, value, onChange, fontSize = 13, minHeight =
       {options.map((o) => {
         const on = o.id === value;
         return (
-          <Press key={o.id} onPress={() => onChange(o.id)} accessibilityState={{ selected: on }} style={{ flex: 1, borderRadius: 999, minHeight, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, backgroundColor: on ? colors.ink : 'transparent' }}>
+          <Press key={o.id} onPress={() => onChange(o.id)} accessibilityLabel={o.label} accessibilityState={{ selected: on }} style={{ flex: 1, borderRadius: 999, minHeight, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, backgroundColor: on ? colors.ink : 'transparent' }}>
             <Sans s={fontSize} w={600} c={on ? colors.bg : colors.mutedStrong} style={{ textAlign: 'center' }}>{o.label}</Sans>
           </Press>
         );
@@ -194,6 +194,7 @@ export function Chip({ label, on, onPress, compact = false, offBg = colors.card,
   return (
     <Press
       onPress={onPress}
+      accessibilityLabel={label}
       accessibilityState={{ selected: on }}
       style={{ borderWidth: 1.5, borderColor: on ? colors.ink : offBorder, backgroundColor: on ? colors.ink : offBg, borderRadius: 999, paddingHorizontal: compact ? 14 : 16, minHeight: compact ? 40 : 44, justifyContent: 'center' }}>
       <Sans s={13} w={500} c={on ? colors.bg : colors.ink}>{label}</Sans>
@@ -266,10 +267,16 @@ export function Checklist({ labels, map, onToggle }: { labels: string[]; map: Re
 }
 
 // Espaço de imagem do design: mostra a legenda até a arte final existir.
+// Espaço de imagem sem foto: ilustração discreta na paleta do app. O rótulo serve só para leitores de tela.
 export function ImageSlot({ label, style }: { label?: string; style?: StyleProp<ViewStyle> }) {
   return (
-    <View style={[{ backgroundColor: colors.photo, alignItems: 'center', justifyContent: 'center', padding: 10, overflow: 'hidden' }, style]}>
-      {label ? <Sans s={11} c={colors.muted} style={{ textAlign: 'center' }}>{label}</Sans> : null}
+    <View accessible={!!label} accessibilityLabel={label} accessibilityRole={label ? 'image' : undefined} style={[{ backgroundColor: colors.peach, overflow: 'hidden' }, style]}>
+      <Svg width="100%" height="100%" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice">
+        <Circle cx="92" cy="26" r="34" fill={colors.photo} />
+        <Circle cx="24" cy="96" r="30" fill={colors.sage} />
+        <Circle cx="60" cy="60" r="22" fill={colors.card} opacity={0.9} />
+        <Path d="M60 68 C49 60 53 50 60 55 C67 50 71 60 60 68 Z" fill={colors.terra} opacity={0.75} />
+      </Svg>
     </View>
   );
 }

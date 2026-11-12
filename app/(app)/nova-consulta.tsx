@@ -27,7 +27,9 @@ export default function NovaConsulta() {
     const created = await save('/appointments', 'POST', { startsAt: start.toISOString(), title, who, place });
     if (created) {
       await load();
-      router.back();
+      flash('Consulta salva');
+      if (router.canGoBack()) router.back();
+      else router.replace('/consultas');
     }
   };
 

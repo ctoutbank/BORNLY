@@ -75,7 +75,7 @@ export default function Chutes() {
               <View key={k.id} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 14, borderBottomWidth: i === all.length - 1 ? 0 : 1, borderBottomColor: colors.lineSoft }}>
                 <View style={{ flex: 1 }}>
                   <Sans s={14} w={600}>{k.kicks} movimentos</Sans>
-                  <Sans s={12} c={colors.muted}>{fmt(new Date(k.startedAt), { day: 'numeric', month: 'short' }).replace('.', '')} · {new Date(k.startedAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</Sans>
+                  <Sans s={12} c={colors.muted}>{fmt(new Date(k.startedAt), { day: 'numeric', month: 'short' }).replace(/\./g, '')} · {new Date(k.startedAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</Sans>
                 </View>
                 <Sans s={12} c={colors.mutedStrong}>{clock(new Date(k.endedAt).getTime() - new Date(k.startedAt).getTime())}</Sans>
               </View>

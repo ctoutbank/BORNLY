@@ -30,7 +30,7 @@ export default function Consultas() {
           const has = s.appointments.some((a) => new Date(a.startsAt).toDateString() === d.toDateString());
           return (
             <Press key={i} accessibilityState={{ selected: on }} onPress={() => set({ calSel: i })} style={{ flex: 1, alignItems: 'center', gap: 6, borderRadius: 20, paddingTop: 10, paddingBottom: 8, backgroundColor: on ? colors.ink : 'transparent' }}>
-              <Sans s={11} w={600} c={on ? colors.bg : colors.ink} style={{ opacity: 0.7, textTransform: 'uppercase' }}>{fmt(d, { weekday: 'short' }).replace('.', '').slice(0, 3)}</Sans>
+              <Sans s={11} w={600} c={on ? colors.bg : colors.ink} style={{ opacity: 0.7, textTransform: 'uppercase' }}>{fmt(d, { weekday: 'short' }).replace(/\./g, '').slice(0, 3)}</Sans>
               <Title s={18} c={on ? colors.bg : colors.ink}>{d.getDate()}</Title>
               <View style={{ width: 5, height: 5, borderRadius: 3, backgroundColor: has ? (on ? colors.bg : colors.terra) : 'transparent' }} />
             </Press>
@@ -49,7 +49,7 @@ export default function Consultas() {
                 <View key={a.id} style={{ flexDirection: 'row', gap: 14, alignItems: 'center', backgroundColor: i === 0 ? colors.ink : colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16 }}>
                   <View style={{ width: 52, alignItems: 'center', borderRightWidth: 1, borderRightColor: i === 0 ? 'rgba(244,236,227,.2)' : 'rgba(42,37,34,.1)', paddingRight: 12 }}>
                     <Title s={22} lh={1.05} c={fg}>{d.getDate()}</Title>
-                    <Sans s={11} w={600} c={fg} style={{ marginTop: 4, opacity: 0.7, textTransform: 'uppercase' }}>{fmt(d, { month: 'short' }).replace('.', '')}</Sans>
+                    <Sans s={11} w={600} c={fg} style={{ marginTop: 4, opacity: 0.7, textTransform: 'uppercase' }}>{fmt(d, { month: 'short' }).replace(/\./g, '')}</Sans>
                   </View>
                   <View style={{ flex: 1 }}>
                     <Sans s={14} w={600} c={fg}>{a.title}</Sans>

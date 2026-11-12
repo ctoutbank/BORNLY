@@ -24,7 +24,7 @@ export default function Forgot() {
         <Title s={28}>Redefinir senha</Title>
         <Sans s={14} lh={1.5} c={colors.muted} style={{ marginTop: 8 }}>Enviaremos um link para o seu e-mail.</Sans>
       </View>
-      <Field label="E-mail" value={email} onChangeText={setEmail} autoCapitalize="none" autoComplete="email" keyboardType="email-address" />
+      <Field label="E-mail" value={email} onChangeText={setEmail} autoCapitalize="none" autoComplete="email" keyboardType="email-address" returnKeyType="go" onSubmitEditing={submit} />
       {state === 'sent' ? <Sans s={13} lh={1.45} c={colors.sageInk}>Se houver uma conta com este e-mail, o link chega em alguns minutos.</Sans> : null}
       {state === 'error' ? <Sans s={13} lh={1.45} c={colors.terraDark}>Não foi possível enviar. Verifique sua conexão e tente de novo.</Sans> : null}
       <Spacer />

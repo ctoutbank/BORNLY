@@ -71,7 +71,7 @@ export default function Hoje() {
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8, gap: 8 }}>
           <Sans s={12} c={colors.muted} style={{ flexShrink: 1 }}>{g.pct}% do tempo de gestação</Sans>
-          <Sans s={12} c={colors.muted}>DPP <Sans s={12} w={600}>{fmt(g.due, { day: 'numeric', month: 'short', year: 'numeric' }).replace('.', '')}</Sans></Sans>
+          <Sans s={12} c={colors.muted}>DPP <Sans s={12} w={600}>{fmt(g.due, { day: 'numeric', month: 'short', year: 'numeric' }).replace(/\./g, '')}</Sans></Sans>
         </View>
       </Card>
 

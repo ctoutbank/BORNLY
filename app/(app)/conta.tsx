@@ -61,7 +61,7 @@ export default function Conta() {
       <View style={{ paddingHorizontal: 4 }}>
         <Title s={22}>{s.name}</Title>
         <Sans s={13} c={colors.muted} style={{ marginTop: 4 }}>{s.email}</Sans>
-        <Sans s={13} c={colors.muted} style={{ marginTop: 2 }}>{g.week} semanas · DPP {fmt(g.due, { day: 'numeric', month: 'short', year: 'numeric' }).replace('.', '')}</Sans>
+        <Sans s={13} c={colors.muted} style={{ marginTop: 2 }}>{g.week} semanas · DPP {fmt(g.due, { day: 'numeric', month: 'short', year: 'numeric' }).replace(/\./g, '')}</Sans>
       </View>
       {s.emailVerified ? null : (
         <Card bg={colors.peach} radius={20} style={{ padding: 16, gap: 4 }}>

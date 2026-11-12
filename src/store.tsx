@@ -227,7 +227,7 @@ export const trimester = (week: number) => (week < 14 ? 1 : week < 28 ? 2 : 3) +
 export const formatAppointment = (startsAt: string) => {
   const d = new Date(startsAt);
   const minutes = d.getMinutes();
-  return `${fmt(d, { weekday: 'short', day: 'numeric', month: 'short' }).replace('.', '')} · ${d.getHours()}h${minutes ? String(minutes).padStart(2, '0') : ''}`;
+  return `${fmt(d, { weekday: 'short', day: 'numeric', month: 'short' }).replace(/\./g, '')} · ${d.getHours()}h${minutes ? String(minutes).padStart(2, '0') : ''}`;
 };
 
 export const isUpcoming = (a: Appointment) => new Date(a.startsAt).getTime() >= Date.now();

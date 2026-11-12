@@ -1,5 +1,5 @@
 // Cria uma conta de administração direto no banco, sem passar pelo app.
-// Uso: npm run create-admin   (pede e-mail, nome e senha no terminal; a senha não aparece)
+// Uso: npm run create-admin [-- email "Nome"]   (o que faltar é perguntado; a senha não aparece)
 import { createInterface } from 'node:readline';
 
 import { auth } from '../src/auth.js';
@@ -23,7 +23,8 @@ async function ask(question: string, hidden = false) {
   return String(value ?? '').trim();
 }
 
-const email = (await ask('E-mail da administração: ')).toLowerCase();
+const [argEmail, ...argName] = process.argv.slice(2);
+const email = (argEmail ?? (await ask('E-mail da administração: '))).trim().toLowerCase();
 if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('E-mail inválido.');
 const existing = await pool.query(`select id from "user" where lower(email) = $1`, [email]);
 let userId: string = existing.rows[0]?.id;
@@ -31,7 +32,7 @@ let userId: string = existing.rows[0]?.id;
 if (userId) {
   console.log('Essa conta já existe; só vou garantir o acesso de administração.');
 } else {
-  const name = (await ask('Nome: ')) || 'Administração';
+  const name = argName.join(' ').trim() || (await ask('Nome: ')) || 'Administração';
   const password = await ask('Senha (mínimo 8 caracteres): ', true);
   const again = await ask('Repita a senha: ', true);
   if (password.length < 8) throw new Error('A senha precisa ter pelo menos 8 caracteres.');
