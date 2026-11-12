@@ -6,7 +6,7 @@ import { adminPage } from './admin-page.js';
 import { auth } from './auth.js';
 import { COLLECTION_IDS, COLLECTIONS, type Field } from './content-schema.js';
 import { pool, q } from './db.js';
-import { sendEmail, templates } from './email.js';
+import { resendDomains, sendEmail, sender, templates } from './email.js';
 
 type Env = { Variables: { userId: string } };
 
@@ -88,7 +88,7 @@ data.use('*', async (c, next) => {
 });
 
 data.onError((err, c) => {
-  if (err instanceof z.ZodError) return c.json({ error: 'dados_invalidos' }, 400);
+  if (err instanceof z.ZodError || err instanceof InvalidData) return c.json({ error: 'dados_invalidos' }, 400);
   console.error(err);
   return c.json({ error: 'erro_interno' }, 500);
 });
@@ -259,21 +259,28 @@ app.get('/api/content', async (c) => {
   return c.json(out);
 });
 
+class InvalidData extends Error {}
+
 function cleanItem(fields: Field[], raw: Record<string, unknown>) {
   const out: Record<string, unknown> = {};
   for (const f of fields) {
     const v = raw[f.name];
     if (f.type === 'number') {
       const n = typeof v === 'number' ? v : typeof v === 'string' && v.trim() ? Number(v.replace(',', '.')) : null;
-      if (n !== null && !Number.isFinite(n)) throw new z.ZodError([]);
+      if (n !== null && !Number.isFinite(n)) throw new InvalidData();
       if (n !== null) out[f.name] = n;
     } else if (f.type === 'list') {
       const list = (Array.isArray(v) ? v : typeof v === 'string' ? v.split('\n') : []).map((x) => String(x).trim()).filter(Boolean);
       if (list.length) out[f.name] = list;
+    } else if (f.type === 'select') {
+      if (typeof v === 'string' && v.trim()) {
+        if (!f.options?.includes(v.trim())) throw new InvalidData();
+        out[f.name] = v.trim();
+      }
     } else if (typeof v === 'string' && v.trim()) {
       out[f.name] = v.trim().slice(0, 20000);
     }
-    if (f.required && out[f.name] === undefined) throw new z.ZodError([]);
+    if (f.required && out[f.name] === undefined) throw new InvalidData();
   }
   return out;
 }
@@ -290,7 +297,7 @@ admin.use('*', async (c, next) => {
 });
 
 admin.onError((err, c) => {
-  if (err instanceof z.ZodError) return c.json({ error: 'dados_invalidos' }, 400);
+  if (err instanceof z.ZodError || err instanceof InvalidData) return c.json({ error: 'dados_invalidos' }, 400);
   console.error(err);
   return c.json({ error: 'erro_interno' }, 500);
 });
@@ -349,9 +356,42 @@ admin.put('/users/:id/admin', async (c) => {
   return c.json({ ok: true });
 });
 
+// Cria uma conta já com acesso à administração (e-mail marcado como confirmado).
+admin.post('/users', async (c) => {
+  const b = z.object({ name: z.string().trim().min(1).max(120), email: z.string().trim().toLowerCase().email(), password: z.string().min(8).max(128) }).parse(await c.req.json());
+  const exists = await q<{ id: string }>(`select id from "user" where lower(email) = $1`, [b.email]);
+  let id = exists[0]?.id;
+  if (!id) {
+    const res = await auth.api.signUpEmail({ body: { name: b.name, email: b.email, password: b.password } });
+    id = res.user.id;
+    await q(`update "user" set "emailVerified" = true where id = $1`, [id]);
+  }
+  await q(`insert into admins (user_id) values ($1) on conflict do nothing`, [id]);
+  return c.json({ ok: true, existed: !!exists.length });
+});
+
+admin.get('/email', async (c) => {
+  const configured = !!process.env.RESEND_API_KEY;
+  return c.json({ configured, from: configured ? await sender() : null, domains: configured ? await resendDomains() : null });
+});
+
+// Envia um e-mail de teste para quem está usando a administração.
+admin.post('/email/test', async (c) => {
+  const [u] = await q<{ email: string; name: string }>(`select email, name from "user" where id = $1`, [c.get('userId')]);
+  const ok = await sendEmail(u.email, templates.test(u.name));
+  return c.json({ ok, to: u.email }, ok ? 200 : 502);
+});
+
 admin.get('/me', (c) => c.json({ ok: true }));
 
 app.route('/api/admin', admin);
+
+// Os sub-roteadores montados com app.route repassam os erros para cá.
+app.onError((err, c) => {
+  if (err instanceof z.ZodError || err instanceof InvalidData) return c.json({ error: 'dados_invalidos' }, 400);
+  console.error(err);
+  return c.json({ error: 'erro_interno' }, 500);
+});
 
 app.get('/admin', (c) => c.html(adminPage));
 

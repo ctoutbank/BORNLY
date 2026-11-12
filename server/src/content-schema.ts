@@ -1,7 +1,7 @@
 // Coleções de conteúdo que a administração edita. `fields` define o formulário de cada item.
 
-export type FieldType = 'text' | 'textarea' | 'number' | 'url' | 'list';
-export type Field = { name: string; label: string; type: FieldType; required?: boolean };
+export type FieldType = 'text' | 'textarea' | 'number' | 'url' | 'list' | 'select';
+export type Field = { name: string; label: string; type: FieldType; required?: boolean; options?: string[] };
 export type Collection = { id: string; label: string; description: string; keyLabel: string; fields: Field[] };
 
 export const COLLECTIONS: Collection[] = [
@@ -52,7 +52,7 @@ export const COLLECTIONS: Collection[] = [
   {
     id: 'checklists', label: 'Listas (enxoval, mala, nascimento)', description: 'Cada item é um grupo: em qual lista aparece, nome do grupo e itens.', keyLabel: 'Identificador',
     fields: [
-      { name: 'list', label: 'Lista (enxoval, mala ou nascimento)', type: 'text', required: true },
+      { name: 'list', label: 'Lista', type: 'select', options: ['enxoval', 'mala', 'nascimento'], required: true },
       { name: 'group', label: 'Grupo', type: 'text', required: true },
       { name: 'range', label: 'Período (só nascimento)', type: 'text' },
       { name: 'items', label: 'Itens (um por linha)', type: 'list', required: true },

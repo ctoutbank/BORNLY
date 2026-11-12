@@ -9,7 +9,7 @@ export const adminPage = String.raw`<!doctype html>
 h1,h2,.serif{font-family:Georgia,serif;font-weight:400;margin:0}button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;border:0;border-radius:999px;padding:10px 18px;background:var(--ink);color:var(--bg);font-weight:600}
 button.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}button.danger{background:transparent;color:var(--terra);border:1.5px solid var(--line)}
-input,textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background:#fff;padding:10px 14px}textarea{min-height:110px;resize:vertical}
+input,textarea,select{width:100%;border:1.5px solid var(--line);border-radius:14px;background:#fff;padding:10px 14px}textarea{min-height:110px;resize:vertical}
 label{display:block;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
 .wrap{display:flex;min-height:100vh}.side{width:270px;flex:none;padding:24px 16px;border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow:auto}
 .side a{display:block;padding:10px 14px;border-radius:14px;color:var(--ink);text-decoration:none;margin:2px 0}.side a.on{background:var(--ink);color:var(--bg)}
@@ -62,7 +62,17 @@ window.onhashchange=route;
 function shell(inner){app.innerHTML='<div class="wrap">'+side()+'<main>'+inner+'</main></div>';document.getElementById('out').onclick=function(){api('/api/auth/sign-out','POST',{}).finally(function(){login()})}}
 
 function panel(){
-  shell('<h1 style="font-size:30px">Painel</h1><p class="muted">Contagens gerais. Dados de saúde individuais não aparecem aqui.</p><div class="stats" id="st"></div>');
+  shell('<h1 style="font-size:30px">Painel</h1><p class="muted">Contagens gerais. Dados de saúde individuais não aparecem aqui.</p><div class="stats" id="st"></div><h2 style="font-size:22px;margin-top:28px">E-mails</h2><div class="card" id="em"><p class="muted">Verificando...</p></div>');
+  api('/api/admin/email').then(function(e){
+    var h;
+    if(!e.configured)h='<p><b>Desligados.</b> Falta a chave do Resend (RESEND_API_KEY) no Worker. Sem ela, nenhum e-mail sai: boas-vindas, confirmação, senha e lembretes.</p>';
+    else{h='<p><b>Ligados.</b> Remetente: '+esc(e.from)+'</p>';
+      if(e.domains)h+='<p class="muted">Domínios na conta: '+(e.domains.length?e.domains.map(function(d){return esc(d.name)+' ('+(d.status==='verified'?'verificado':esc(d.status))+')'}).join(', '):'nenhum')+'</p>';
+      if(/resend\.dev/.test(e.from))h+='<p class="err">Sem domínio verificado, o Resend só entrega para o dono da conta. Verifique um domínio no Resend para enviar às usuárias.</p>';
+      h+='<div style="margin-top:12px"><button id="et">Enviar e-mail de teste para mim</button></div>';}
+    document.getElementById('em').innerHTML=h;
+    var b=document.getElementById('et');if(b)b.onclick=function(){b.disabled=true;api('/api/admin/email/test','POST',{}).then(function(r){toast('Enviado para '+r.to)}).catch(function(){toast('O Resend recusou o envio. Veja o domínio e a chave.')}).finally(function(){b.disabled=false})};
+  }).catch(function(){document.getElementById('em').innerHTML='<p class="muted">Não foi possível verificar.</p>'});
   api('/api/admin/stats').then(function(s){
     var L=[['users','Contas'],['usersWeek','Novas em 7 dias'],['activeWeek','Ativas em 7 dias'],['diary','Registros de diário'],['appointments','Consultas cadastradas'],['kicks','Contagens de movimentos'],['content','Itens de conteúdo']];
     document.getElementById('st').innerHTML=L.map(function(x){return '<div class="stat"><span class="muted">'+x[1]+'</span><b>'+s[x[0]]+'</b></div>'}).join('');
@@ -70,14 +80,16 @@ function panel(){
 }
 
 function users(){
-  shell('<h1 style="font-size:30px">Contas</h1><p class="muted">Quem tem acesso à administração. Para dar acesso, a pessoa precisa ter conta no app.</p><div class="card"><table id="ut"><tr><td class="muted">Carregando...</td></tr></table></div>');
+  shell('<h1 style="font-size:30px">Contas</h1><p class="muted">Quem tem acesso à administração. Crie uma conta nova abaixo ou dê acesso a quem já tem conta no app.</p><div class="card"><table id="ut"><tr><td class="muted">Carregando...</td></tr></table></div>'+
+    '<h2 style="font-size:22px;margin-top:28px">Nova conta de administração</h2><div class="card"><label>Nome</label><input id="nu_n"><label>E-mail</label><input id="nu_e" type="email" autocomplete="off"><label>Senha (mínimo 8 caracteres)</label><input id="nu_p" type="password" autocomplete="new-password"><div style="margin-top:16px"><button id="nu_go">Criar conta</button></div></div>');
+  document.getElementById('nu_go').onclick=function(){api('/api/admin/users','POST',{name:document.getElementById('nu_n').value,email:document.getElementById('nu_e').value,password:document.getElementById('nu_p').value}).then(function(r){toast(r.existed?'Essa conta já existia; acesso concedido.':'Conta criada com acesso à administração.');users()}).catch(function(){toast('Confira nome, e-mail e senha (mínimo 8 caracteres).')})};
   api('/api/admin/users').then(function(list){
     document.getElementById('ut').innerHTML='<tr><th>Nome</th><th>E-mail</th><th>Criada</th><th>Administração</th></tr>'+list.map(function(u){return '<tr><td>'+esc(u.name)+'</td><td>'+esc(u.email)+'</td><td>'+new Date(u.createdAt).toLocaleDateString('pt-BR')+'</td><td><button class="'+(u.admin?'danger':'ghost')+'" data-id="'+u.id+'" data-a="'+(u.admin?0:1)+'">'+(u.admin?'Remover acesso':'Dar acesso')+'</button></td></tr>'}).join('');
     document.querySelectorAll('#ut button').forEach(function(b){b.onclick=function(){api('/api/admin/users/'+b.dataset.id+'/admin','PUT',{admin:b.dataset.a==='1'}).then(function(){toast('Atualizado');users()}).catch(function(){toast('Não foi possível alterar')})}});
   });
 }
 
-function preview(it){var d=it.data;return d.title||d.question||d.topic||d.text||d.size||d.group||''}
+function preview(it){var d=it.data;if(d.group)return d.group+(d.list?' · '+d.list:'');return d.title||d.question||d.topic||d.text||d.size||''}
 
 function loadCol(){
   shell('<p class="muted">Carregando...</p>');
@@ -97,16 +109,17 @@ function list(){
 
 function form(it){
   var c=S.col,isNew=!it;it=it||{key:'',position:S.items.length,data:{}};
-  var h='<p><a href="#c/'+c.id+'" class="muted">Voltar para '+esc(c.label)+'</a></p><h1 style="font-size:28px">'+(isNew?'Novo item':esc(c.keyLabel)+' '+esc(it.key))+'</h1><div class="card">';
-  h+='<label>'+esc(c.keyLabel)+' (identificador, sem espaços)</label><input id="f_key" value="'+esc(it.key)+'"'+(isNew?'':' disabled')+'>';
+  var h='<p><a href="#c/'+c.id+'" class="muted">Voltar para '+esc(c.label)+'</a></p><h1 style="font-size:28px">'+(isNew?'Novo item':(c.keyLabel==='Identificador'?esc(preview(it)||it.key):esc(c.keyLabel)+' '+esc(it.key)+(preview(it)?' · '+esc(preview(it)):'')))+'</h1><div class="card">';
+  h+='<label>'+(c.keyLabel==='Identificador'?'Identificador (letras, números e hífen, sem espaços)':esc(c.keyLabel))+'</label><input id="f_key" value="'+esc(it.key)+'"'+(isNew?'':' disabled')+'>';
   h+='<label>Ordem</label><input id="f_pos" type="number" value="'+esc(it.position)+'">';
   c.fields.forEach(function(f){
     var v=it.data[f.name];if(f.type==='list'&&Array.isArray(v))v=v.join('\n');
-    h+='<label>'+esc(f.label)+(f.required?' *':'')+'</label>'+(f.type==='textarea'||f.type==='list'?'<textarea id="f_'+f.name+'">'+esc(v)+'</textarea>':'<input id="f_'+f.name+'" type="'+(f.type==='number'?'number':'text')+'" step="any" value="'+esc(v)+'">');
+    h+='<label>'+esc(f.label)+(f.required?' *':'')+'</label>'+(f.type==='select'?'<select id="f_'+f.name+'">'+(f.required?'':'<option value=""></option>')+(f.options||[]).map(function(o){return '<option'+(o===v?' selected':'')+'>'+esc(o)+'</option>'}).join('')+'</select>':f.type==='textarea'||f.type==='list'?'<textarea id="f_'+f.name+'">'+esc(v)+'</textarea>':'<input id="f_'+f.name+'" type="'+(f.type==='number'?'number':'text')+'" step="any" value="'+esc(v)+'">');
     if(f.name==='image')h+='<div id="imgprev" style="margin-top:8px">'+(v?'<img src="'+esc(v)+'" style="max-width:240px;border-radius:14px">':'')+'</div>';
   });
   h+='<div class="row" style="margin-top:20px"><button id="sv">Salvar</button>'+(isNew?'':'<button class="danger" id="dl">Excluir</button>')+'</div></div>';
   shell(h);
+  var im=document.getElementById('f_image');if(im)im.oninput=function(){var u=im.value.trim();document.getElementById('imgprev').innerHTML=/^https?:\/\//.test(u)?'<img src="'+esc(u)+'" style="max-width:240px;border-radius:14px">':''};
   document.getElementById('sv').onclick=function(){
     var key=document.getElementById('f_key').value.trim();if(!/^[\w.-]+$/.test(key))return toast('Identificador inválido');
     var data={};c.fields.forEach(function(f){var v=document.getElementById('f_'+f.name).value;data[f.name]=f.type==='list'?v.split('\n'):v});

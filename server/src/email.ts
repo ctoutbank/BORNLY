@@ -23,6 +23,10 @@ function layout(title: string, body: string, action?: { label: string; url: stri
 const p = (s: string) => `<p style="margin:0 0 12px">${s}</p>`;
 
 export const templates = {
+  test: (name: string) => ({
+    subject: 'Teste de envio do Bornly',
+    html: layout('Os e-mails estão funcionando', p(`Oi, ${firstName(name)}. Este é um teste enviado pela administração do Bornly. Se chegou, as mensagens de boas-vindas, senha e lembretes também vão chegar.`)),
+  }),
   welcome: (name: string) => ({
     subject: 'Boas-vindas ao Bornly',
     html: layout(`Que bom ter você aqui, ${firstName(name)}`, p('Sua conta está pronta. A partir de agora, o Bornly guarda seus registros e acompanha você semana a semana.') + p('Comece registrando como você está hoje e cadastrando sua próxima consulta. Em sinais de alerta, procure atendimento sem esperar pelo app.')),
@@ -37,7 +41,7 @@ export const templates = {
   }),
   passwordChanged: (name: string) => ({
     subject: 'Sua senha do Bornly foi alterada',
-    html: layout('Senha alterada', p(`Oi, ${firstName(name)}. A senha da sua conta acabou de ser alterada e os outros aparelhos foram desconectados.`) + p('Se não foi você, redefina sua senha agora pelo app e responda a este e-mail.')),
+    html: layout('Senha alterada', p(`Oi, ${firstName(name)}. A senha da sua conta acabou de ser alterada e os outros aparelhos foram desconectados.`) + p('Se não foi você, use a opção Esqueci minha senha no app para criar uma nova agora.')),
   }),
   accountDeleted: (name: string) => ({
     subject: 'Sua conta do Bornly foi excluída',
@@ -50,6 +54,29 @@ export const templates = {
   }),
 };
 
+type Domain = { name: string; status: string };
+
+/** Domínios da conta do Resend (precisa de chave com acesso total; com chave só de envio, volta null). */
+export async function resendDomains(): Promise<Domain[] | null> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return null;
+  const res = await fetch('https://api.resend.com/domains', { headers: { Authorization: `Bearer ${key}` } });
+  if (!res.ok) return null;
+  const body = (await res.json()) as { data?: Domain[] };
+  return (body.data ?? []).map((d) => ({ name: d.name, status: d.status }));
+}
+
+// Remetente: EMAIL_FROM, se definido; senão o primeiro domínio verificado da conta; senão o endereço de testes do Resend.
+let senderCache: Promise<string> | undefined;
+export function sender() {
+  if (process.env.EMAIL_FROM) return Promise.resolve(process.env.EMAIL_FROM);
+  senderCache ??= resendDomains()
+    .then((list) => list?.find((d) => d.status === 'verified'))
+    .then((d) => (d ? `Bornly <nao-responda@${d.name}>` : 'Bornly <onboarding@resend.dev>'))
+    .catch(() => 'Bornly <onboarding@resend.dev>');
+  return senderCache;
+}
+
 export async function sendEmail(to: string, message: { subject: string; html: string }) {
   const key = process.env.RESEND_API_KEY;
   if (!key) {
@@ -59,8 +86,11 @@ export async function sendEmail(to: string, message: { subject: string; html: st
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: process.env.EMAIL_FROM ?? 'Bornly <onboarding@resend.dev>', to, subject: message.subject, html: message.html }),
+    body: JSON.stringify({ from: await sender(), to, subject: message.subject, html: message.html, ...(process.env.EMAIL_REPLY_TO ? { reply_to: process.env.EMAIL_REPLY_TO } : {}) }),
   });
-  if (!res.ok) console.error('Falha ao enviar e-mail', res.status, await res.text());
+  if (!res.ok) {
+    senderCache = undefined;
+    console.error('Falha ao enviar e-mail', res.status, await res.text());
+  }
   return res.ok;
 }
