@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router';
 import { TextInput, View } from 'react-native';
 
-import { capitalize, DAY, fmt, isUpcoming, startOfToday, useStore } from '@/store';
+import { CheckCircle, Heart } from '@/components/love';
+import { DAY, fmt, isUpcoming, startOfToday, useStore } from '@/store';
 import { colors, fonts } from '@/theme';
 import { Card, CircleButton, PageHeader, Plus, Press, PrimaryButton, Sans, Screen, Title } from '@/ui';
 
@@ -22,7 +23,7 @@ export default function Consultas() {
 
   return (
     <Screen>
-      <PageHeader title="Consultas e exames" sub={capitalize(fmt(today, { month: 'long', year: 'numeric' }))} fallback="/saude" right={<CircleButton label="Nova consulta" onPress={() => router.push('/nova-consulta')}><Plus color={colors.ink} /></CircleButton>} />
+      <PageHeader title="Consultas" sub="Exames, ultrassons e vacinas" fallback="/saude" light right={<CircleButton label="Nova consulta" bg={colors.peach} onPress={() => router.push('/nova-consulta')}><Plus color={colors.terra} /></CircleButton>} />
       <Card radius={24} style={{ flexDirection: 'row', gap: 4, paddingVertical: 12, paddingHorizontal: 8 }}>
         {Array.from({ length: 7 }, (_, i) => {
           const d = new Date(today.getTime() + i * DAY);
@@ -32,7 +33,7 @@ export default function Consultas() {
             <Press key={i} accessibilityState={{ selected: on }} onPress={() => set({ calSel: i })} style={{ flex: 1, alignItems: 'center', gap: 6, borderRadius: 20, paddingTop: 10, paddingBottom: 8, backgroundColor: on ? colors.terra : 'transparent' }}>
               <Sans s={11} w={600} c={on ? colors.bg : colors.ink} style={{ opacity: 0.7, textTransform: 'uppercase' }}>{fmt(d, { weekday: 'short' }).replace(/\./g, '').slice(0, 3)}</Sans>
               <Title s={18} c={on ? colors.bg : colors.ink}>{d.getDate()}</Title>
-              <View style={{ width: 5, height: 5, borderRadius: 3, backgroundColor: has ? (on ? colors.bg : colors.terra) : 'transparent' }} />
+              {on || has ? <Heart color={on ? colors.card : colors.terra} size={10} filled /> : <View style={{ height: 10 }} />}
             </Press>
           );
         })}
@@ -86,18 +87,26 @@ export default function Consultas() {
         </View>
       </Card>
       {past.length ? (
-        <View>
-          <Title s={18} style={{ marginBottom: 12 }}>Histórico</Title>
-          <Card style={{ paddingVertical: 4, paddingHorizontal: 18 }}>
+        <View style={{ gap: 10 }}>
+          <Sans s={12} w={600} c={colors.muted} style={{ paddingHorizontal: 4 }}>JÁ REALIZADOS</Sans>
+          <Card style={{ paddingVertical: 4, paddingHorizontal: 16 }}>
             {past.map((a, i) => (
-              <View key={a.id} style={{ paddingVertical: 14, borderBottomWidth: i === past.length - 1 ? 0 : 1, borderBottomColor: colors.lineSoft }}>
-                <Sans s={14} w={600}>{a.title}</Sans>
-                <Sans s={12} c={colors.muted} style={{ marginTop: 2 }}>{fmt(new Date(a.startsAt), { day: 'numeric', month: 'long' })}{a.who ? ` · ${a.who}` : ''}</Sans>
+              <View key={a.id} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13, borderBottomWidth: i === past.length - 1 ? 0 : 1, borderBottomColor: colors.lineSoft }}>
+                <CheckCircle color={colors.sageDot} />
+                <View style={{ flex: 1 }}>
+                  <Sans s={14} w={600}>{a.title}</Sans>
+                  <Sans s={12} c={colors.muted} style={{ marginTop: 2 }}>{fmt(new Date(a.startsAt), { day: 'numeric', month: 'long' })}{a.who ? ` · ${a.who}` : ''}</Sans>
+                </View>
               </View>
             ))}
           </Card>
         </View>
       ) : null}
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: colors.card, borderRadius: 20, padding: 14 }}>
+        <Heart color={colors.terra} size={18} filled />
+        <Sans s={12} lh={1.45} c={colors.mutedStrong} style={{ flex: 1 }}>Leve a Caderneta da Gestante e seus exames em todas as consultas.</Sans>
+      </View>
     </Screen>
   );
 }
