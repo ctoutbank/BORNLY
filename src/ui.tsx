@@ -159,17 +159,15 @@ export function CircleButton({ children, onPress, bg = colors.card, label, size 
 
 export function PageHeader({ title, sub, fallback, right }: { title: string; sub?: string; fallback: '/hoje' | '/saude' | '/preparar' | '/aprender'; right?: ReactNode }) {
   const back = useGoBack(fallback);
-  // Título grande embaixo do botão de voltar: mesmo tamanho dos títulos das abas (28).
+  // Título ao lado do botão de voltar, no mesmo tamanho dos títulos das abas (28). Se não couber, reduz até 22.
   return (
-    <View style={{ gap: 14 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 44 }}>
-        <BackButton onPress={back} />
-        {right}
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <BackButton onPress={back} />
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Title s={28} lh={1.15} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{title}</Title>
+        {sub ? <Sans s={13} lh={1.35} c={colors.muted} style={{ marginTop: 2 }}>{sub}</Sans> : null}
       </View>
-      <View>
-        <Title s={28} lh={1.15}>{title}</Title>
-        {sub ? <Sans s={13} lh={1.35} c={colors.muted} style={{ marginTop: 4 }}>{sub}</Sans> : null}
-      </View>
+      {right}
     </View>
   );
 }

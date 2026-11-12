@@ -36,8 +36,9 @@ export function BabyArt({ week, style }: { week: number; style?: StyleProp<ViewS
   return (
     <View accessible accessibilityRole="image" accessibilityLabel={`Ilustração do bebê na semana ${week}`} style={[{ backgroundColor: colors.peach, overflow: 'hidden' }, style]}>
       <Svg width="100%" height="100%" viewBox="0 0 120 120">
-        <Circle cx="96" cy="18" r="30" fill={colors.photo} />
-        <Circle cx="62" cy="64" r="44" fill={colors.card} />
+        <Circle cx="100" cy="12" r="34" fill={colors.photo} />
+        <Circle cx="14" cy="112" r="30" fill={colors.sage} />
+        <Circle cx="60" cy="62" r="42" fill={colors.card} />
         {art}
       </Svg>
     </View>

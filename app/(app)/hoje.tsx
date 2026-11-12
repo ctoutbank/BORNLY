@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router';
-import { useWindowDimensions, View } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ScrollView, View, type ScrollViewInstance } from 'react-native';
 
 import { FEELINGS } from '@/content';
 import { babyFor, dailyMessage, useContent } from '@/content-provider';
@@ -8,21 +9,30 @@ import { BabyArt } from '@/components/baby-art';
 import { colors, fonts } from '@/theme';
 import { BookIcon, CalendarIcon, Card, Overline, Plus, Press, RowButton, Sans, Screen, Title } from '@/ui';
 
-function Ruler({ center, onPick }: { center: number; onPick: (n: number) => void }) {
-  const { width } = useWindowDimensions();
-  const reach = width < 380 ? 4 : 5;
-  const items = [];
-  for (let n = center - reach; n <= center + reach; n++) {
-    const d = Math.abs(n - center);
-    const ok = n >= 4 && n <= 41;
-    const size = d === 0 ? 44 : d === 1 ? 30 : 26;
-    items.push(
-      <Press key={n} disabled={!ok} hitSlop={{ top: 10, bottom: 10, left: 2, right: 2 }} accessibilityLabel={ok ? `Semana ${n}` : undefined} onPress={() => onPick(n)} style={{ width: size, height: size, borderRadius: size / 2, alignItems: 'center', justifyContent: 'center', backgroundColor: d === 0 ? colors.ink : 'transparent' }}>
-        <Sans s={d === 0 ? 16 : d === 1 ? 12 : 11} w={600} c={d === 0 ? colors.bg : d <= 2 ? colors.mutedStrong : '#B3A397'}>{ok ? n : ''}</Sans>
-      </Press>,
-    );
-  }
-  return <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2 }}>{items}</View>;
+// Faixa rolável com todas as semanas (4 a 41). Abre centrada na semana atual; tocar escolhe a semana mostrada abaixo.
+const DOT = 44;
+const GAP = 6;
+function Ruler({ current, selected, onPick }: { current: number; selected: number; onPick: (n: number) => void }) {
+  const ref = useRef<ScrollViewInstance>(null);
+  const [w, setW] = useState(0);
+  const offsetFor = useCallback((n: number) => Math.max(0, (n - 4) * (DOT + GAP) - (w - DOT) / 2), [w]);
+  useEffect(() => {
+    if (w) ref.current?.scrollTo({ x: offsetFor(selected), animated: true });
+  }, [w, selected, offsetFor]);
+  const weeks = Array.from({ length: 38 }, (_, i) => i + 4);
+  return (
+    <ScrollView ref={ref} horizontal showsHorizontalScrollIndicator={false} onLayout={(e) => setW(e.nativeEvent.layout.width)} contentContainerStyle={{ paddingHorizontal: 20, gap: GAP, alignItems: 'center' }} snapToInterval={DOT + GAP} decelerationRate="fast">
+      {weeks.map((n) => {
+        const on = n === selected;
+        const isNow = n === current;
+        return (
+          <Press key={n} accessibilityLabel={`Semana ${n}${isNow ? ', semana atual' : ''}`} accessibilityState={{ selected: on }} onPress={() => onPick(n)} style={{ width: DOT, height: DOT, borderRadius: DOT / 2, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.ink : isNow ? colors.peach : 'transparent' }}>
+            <Sans s={on ? 16 : 13} w={600} c={on ? colors.bg : isNow ? colors.terra : n < current ? colors.mutedStrong : '#B3A397'}>{n}</Sans>
+          </Press>
+        );
+      })}
+    </ScrollView>
+  );
 }
 
 export default function Hoje() {
@@ -30,7 +40,9 @@ export default function Hoje() {
   const router = useRouter();
   const g = gestation(s);
   const content = useContent();
-  const baby = babyFor(g.week, content.weeks);
+  // semana mostrada no cartão do bebê: a atual, ou a escolhida na faixa de semanas
+  const [shown, setShown] = useState(g.week);
+  const baby = babyFor(shown, content.weeks);
   const next = nextAppointment(s);
   const todayEntry = s.diary[todayIso()];
   const mood = todayEntry ? FEELINGS[todayEntry.feel] : null;
@@ -45,7 +57,7 @@ export default function Hoje() {
     <Screen>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
         <View style={{ flex: 1 }}>
-          <Title s={28} lh={1.15}>{h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite'}, {name}</Title>
+          <Title s={27} lh={1.15}>{h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite'}, {name}</Title>
           <Sans s={13} c={colors.muted} style={{ marginTop: 4 }}>Hoje é um novo dia da sua gravidez.</Sans>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: colors.sand, borderRadius: 999, padding: 4 }}>
@@ -68,7 +80,7 @@ export default function Hoje() {
           <Sans s={15} c={colors.muted}>+ {g.day} dias</Sans>
         </View>
         <View style={{ marginHorizontal: -20, marginTop: 20, paddingTop: 14, paddingBottom: 12, backgroundColor: 'rgba(237,226,214,.45)' }}>
-          <Ruler center={g.week} onPick={openBaby} />
+          <Ruler current={g.week} selected={shown} onPick={setShown} />
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8, gap: 8 }}>
           <Sans s={12} c={colors.muted} style={{ flexShrink: 1 }}>{g.pct}% da gestação</Sans>
@@ -78,11 +90,15 @@ export default function Hoje() {
 
       <View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <Title s={18}>Seu bebê nesta semana</Title>
-          <Press onPress={() => openBaby(g.week)} hitSlop={8} style={{ minHeight: 44, justifyContent: 'center' }}><Sans s={12} w={600} c={colors.terra}>Ver mais</Sans></Press>
+          <Title s={18}>{shown === g.week ? 'Seu bebê nesta semana' : `Seu bebê na semana ${shown}`}</Title>
+          {shown === g.week ? (
+            <Press onPress={() => openBaby(shown)} hitSlop={8} style={{ minHeight: 44, justifyContent: 'center' }}><Sans s={12} w={600} c={colors.terra}>Ver mais</Sans></Press>
+          ) : (
+            <Press onPress={() => setShown(g.week)} hitSlop={8} style={{ minHeight: 44, justifyContent: 'center' }}><Sans s={12} w={600} c={colors.terra}>Voltar para hoje</Sans></Press>
+          )}
         </View>
-        <Press onPress={() => openBaby(g.week)} style={{ backgroundColor: colors.card, borderRadius: 24, padding: 14, flexDirection: 'row', gap: 16, alignItems: 'center' }}>
-          <BabyArt week={g.week} style={{ width: 112, height: 112, borderRadius: 20 }} />
+        <Press onPress={() => openBaby(shown)} style={{ backgroundColor: colors.card, borderRadius: 24, padding: 14, flexDirection: 'row', gap: 16, alignItems: 'center' }}>
+          <BabyArt week={shown} style={{ width: 112, height: 112, borderRadius: 20 }} />
           <View style={{ flex: 1, minWidth: 0 }}>
             <Sans s={12} c={colors.muted}>Do tamanho de</Sans>
             <Title s={18} style={{ marginTop: 2 }}>{baby.size}</Title>

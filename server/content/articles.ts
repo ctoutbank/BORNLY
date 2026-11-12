@@ -35,7 +35,7 @@ export const ARTICLES: Article[] = [
   {
     key: 'testes-rapidos', title: 'Testes rápidos de sífilis, HIV e hepatites', category: 'Exames', minutes: 2, weekFrom: 4, weekTo: 41, sourceName: `${MS} · Combate à sífilis congênita`, sourceUrl: SIFILIS,
     summary: 'São gratuitos e fazem parte do pré-natal, na primeira consulta e no terceiro trimestre.',
-    body: 'Os testes rápidos são feitos com uma gota de sangue e ficam prontos em poucos minutos.\n\nNo pré-natal, eles são oferecidos na primeira consulta, repetidos no terceiro trimestre e também no momento do parto.\n\nIdentificar a sífilis e outras infecções cedo permite o tratamento ainda na gestação e protege o bebê. Quando o resultado é reagente, a equipe orienta os próximos passos e o tratamento da parceria também.',
+    body: 'Os testes rápidos são feitos com uma gota de sangue e ficam prontos em poucos minutos.\n\nNo pré-natal, eles são oferecidos na primeira consulta, repetidos no terceiro trimestre e também no momento do parto.\n\nIdentificar a sífilis e outras infecções cedo permite o tratamento ainda na gestação e protege o bebê. Quando o resultado é reagente, a equipe orienta os próximos passos e o tratamento do parceiro também.',
   },
   {
     key: 'sinais-de-alerta', title: 'Sinais de alerta: quando procurar a maternidade', category: 'Cuidados', minutes: 2, weekFrom: 4, weekTo: 41, sourceName: `${MS} · Caderneta Brasileira da Gestante`, sourceUrl: CADERNETA,
@@ -46,11 +46,6 @@ export const ARTICLES: Article[] = [
     key: 'conhecer-a-maternidade', title: 'Direito de conhecer a maternidade e ao acompanhante', category: 'Direitos', minutes: 2, weekFrom: 20, weekTo: 41, sourceName: `${MS} · Pré-natal`, sourceUrl: PRENATAL,
     summary: 'Durante o pré-natal, você pode conhecer a maternidade onde será atendida.',
     body: 'Durante o pré-natal, é direito da gestante conhecer a maternidade de referência, onde será atendida em intercorrências e no parto.\n\nA visita ajuda a planejar o caminho, saber como funciona a entrada e tirar dúvidas com antecedência.\n\nA gestante também tem direito a um acompanhante de sua escolha durante o trabalho de parto, o parto e o pós-parto imediato.',
-  },
-  {
-    key: 'parceria-no-pre-natal', title: 'A parceria também faz pré-natal', category: 'Pré-natal', minutes: 2, weekFrom: 4, weekTo: 41, sourceName: `${MS} · Pré-natal`, sourceUrl: PRENATAL,
-    summary: 'A parceria pode acompanhar consultas e também tem direito a exames.',
-    body: 'A participação da parceria fortalece o cuidado durante a gestação.\n\nEla pode acompanhar consultas, grupos e atividades na unidade de saúde, e também tem direito a exames, como os testes de sífilis, HIV e hepatites.\n\nConverse com sua equipe sobre como incluir a parceria no acompanhamento.',
   },
   {
     key: 'saude-bucal', title: 'Saúde bucal na gravidez', category: 'Cuidados', minutes: 2, weekFrom: 4, weekTo: 41, sourceName: `${MS} · Pré-natal`, sourceUrl: PRENATAL,
@@ -99,6 +94,6 @@ const COVERS = 'https://bornly-api.wt-pedagogia.workers.dev/img/artigos';
 for (const a of ARTICLES) {
   // Tempo de leitura pelo tamanho do texto (cerca de 200 palavras por minuto).
   a.minutes = Math.max(1, Math.ceil(a.body.split(/\s+/).length / 200));
-  a.image ??= `${COVERS}/${a.key}.jpg`;
+  a.image ??= `${COVERS}/${a.key}.jpg?v=2`;
   a.imageCredit ??= 'Ilustração: Bornly';
 }

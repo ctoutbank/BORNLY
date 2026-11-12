@@ -35,7 +35,7 @@ export const CHECKLISTS = [
 ];
 
 export const BIRTH_PLAN = [
-  { key: 'acompanhante', topic: 'Acompanhante', options: ['Parceiro(a)', 'Mãe', 'Doula', 'Outra pessoa'] },
+  { key: 'acompanhante', topic: 'Acompanhante', options: ['Parceiro', 'Mãe', 'Doula', 'Outra pessoa'] },
   { key: 'ambiente', topic: 'Ambiente', options: ['Luz baixa', 'Música', 'Silêncio', 'Liberdade para me movimentar'] },
   { key: 'analgesia', topic: 'Analgesia', options: ['Métodos não farmacológicos primeiro', 'Analgesia se eu pedir', 'Decidir na hora'] },
   { key: 'pele-a-pele', topic: 'Contato pele a pele', options: ['Imediato, se possível', 'Após avaliação do bebê'] },
