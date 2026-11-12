@@ -27,9 +27,9 @@ const b = client();
 const anon = client();
 
 check('sem login é recusado', (await anon('/api/data/state')).status === 401);
-const r1 = await a('/api/auth/sign-up/email', 'POST', { name: 'Teste A', email: `bornly-teste-a-${stamp}@example.com`, password });
+const r1 = await a('/api/auth/sign-up/email', 'POST', { name: 'Teste A', email: `delivered+bornly-a-${stamp}@resend.dev`, password });
 check('cadastro A', r1.status === 200, r1);
-const r2 = await b('/api/auth/sign-up/email', 'POST', { name: 'Teste B', email: `bornly-teste-b-${stamp}@example.com`, password });
+const r2 = await b('/api/auth/sign-up/email', 'POST', { name: 'Teste B', email: `delivered+bornly-b-${stamp}@resend.dev`, password });
 check('cadastro B', r2.status === 200, r2);
 
 check('perfil', (await a('/api/data/profile', 'PUT', { moment: 'gravida', method: 'dum', dum: '2026-04-20', healthConsent: true, maternityName: 'Maternidade X' })).status === 200);
