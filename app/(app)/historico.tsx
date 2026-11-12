@@ -3,7 +3,8 @@ import { View } from 'react-native';
 import Svg, { Circle, Path, Polyline } from 'react-native-svg';
 
 import { DAY, fmt, fromIso, iso, startOfToday, todayIso, useStore } from '@/store';
-import { FEELINGS } from '@/content';
+import { ChartIcon, Heart, PulseIcon } from '@/components/love';
+import { FEEL_DOTS, FEELINGS } from '@/content';
 import { colors } from '@/theme';
 import { Card, Field, PageHeader, Press, PrimaryButton, Sans, Screen, Title } from '@/ui';
 
@@ -45,7 +46,10 @@ export default function Historico() {
       <PageHeader title="Meu histórico" sub="Peso, sintomas e registros" fallback="/saude" />
       <Card radius={28} style={{ paddingTop: 20, paddingHorizontal: 20, paddingBottom: 16 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Sans s={12} c={colors.muted}>Peso</Sans>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' }}><ChartIcon color={colors.terra} size={16} /></View>
+            <Sans s={13} w={600} c={colors.mutedStrong}>Peso</Sans>
+          </View>
           <Press onPress={() => save('/profile', 'PUT', { showWeight: !s.showWeight }, { showWeight: !s.showWeight })} style={{ backgroundColor: colors.sand, borderRadius: 999, paddingHorizontal: 12, minHeight: 32, justifyContent: 'center' }}>
             <Sans s={11} w={600} c={colors.mutedStrong}>{s.showWeight ? 'Ocultar' : 'Mostrar'}</Sans>
           </Press>
@@ -64,8 +68,8 @@ export default function Historico() {
             {w.length > 1 ? (
               <>
                 <Svg width="100%" height={120} viewBox="0 0 320 120" preserveAspectRatio="none" style={{ marginTop: 14 }}>
-                  <Path d={area} fill={colors.sand} />
-                  <Polyline points={line} fill="none" stroke={colors.caramel} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+                  <Path d={area} fill={colors.peach} />
+                  <Polyline points={line} fill="none" stroke={colors.terra} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
                   <Circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r={4} fill={colors.terra} />
                 </Svg>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
@@ -84,13 +88,16 @@ export default function Historico() {
       </Card>
       <Card radius={28} style={{ padding: 20 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
-          <Title s={18}>Sintomas · 7 dias</Title>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: colors.sage, alignItems: 'center', justifyContent: 'center' }}><PulseIcon color={colors.sageInk} size={16} /></View>
+            <Title s={18}>Sintomas · 7 dias</Title>
+          </View>
           <Sans s={12} c={colors.muted}>registros por dia</Sans>
         </View>
         <View style={{ flexDirection: 'row', gap: 8, alignItems: 'flex-end', minHeight: 96, marginTop: 16 }}>
           {bars.map((b, i) => (
             <View key={i} style={{ flex: 1, alignItems: 'center', gap: 6, justifyContent: 'flex-end' }}>
-              <View style={{ width: '100%', maxWidth: 26, height: Math.min(72, b.count * 18) + 6, borderRadius: 10, backgroundColor: i === 6 ? colors.terra : '#E0CDBE' }} />
+              <View style={{ width: '100%', maxWidth: 26, height: Math.min(72, b.count * 18) + 6, borderRadius: 10, backgroundColor: i === 6 ? colors.terra : b.count ? colors.avatar : colors.sand }} />
               <Sans s={11} w={600} c={colors.muted}>{fmt(b.d, { weekday: 'narrow' }).toUpperCase()}</Sans>
             </View>
           ))}
@@ -98,8 +105,8 @@ export default function Historico() {
         {top.length ? (
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 16 }}>
             {top.map(([name, n]) => (
-              <View key={name} style={{ backgroundColor: colors.sand, borderRadius: 999, paddingVertical: 6, paddingHorizontal: 11 }}>
-                <Sans s={12} w={600} c={colors.mutedStrong}>{name} · {n}x</Sans>
+              <View key={name} style={{ backgroundColor: colors.sage, borderRadius: 999, paddingVertical: 6, paddingHorizontal: 11 }}>
+                <Sans s={12} w={600} c={colors.sageInk}>{name} · {n}x</Sans>
               </View>
             ))}
           </View>
@@ -111,9 +118,10 @@ export default function Historico() {
           <View style={{ gap: 8 }}>
             {entries.map(([day, e]) => (
               <Card key={day} radius={20} style={{ paddingVertical: 14, paddingHorizontal: 16 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Sans s={12} c={colors.muted}>{fmt(fromIso(day), { weekday: 'long', day: 'numeric', month: 'short' }).replace(/\./g, '')}</Sans>
-                  <Sans s={12} c={colors.muted}>{FEELINGS[e.feel]}</Sans>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                  <Heart color={FEEL_DOTS[e.feel]} size={18} filled />
+                  <Sans s={12} c={colors.muted} style={{ flex: 1 }}>{fmt(fromIso(day), { weekday: 'long', day: 'numeric', month: 'short' }).replace(/\./g, '')}</Sans>
+                  <View style={{ backgroundColor: colors.peach, borderRadius: 999, paddingVertical: 3, paddingHorizontal: 9 }}><Sans s={11} w={600} c={colors.terraDark}>{FEELINGS[e.feel]}</Sans></View>
                 </View>
                 {e.note ? <Sans s={14} lh={1.5} c={colors.body} style={{ marginTop: 6 }}>{e.note}</Sans> : null}
               </Card>
