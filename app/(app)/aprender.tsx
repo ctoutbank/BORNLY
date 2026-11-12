@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
 
 import { ArticleRow, ArticleThumb } from '@/components/article-row';
-
+import { categoryLook, ChatHeart, Heart } from '@/components/love';
 import { articlesForWeek, useContent } from '@/content-provider';
 import { gestation, useStore } from '@/store';
 import { colors, fonts } from '@/theme';
@@ -24,9 +24,9 @@ export default function Aprender() {
   const results = q ? all.filter((a) => norm([a.title, a.summary, a.category, a.body].join(' ')).includes(q)) : cat ? all.filter((a) => a.category === cat) : null;
   return (
     <Screen>
-      <TabTitle title="Aprender" sub="Conteúdo informativo sobre cada fase." right={<CircleButton label="Salvos" onPress={() => router.push('/salvos')}><Bookmark stroke={colors.ink} /></CircleButton>} />
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, height: 50, borderRadius: 999, backgroundColor: colors.card, paddingHorizontal: 18 }}>
-        <SearchIcon color={colors.muted} />
+      <TabTitle title="Aprender" sub="Conteúdo informativo sobre cada fase." right={<CircleButton label="Salvos" bg={colors.peach} onPress={() => router.push('/salvos')}><Bookmark stroke={colors.terra} /></CircleButton>} />
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, height: 50, borderRadius: 999, backgroundColor: colors.card, borderWidth: 1.5, borderColor: colors.peach, paddingHorizontal: 18 }}>
+        <SearchIcon color={colors.terra} />
         <TextInput value={query} onChangeText={(v) => { setQuery(v); setCat(null); }} placeholder="Buscar um assunto" placeholderTextColor={colors.muted} returnKeyType="search" style={{ flex: 1, height: 50, fontFamily: fonts.sans400, fontSize: 14, color: colors.ink }} />
       </View>
       {results ? (
@@ -41,7 +41,7 @@ export default function Aprender() {
       <>
       <View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <Title s={18}>Para sua semana {week}</Title>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Heart color={colors.terra} size={14} filled /><Title s={18}>Para sua semana {week}</Title></View>
           <Press onPress={() => router.push('/semana')} hitSlop={8} style={{ minHeight: 44, justifyContent: 'center' }}><Sans s={12} w={600} c={colors.terra}>Ver tudo</Sans></Press>
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -20 }} contentContainerStyle={{ gap: 10, paddingHorizontal: 20 }}>
@@ -60,7 +60,8 @@ export default function Aprender() {
         <Title s={18} style={{ marginBottom: 12 }}>Biblioteca</Title>
         <Card style={{ paddingVertical: 4, paddingHorizontal: 18 }}>
           {cats.map(([label, n], i) => (
-            <Press key={label} onPress={() => setCat(label)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 15, borderBottomWidth: i === cats.length - 1 ? 0 : 1, borderBottomColor: colors.lineSoft }}>
+            <Press key={label} onPress={() => setCat(label)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 11, borderBottomWidth: i === cats.length - 1 ? 0 : 1, borderBottomColor: colors.lineSoft }}>
+              <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: categoryLook(label).bg, alignItems: 'center', justifyContent: 'center' }}>{categoryLook(label).icon(categoryLook(label).ink)}</View>
               <Sans s={14} w={500} style={{ flex: 1 }}>{label}</Sans>
               <Sans s={12} c={colors.muted}>{n} {n === 1 ? 'conteúdo' : 'conteúdos'}</Sans>
               <Chevron />
@@ -70,12 +71,13 @@ export default function Aprender() {
       </View>
       </>
       )}
-      <Press onPress={() => router.push('/duvidas')} style={{ borderRadius: 24, backgroundColor: colors.sage, padding: 20, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <Press onPress={() => router.push('/duvidas')} style={{ borderRadius: 24, backgroundColor: colors.sage, padding: 18, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center' }}><ChatHeart color={colors.sageInk} size={22} /></View>
         <View style={{ flex: 1 }}>
           <Title s={18}>Guia de dúvidas</Title>
           <Sans s={12} c={colors.sageInk} style={{ marginTop: 4 }}>Respostas curtas, com fonte identificada</Sans>
         </View>
-        <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.terra, alignItems: 'center', justifyContent: 'center' }}><ArrowRight color={colors.bg} w={10} h={17} /></View>
+        <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center' }}><ArrowRight color={colors.sageInk} w={10} h={17} /></View>
       </Press>
     </Screen>
   );

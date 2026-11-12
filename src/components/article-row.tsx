@@ -26,13 +26,13 @@ export function ArticleRow({ article }: { article: Article }) {
       </Press>
       <CircleButton
         label={on ? 'Remover dos salvos' : 'Salvar'}
-        bg={on ? colors.terra : colors.sand}
+        bg={on ? colors.peach : colors.sand}
         onPress={() => {
           save(`/saved/${article.id}`, 'PUT', { saved: !on }, (st) => ({ saved: { ...st.saved, [article.id]: !on } })).then((ok) => {
             if (ok) flash(on ? 'Removido dos salvos' : 'Salvo para ler depois');
           });
         }}>
-        <Bookmark stroke={on ? colors.bg : colors.ink} fill={on ? colors.bg : 'none'} />
+        <Bookmark stroke={on ? colors.terra : colors.ink} fill={on ? colors.terra : 'none'} />
       </CircleButton>
     </View>
   );

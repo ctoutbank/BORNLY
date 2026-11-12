@@ -26,8 +26,8 @@ export default function Artigo() {
         sub={a.minutes ? `${a.minutes} min de leitura` : undefined}
         fallback="/aprender"
         right={
-          <CircleButton label={on ? 'Remover dos salvos' : 'Salvar'} bg={on ? colors.terra : colors.card} onPress={() => save(`/saved/${a.id}`, 'PUT', { saved: !on }, (st) => ({ saved: { ...st.saved, [a.id]: !on } })).then((ok) => ok && flash(on ? 'Removido dos salvos' : 'Salvo para ler depois'))}>
-            <Bookmark stroke={on ? colors.bg : colors.ink} fill={on ? colors.bg : 'none'} />
+          <CircleButton label={on ? 'Remover dos salvos' : 'Salvar'} bg={on ? colors.peach : colors.card} onPress={() => save(`/saved/${a.id}`, 'PUT', { saved: !on }, (st) => ({ saved: { ...st.saved, [a.id]: !on } })).then((ok) => ok && flash(on ? 'Removido dos salvos' : 'Salvo para ler depois'))}>
+            <Bookmark stroke={on ? colors.terra : colors.ink} fill={on ? colors.terra : 'none'} />
           </CircleButton>
         }
       />

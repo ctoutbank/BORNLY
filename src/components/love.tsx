@@ -118,3 +118,33 @@ export const BabyIcon = ({ color, size = 18 }: { color: string; size?: number })
 export const PeopleIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24"><Circle cx="9" cy="8" r="3" {...line(color)} /><Circle cx="16.5" cy="9" r="2.5" {...line(color)} /><Path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8M14.5 14.6c2.8-.4 5 1.2 5.8 4.4" {...line(color)} /></Svg>
 );
+
+// Ícones de categorias do Aprender
+export const LeafIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z" {...line(color)} /><Path d="M5 19l7-7" {...line(color)} /></Svg>
+);
+export const DropIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M12 3.5s-6 6.8-6 10.8a6 6 0 0 0 12 0c0-4-6-10.8-6-10.8z" {...line(color)} /><Path d="M12 18s-2.2-1.4-2.2-2.8a1.2 1.2 0 0 1 2.2-.6 1.2 1.2 0 0 1 2.2.6c0 1.4-2.2 2.8-2.2 2.8z" fill={color} /></Svg>
+);
+export const ShieldIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M12 3c2.6 1.6 4.7 2 6.5 2v6c0 4.4-3 7.4-6.5 9-3.5-1.6-6.5-4.6-6.5-9V5C7.3 5 9.4 4.6 12 3z" {...line(color)} /><Path d="M9.2 12l2 2 3.6-3.6" {...line(color)} /></Svg>
+);
+export const ClipboardIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Rect x="5" y="4" width="14" height="17" rx="3" {...line(color)} /><Path d="M9 4.5V3.5h6v1M8.5 11l1.5 1.5 3-3M8.5 16.5h7" {...line(color)} /></Svg>
+);
+export const BookmarkHeart = ({ color, size = 22 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M6 3.5h12v17l-6-4-6 4z" {...line(color)} /><Path d="M12 12.6s-2.4-1.5-2.4-3a1.3 1.3 0 0 1 2.4-.7 1.3 1.3 0 0 1 2.4.7c0 1.5-2.4 3-2.4 3z" fill={color} /></Svg>
+);
+
+const CATEGORY: Record<string, { icon: (c: string) => React.ReactNode; bg: string; ink: string }> = {
+  'Pré-natal': { icon: (c) => <CalendarHeart color={c} size={18} />, bg: colors.peach, ink: colors.terra },
+  Exames: { icon: (c) => <ClipboardIcon color={c} size={18} />, bg: colors.sage, ink: colors.sageInk },
+  Vacinas: { icon: (c) => <ShieldIcon color={c} size={18} />, bg: colors.avatar, ink: colors.terraDark },
+  Cuidados: { icon: (c) => <Heart color={c} size={17} />, bg: colors.peach, ink: colors.terra },
+  Direitos: { icon: (c) => <HouseHeartIcon color={c} size={18} />, bg: colors.sand, ink: colors.mutedStrong },
+  Gravidez: { icon: (c) => <BabyIcon color={c} size={18} />, bg: colors.sage, ink: colors.sageInk },
+  'Alimentação': { icon: (c) => <LeafIcon color={c} size={18} />, bg: colors.sage, ink: colors.sageInk },
+  'Amamentação': { icon: (c) => <DropIcon color={c} size={18} />, bg: colors.avatar, ink: colors.terraDark },
+  'Pós-parto': { icon: (c) => <MoonIcon color={c} size={17} />, bg: colors.sand, ink: colors.mutedStrong },
+};
+export const categoryLook = (name: string) => CATEGORY[name] ?? { icon: (c: string) => <Heart color={c} size={17} />, bg: colors.peach, ink: colors.terra };
