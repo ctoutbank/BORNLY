@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Linking, View } from 'react-native';
 
 import { useContent } from '@/content-provider';
+import { HeartsBackdrop, HouseHeartIcon } from '@/components/love';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
 import { Card, Checklist, CircleButton, Field, PageHeader, PhoneIcon, PrimaryButton, Sans, Screen, TextButton, Title } from '@/ui';
@@ -32,21 +33,23 @@ export default function Nascimento() {
           <PrimaryButton label="Salvar" onPress={saveMaternity} />
         </Card>
       ) : (
-        <Card bg={colors.terra} style={{ paddingVertical: 18, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <View style={{ backgroundColor: colors.peach, borderRadius: 26, paddingVertical: 18, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', gap: 14, overflow: 'hidden' }}>
+          <HeartsBackdrop />
+          <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center' }}><HouseHeartIcon color={colors.terra} size={22} /></View>
           <View style={{ flex: 1 }}>
-            <Sans s={12} c={colors.onInkSoft}>Maternidade escolhida</Sans>
-            <Title s={18} lh={1.25} c={colors.bg} style={{ marginTop: 4 }}>{s.maternityName}</Title>
-            <View style={{ alignItems: 'flex-start' }}><TextButton label="Alterar" c={colors.onInkMid} s={12} onPress={() => setEditing(true)} /></View>
+            <Sans s={11} w={700} c={colors.terra} style={{ letterSpacing: 0.6 }}>MATERNIDADE ESCOLHIDA</Sans>
+            <Title s={18} lh={1.25} style={{ marginTop: 2 }}>{s.maternityName}</Title>
+            <View style={{ alignItems: 'flex-start' }}><TextButton label="Alterar" c={colors.terraDark} s={12} onPress={() => setEditing(true)} /></View>
           </View>
-          {s.maternityPhone ? <CircleButton label="Ligar para a maternidade" bg={colors.bg} onPress={() => Linking.openURL(`tel:${s.maternityPhone.replace(/[^\d+]/g, '')}`)}><PhoneIcon color={colors.ink} /></CircleButton> : null}
-        </Card>
+          {s.maternityPhone ? <CircleButton label="Ligar para a maternidade" bg={colors.card} onPress={() => Linking.openURL(`tel:${s.maternityPhone.replace(/[^\d+]/g, '')}`)}><PhoneIcon color={colors.terra} /></CircleButton> : null}
+        </View>
       )}
       {BIRTH.map(([label, range, items], i) => (
         <View key={label}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 }}>
             <Title s={18}>{label}</Title>
-            <View style={{ backgroundColor: i === 0 ? colors.terra : colors.sand, borderRadius: 999, paddingVertical: 4, paddingHorizontal: 10 }}>
-              <Sans s={11} w={600} c={i === 0 ? colors.bg : colors.mutedStrong}>{range}</Sans>
+            <View style={{ backgroundColor: i === 0 ? colors.peach : colors.sand, borderRadius: 999, paddingVertical: 4, paddingHorizontal: 10 }}>
+              <Sans s={11} w={600} c={i === 0 ? colors.terraDark : colors.mutedStrong}>{range}</Sans>
             </View>
           </View>
           <Checklist

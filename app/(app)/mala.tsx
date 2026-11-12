@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 
 import { useContent } from '@/content-provider';
+import { BabyIcon, BagIcon, Heart, PeopleIcon } from '@/components/love';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
 import { Checklist, PageHeader, Press, Sans, Screen, Title } from '@/ui';
@@ -15,9 +16,11 @@ export default function Mala() {
       <View style={{ flexDirection: 'row', gap: 8 }}>
         {Object.keys(MALA).map((c) => {
           const on = s.malaTab === c;
-          const fg = on ? colors.bg : colors.ink;
+          const fg = on ? colors.terraDark : colors.ink;
+          const icon = c === 'Mamãe' ? <Heart color={colors.terra} size={16} /> : c === 'Bebê' ? <BabyIcon color={colors.sageInk} size={17} /> : <PeopleIcon color={colors.mutedStrong} size={17} />;
           return (
-            <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ malaTab: c })} style={{ flex: 1, borderRadius: 24, paddingVertical: 14, paddingHorizontal: 12, gap: 10, minHeight: 96, backgroundColor: on ? colors.terra : colors.card }}>
+            <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ malaTab: c })} style={{ flex: 1, borderRadius: 24, paddingVertical: 14, paddingHorizontal: 12, gap: 8, minHeight: 104, borderWidth: 1.5, borderColor: on ? colors.terra : 'transparent', backgroundColor: on ? colors.peach : colors.card }}>
+              <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: on ? colors.card : colors.bg, alignItems: 'center', justifyContent: 'center' }}>{icon}</View>
               <Sans s={12} w={600} c={fg} numberOfLines={1}>{c === 'Acompanhante' ? 'Acomp.' : c}</Sans>
               <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                 <Title s={22} lh={1.05} c={fg}>{MALA[c].filter((l) => s.mala[l]).length}</Title>
@@ -28,9 +31,12 @@ export default function Mala() {
         })}
       </View>
       <Checklist labels={MALA[s.malaTab]} map={s.mala} onToggle={(l) => { const done = !s.mala[l]; save('/checklist', 'PUT', { list: 'mala', label: l, category: s.malaTab, custom: false, done }, (st) => ({ mala: { ...st.mala, [l]: done } })); }} />
-      <Sans s={13} c={colors.muted} style={{ paddingHorizontal: 4 }}>
-        Falta separar: <Sans s={13} w={600}>{missing.length ? `${missing.length} itens de ${s.malaTab.toLowerCase()}` : 'nada, tudo separado'}</Sans>
-      </Sans>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: colors.card, borderRadius: 20, padding: 14 }}>
+        <BagIcon color={colors.terra} size={18} />
+        <Sans s={13} c={colors.mutedStrong} style={{ flex: 1 }}>
+          Falta separar: <Sans s={13} w={600} c={colors.terraDark}>{missing.length ? `${missing.length} ${missing.length === 1 ? 'item' : 'itens'} de ${s.malaTab.toLowerCase()}` : 'nada, tudo separado'}</Sans>
+        </Sans>
+      </View>
     </Screen>
   );
 }

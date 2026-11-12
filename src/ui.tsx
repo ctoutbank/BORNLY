@@ -284,7 +284,7 @@ export function CheckRow({ label, on, last, onPress, plain = false }: { label: s
       accessibilityRole="checkbox"
       accessibilityState={{ checked: on }}
       style={{ flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 14, minHeight: 54, borderBottomWidth: last ? 0 : 1, borderBottomColor: colors.lineSoft }}>
-      <View style={[styles.circle, { width: 26, height: 26, borderWidth: 1.5, backgroundColor: on ? colors.terra : 'transparent', borderColor: on ? colors.terra : colors.check }]}>
+      <View style={[styles.circle, { width: 26, height: 26, borderWidth: 1.5, backgroundColor: on ? colors.sageDot : 'transparent', borderColor: on ? colors.sageDot : colors.check }]}>
         {on ? (
           <CheckMark color={colors.bg} />
         ) : null}

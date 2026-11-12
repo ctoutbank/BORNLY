@@ -98,3 +98,23 @@ export function SectionLabel({ icon, label, bg }: { icon: React.ReactNode; label
 export const ClockIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24"><Circle cx="12" cy="12" r="9" {...line(color)} /><Path d="M12 7.5V12l3 2" {...line(color)} /></Svg>
 );
+
+// Ícones de Preparar
+export const OnesieIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M9 3.5c.6 1.4 1.7 2 3 2s2.4-.6 3-2l4 2.2-1.6 3.6-2-.8V18l-2 2.5h-2.8L8.6 18V8.5l-2 .8L5 5.7z" {...line(color)} /></Svg>
+);
+export const BagIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Rect x="4" y="7.5" width="16" height="12.5" rx="3" {...line(color)} /><Path d="M9 7.5V6a3 3 0 0 1 6 0v1.5" {...line(color)} /><Path d="M12 16.6s-2.4-1.5-2.4-3a1.3 1.3 0 0 1 2.4-.7 1.3 1.3 0 0 1 2.4.7c0 1.5-2.4 3-2.4 3z" fill={color} /></Svg>
+);
+export const DocHeartIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M6 3.5h8l4 4v13H6z" {...line(color)} /><Path d="M14 3.5v4h4" {...line(color)} /><Path d="M12 17s-2.4-1.5-2.4-3a1.3 1.3 0 0 1 2.4-.7 1.3 1.3 0 0 1 2.4.7c0 1.5-2.4 3-2.4 3z" fill={color} /></Svg>
+);
+export const HouseHeartIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M4 20V10l8-5 8 5v10z" {...line(color)} /><Path d="M12 16.6s-2.6-1.6-2.6-3.3a1.4 1.4 0 0 1 2.6-.8 1.4 1.4 0 0 1 2.6.8c0 1.7-2.6 3.3-2.6 3.3z" fill={color} /></Svg>
+);
+export const BabyIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Circle cx="12" cy="10" r="6" {...line(color)} /><Path d="M9.5 10.5h.01M14.5 10.5h.01" {...line(color, 2.4)} /><Path d="M10 13c.6.6 1.3.9 2 .9s1.4-.3 2-.9M8 20c1-1.6 2.4-2.4 4-2.4s3 .8 4 2.4" {...line(color)} /></Svg>
+);
+export const PeopleIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Circle cx="9" cy="8" r="3" {...line(color)} /><Circle cx="16.5" cy="9" r="2.5" {...line(color)} /><Path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8M14.5 14.6c2.8-.4 5 1.2 5.8 4.4" {...line(color)} /></Svg>
+);

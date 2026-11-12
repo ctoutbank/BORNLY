@@ -29,15 +29,15 @@ export default function Enxoval() {
 
   return (
     <Screen gap={20}>
-      <PageHeader title="Enxoval" sub={`${all.filter((l) => s.enx[l]).length} de ${all.length} itens`} fallback="/preparar" right={<CircleButton label="Novo item" onPress={() => setAdding(!adding)}><Plus color={colors.ink} /></CircleButton>} />
+      <PageHeader title="Enxoval" sub={`${all.filter((l) => s.enx[l]).length} de ${all.length} itens`} fallback="/preparar" right={<CircleButton label="Novo item" bg={colors.peach} onPress={() => setAdding(!adding)}><Plus color={colors.terra} /></CircleButton>} />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -20, flexGrow: 0 }} contentContainerStyle={{ gap: 6, paddingHorizontal: 20 }}>
         {Object.keys(ENX).map((c) => {
           const on = s.enxCat === c;
           const labels = labelsOf(c);
           return (
-            <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ enxCat: c })} style={{ borderRadius: 999, paddingHorizontal: 16, minHeight: 42, flexDirection: 'row', gap: 6, alignItems: 'center', backgroundColor: on ? colors.terra : colors.card }}>
-              <Sans s={13} w={600} c={on ? colors.bg : colors.ink}>{c}</Sans>
-              <Sans s={13} w={500} c={on ? colors.bg : colors.ink} style={{ opacity: 0.6 }}>{labels.filter((l) => s.enx[l]).length}/{labels.length}</Sans>
+            <Press key={c} accessibilityState={{ selected: on }} onPress={() => set({ enxCat: c })} style={{ borderRadius: 999, paddingHorizontal: 16, minHeight: 42, flexDirection: 'row', gap: 6, alignItems: 'center', borderWidth: 1.5, borderColor: on ? colors.terra : 'transparent', backgroundColor: on ? colors.peach : colors.card }}>
+              <Sans s={13} w={600} c={on ? colors.terraDark : colors.ink}>{c}</Sans>
+              <Sans s={13} w={500} c={on ? colors.terraDark : colors.ink} style={{ opacity: 0.6 }}>{labels.filter((l) => s.enx[l]).length}/{labels.length}</Sans>
             </Press>
           );
         })}

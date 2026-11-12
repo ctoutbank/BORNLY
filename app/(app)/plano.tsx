@@ -4,6 +4,7 @@ import { Platform, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 import { useContent } from '@/content-provider';
+import { CheckCircle, Heart } from '@/components/love';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
 import { Card, Chip, PageHeader, PrimaryButton, Sans, Screen, Title, Wrap } from '@/ui';
@@ -30,14 +31,17 @@ export default function Plano() {
   return (
     <Screen gap={18}>
       <PageHeader title="Plano de parto" sub={`${done} de ${PLAN.length} tópicos preenchidos`} fallback="/preparar" />
-      <Sans s={13} lh={1.5} c={colors.body} style={{ paddingHorizontal: 2 }}>Suas preferências para conversar com a equipe do parto. O documento registra desejos e não substitui a avaliação clínica.</Sans>
+      <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', backgroundColor: colors.peach, borderRadius: 20, padding: 14 }}>
+        <Heart color={colors.terra} size={18} filled />
+        <Sans s={13} lh={1.5} c={colors.terraText} style={{ flex: 1 }}>Suas preferências para conversar com a equipe do parto. O documento registra desejos e não substitui a avaliação clínica.</Sans>
+      </View>
       {PLAN.map(([topic, opts]) => {
         const cur = s.plan[topic] || [];
         return (
           <Card key={topic} radius={24} style={{ padding: 18 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
               <Title s={16}>{topic}</Title>
-              <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: cur.length ? colors.sageDot : colors.track }} />
+              {cur.length ? <CheckCircle color={colors.sageDot} size={18} /> : <Heart color={colors.check} size={16} />}
             </View>
             <Wrap gap={6}>
               {opts.map((o) => {
