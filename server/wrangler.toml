@@ -1,0 +1,17 @@
+name = "bornly-api"
+main = "src/worker.ts"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+minify = true
+
+# Arquivos estáticos (capas dos artigos). O que não for arquivo segue para o Worker.
+[assets]
+directory = "./public"
+
+# Lembrete de consulta: todo dia às 12:00 UTC (9h em Brasília), como no vercel.json.
+[triggers]
+crons = ["0 12 * * *"]
+
+# Segredos (wrangler secret bulk): DATABASE_URL, BETTER_AUTH_SECRET, BETTER_AUTH_URL, CRON_SECRET.
+# Opcionais para e-mail: RESEND_API_KEY, EMAIL_FROM.

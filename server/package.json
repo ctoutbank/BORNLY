@@ -1,0 +1,29 @@
+{
+  "name": "bornly-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env.local src/dev.ts",
+    "migrate": "tsx --env-file=.env.local scripts/migrate.ts",
+    "test": "tsx --env-file=.env.local scripts/integration.ts",
+    "typecheck": "tsc --noEmit",
+    "make-admin": "tsx --env-file=.env.local scripts/make-admin.ts",
+    "seed": "tsx --env-file=.env.local scripts/seed-content.ts",
+    "snapshot": "tsx --env-file=.env.local scripts/export-snapshot.ts",
+    "create-admin": "tsx --env-file=.env.production.local scripts/create-admin.ts"
+  },
+  "dependencies": {
+    "@better-auth/expo": "^1.7.17",
+    "@hono/node-server": "^2.1.6",
+    "better-auth": "^1.7.17",
+    "hono": "^4.13.16",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7",
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
+  }
+}
