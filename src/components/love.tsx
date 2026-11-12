@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, G, Path, Rect } from 'react-native-svg';
 
-import { colors } from '@/theme';
+import { colors, fonts } from '@/theme';
 
 // Elementos visuais do padrão "perfil": corações, ícones de traço e fundos com mistura de cores.
 export const HEART = 'M12 21s-7.5-4.7-7.5-10.6A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.8C19.5 16.3 12 21 12 21z';
@@ -69,4 +69,32 @@ export const PillIcon = ({ color, size = 20 }: { color: string; size?: number })
       <Rect x="4" y="7.5" width="16" height="9" rx="4.5" {...line(color)} />
     </G>
   </Svg>
+);
+export const SmileIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Circle cx="12" cy="12" r="9" {...line(color)} /><Path d="M8.5 14c1 1.4 2.2 2 3.5 2s2.5-.6 3.5-2" {...line(color)} /><Circle cx="9" cy="10" r="1.1" fill={color} /><Circle cx="15" cy="10" r="1.1" fill={color} /></Svg>
+);
+export const MoonIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z" {...line(color)} /></Svg>
+);
+export const PencilIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M4 20h4L19 9l-4-4L4 16z" {...line(color)} /><Path d="M13.5 6.5l4 4" {...line(color)} /></Svg>
+);
+export const AlertIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M12 4l9 16H3z" {...line(color)} /><Path d="M12 10v4" {...line(color)} /><Circle cx="12" cy="17" r="1" fill={color} /></Svg>
+);
+export const PhoneIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z" {...line(color)} /></Svg>
+);
+
+// Título de seção com ícone num círculo colorido
+export function SectionLabel({ icon, label, bg }: { icon: React.ReactNode; label: string; bg: string }) {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+      <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: bg, alignItems: 'center', justifyContent: 'center' }}>{icon}</View>
+      <Text style={{ fontFamily: fonts.sans600, fontSize: 12, letterSpacing: 0.6, color: colors.muted, textTransform: 'uppercase' }}>{label}</Text>
+    </View>
+  );
+}
+export const ClockIcon = ({ color, size = 18 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24"><Circle cx="12" cy="12" r="9" {...line(color)} /><Path d="M12 7.5V12l3 2" {...line(color)} /></Svg>
 );

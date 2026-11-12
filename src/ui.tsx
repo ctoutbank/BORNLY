@@ -237,8 +237,8 @@ export function Segmented({ options, value, onChange, fontSize = 13, minHeight =
       {options.map((o) => {
         const on = o.id === value;
         return (
-          <Press key={o.id} onPress={() => onChange(o.id)} accessibilityLabel={o.label} accessibilityState={{ selected: on }} style={{ flex: 1, borderRadius: 999, minHeight, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, backgroundColor: on ? colors.terra : 'transparent' }}>
-            <Sans s={fontSize} w={600} c={on ? colors.bg : colors.mutedStrong} style={{ textAlign: 'center' }}>{o.label}</Sans>
+          <Press key={o.id} onPress={() => onChange(o.id)} accessibilityLabel={o.label} accessibilityState={{ selected: on }} style={{ flex: 1, borderRadius: 999, minHeight, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, backgroundColor: on ? colors.card : 'transparent', shadowColor: colors.terra, shadowOpacity: on ? 0.12 : 0, shadowRadius: 6, shadowOffset: { width: 0, height: 2 } }}>
+            <Sans s={fontSize} w={on ? 700 : 600} c={on ? colors.terraDark : colors.mutedStrong} style={{ textAlign: 'center' }}>{o.label}</Sans>
           </Press>
         );
       })}
@@ -252,8 +252,8 @@ export function Chip({ label, on, onPress, compact = false, offBg = colors.card,
       onPress={onPress}
       accessibilityLabel={label}
       accessibilityState={{ selected: on }}
-      style={{ borderWidth: 1.5, borderColor: on ? colors.terra : offBorder, backgroundColor: on ? colors.terra : offBg, borderRadius: 999, paddingHorizontal: compact ? 14 : 16, minHeight: compact ? 40 : 44, justifyContent: 'center' }}>
-      <Sans s={13} w={500} c={on ? colors.bg : colors.ink}>{label}</Sans>
+      style={{ borderWidth: 1.5, borderColor: on ? colors.terra : offBorder, backgroundColor: on ? colors.peach : offBg, borderRadius: 999, paddingHorizontal: compact ? 14 : 16, minHeight: compact ? 40 : 44, justifyContent: 'center' }}>
+      <Sans s={13} w={on ? 600 : 500} c={on ? colors.terraDark : colors.ink}>{label}</Sans>
     </Press>
   );
 }

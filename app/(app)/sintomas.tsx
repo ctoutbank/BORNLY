@@ -1,11 +1,12 @@
 import { useRouter } from 'expo-router';
 import { Linking, View } from 'react-native';
 
+import { AlertIcon, CheckCircle, ClockIcon, PhoneIcon, PulseIcon, SectionLabel } from '@/components/love';
 import { DURATION, INTENSITY, SYMPTOMS } from '@/content';
 import { useContent } from '@/content-provider';
 import { todayIso, useStore } from '@/store';
 import { colors } from '@/theme';
-import { Card, Overline, PageHeader, Press, PrimaryButton, Sans, Screen, Segmented, Title } from '@/ui';
+import { Card, PageHeader, Press, PrimaryButton, Sans, Screen, Segmented, Title } from '@/ui';
 
 export default function Sintomas() {
   const { s, set, flash, save, load } = useStore();
@@ -28,18 +29,19 @@ export default function Sintomas() {
         {SYMPTOMS.map((l) => {
           const on = s.symSel === l;
           return (
-            <Press key={l} accessibilityState={{ selected: on }} onPress={() => set({ symSel: l })} style={{ width: '48.5%', flexGrow: 1, borderWidth: 1.5, borderColor: on ? colors.terra : colors.line, backgroundColor: on ? colors.terra : colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16, minHeight: 54, justifyContent: 'center' }}>
-              <Sans s={14} w={600} c={on ? colors.bg : colors.ink}>{today.includes(l) ? l + ' ✓' : l}</Sans>
+            <Press key={l} accessibilityLabel={today.includes(l) ? `${l}, registrado hoje` : l} accessibilityState={{ selected: on }} onPress={() => set({ symSel: l })} style={{ width: '48.5%', flexGrow: 1, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: on ? 2 : 1.5, borderColor: on ? colors.terra : colors.line, backgroundColor: on ? colors.peach : colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16, minHeight: 54 }}>
+              <Sans s={14} w={600} c={on ? colors.terraDark : colors.ink} style={{ flex: 1 }}>{l}</Sans>
+              {today.includes(l) ? <CheckCircle color={colors.sageDot} size={16} /> : null}
             </Press>
           );
         })}
       </View>
       <View style={{ gap: 10 }}>
-        <Overline>Intensidade</Overline>
+        <SectionLabel icon={<PulseIcon color={colors.terra} size={15} />} bg={colors.peach} label="Intensidade" />
         <Segmented fontSize={13} value={s.symInt} onChange={(symInt) => set({ symInt })} options={options(INTENSITY)} />
       </View>
       <View style={{ gap: 10 }}>
-        <Overline>Duração</Overline>
+        <SectionLabel icon={<ClockIcon color={colors.sageInk} size={15} />} bg={colors.sage} label="Duração" />
         <Segmented fontSize={13} value={s.symDur} onChange={(symDur) => set({ symDur })} options={options(DURATION)} />
       </View>
       <PrimaryButton
@@ -53,7 +55,10 @@ export default function Sintomas() {
         }}
       />
       <Card bg={colors.peach} style={{ padding: 20 }}>
-        <Title s={18} c={colors.terraDark}>Procure atendimento imediatamente se tiver</Title>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center' }}><AlertIcon color={colors.terraDark} /></View>
+          <Title s={18} c={colors.terraDark} style={{ flex: 1 }}>Procure atendimento imediatamente se tiver</Title>
+        </View>
         <View style={{ gap: 7, marginTop: 12 }}>
           {ALERTS.map((a) => (
             <View key={a} style={{ flexDirection: 'row', gap: 10 }}>
@@ -62,10 +67,12 @@ export default function Sintomas() {
             </View>
           ))}
         </View>
-        <Press onPress={callMaternity} style={{ marginTop: 16, height: 50, borderRadius: 999, backgroundColor: colors.terraDark, alignItems: 'center', justifyContent: 'center' }}>
+        <Press onPress={callMaternity} style={{ marginTop: 16, height: 50, borderRadius: 999, backgroundColor: colors.terra, flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center' }}>
+          <PhoneIcon color={colors.card} />
           <Sans s={14} w={600} c={colors.card}>Ligar para a maternidade</Sans>
         </Press>
-        <Press onPress={() => Linking.openURL('tel:192')} style={{ marginTop: 8, height: 50, borderRadius: 999, borderWidth: 1.5, borderColor: colors.terraDark, alignItems: 'center', justifyContent: 'center' }}>
+        <Press onPress={() => Linking.openURL('tel:192')} style={{ marginTop: 8, height: 50, borderRadius: 999, backgroundColor: colors.card, flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center' }}>
+          <PhoneIcon color={colors.terraDark} />
           <Sans s={14} w={600} c={colors.terraDark}>Ligar para o SAMU (192)</Sans>
         </Press>
         <Sans s={11} lh={1.5} c={colors.terraDark} style={{ marginTop: 10 }}>O Bornly não interpreta seus registros como diagnóstico. Em emergência, ligue para o SAMU: 192.</Sans>
