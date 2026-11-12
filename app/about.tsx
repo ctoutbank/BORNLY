@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { TextInput, View } from 'react-native';
 
+import { authClient } from '@/auth-client';
 import { useStore } from '@/store';
 import { colors, fonts } from '@/theme';
 import { Chip, OnboardingShell, Overline, PrimaryButton, Segmented, Title, Spacer, Wrap } from '@/ui';
@@ -8,6 +9,8 @@ import { Chip, OnboardingShell, Overline, PrimaryButton, Segmented, Title, Space
 export default function About() {
   const { s, set, flash } = useStore();
   const router = useRouter();
+  // Quem já entrou numa conta sem perfil confirma em Pronto; quem não tem conta segue para criar.
+  const { data: session } = authClient.useSession();
   return (
     <OnboardingShell step={3}>
       <Title s={28}>Conte um pouco sobre você</Title>
@@ -36,7 +39,7 @@ export default function About() {
       <Spacer />
       <PrimaryButton label="Continuar" onPress={() => {
           if (!s.name.trim()) flash('Conte como gostaria de ser chamada.');
-          else router.push('/ready');
+          else router.push(session ? '/ready' : '/signup');
         }} />
     </OnboardingShell>
   );

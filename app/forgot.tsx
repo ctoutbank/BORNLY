@@ -1,13 +1,16 @@
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
 import { API_URL, authClient } from '@/auth-client';
 import { colors } from '@/theme';
-import { BackButton, Field, PrimaryButton, Sans, Screen, Spacer, Title, useGoBack } from '@/ui';
+import { BackButton, Field, PrimaryButton, Sans, Screen, Spacer, TextButton, Title, useGoBack } from '@/ui';
 
 export default function Forgot() {
   const back = useGoBack('/welcome');
-  const [email, setEmail] = useState('');
+  const router = useRouter();
+  const params = useLocalSearchParams<{ email?: string }>();
+  const [email, setEmail] = useState(params.email ?? '');
   const [state, setState] = useState<'idle' | 'busy' | 'sent' | 'error'>('idle');
 
   const submit = async () => {
@@ -28,7 +31,12 @@ export default function Forgot() {
       {state === 'sent' ? <Sans s={13} lh={1.45} c={colors.sageInk}>Se houver uma conta com este e-mail, o link chega em alguns minutos.</Sans> : null}
       {state === 'error' ? <Sans s={13} lh={1.45} c={colors.terraDark}>Não foi possível enviar. Verifique sua conexão e tente de novo.</Sans> : null}
       <Spacer />
-      <PrimaryButton label={state === 'busy' ? 'Enviando...' : 'Enviar link'} onPress={submit} />
+      {state === 'sent' ? (
+        <PrimaryButton label="Voltar para entrar" onPress={() => router.replace({ pathname: '/login', params: { email: email.trim().toLowerCase() } })} />
+      ) : (
+        <PrimaryButton label={state === 'busy' ? 'Enviando...' : 'Enviar link'} onPress={submit} />
+      )}
+      {state === 'sent' ? <TextButton label="Reenviar o link" onPress={submit} /> : null}
     </Screen>
   );
 }

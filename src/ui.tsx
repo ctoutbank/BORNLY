@@ -4,6 +4,7 @@ import { Pressable, PressableProps, ScrollView, StyleProp, Switch, Text, TextInp
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
+import { authClient } from '@/auth-client';
 import { colors, fonts } from '@/theme';
 
 type TypeProps = TextProps & { s?: number; lh?: number; c?: string };
@@ -281,20 +282,23 @@ export function ImageSlot({ label, style }: { label?: string; style?: StyleProp<
   );
 }
 
-export function OnboardingShell({ step, children, gap = 24 }: { step: number; children: ReactNode; gap?: number }) {
+export function OnboardingShell({ step, children, gap = 24, total = 4 }: { step: number; children: ReactNode; gap?: number; total?: number }) {
   const back = useGoBack('/welcome');
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
   return (
     <Screen gap={gap} bottom={Math.max(insets.bottom, 16) + 16}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <BackButton onPress={back} light />
         <View style={{ flex: 1, flexDirection: 'row', gap: 6 }}>
-          {[1, 2, 3, 4].map((n) => (
+          {Array.from({ length: total }, (_, i) => i + 1).map((n) => (
             <View key={n} style={{ flex: 1, height: 4, borderRadius: 9, backgroundColor: n <= step ? colors.ink : colors.line }} />
           ))}
         </View>
       </View>
       {children}
+      {!isPending && !session ? <TextButton label="Já tenho uma conta" onPress={() => router.push({ pathname: '/login', params: { from: 'cadastro' } })} /> : null}
     </Screen>
   );
 }

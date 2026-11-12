@@ -12,13 +12,15 @@ export const authClient = createAuthClient({
 });
 
 const MESSAGES: Record<string, string> = {
-  USER_ALREADY_EXISTS: 'Já existe uma conta com este e-mail. Tente entrar.',
-  USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL: 'Já existe uma conta com este e-mail. Tente entrar.',
+  USER_ALREADY_EXISTS: 'Já existe uma conta com este e-mail.',
+  USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL: 'Já existe uma conta com este e-mail.',
   INVALID_EMAIL_OR_PASSWORD: 'E-mail ou senha incorretos.',
   INVALID_PASSWORD: 'Senha incorreta.',
   INVALID_EMAIL: 'Confira o e-mail digitado.',
   PASSWORD_TOO_SHORT: 'A senha precisa ter pelo menos 8 caracteres.',
 };
+
+export const isExistingAccount = (error: { code?: string } | null | undefined) => !!error?.code?.startsWith('USER_ALREADY_EXISTS');
 
 export const authErrorMessage = (error: { code?: string; status?: number } | null | undefined) =>
   (error?.code && MESSAGES[error.code]) || (error?.status === 429 ? 'Muitas tentativas. Aguarde um minuto.' : 'Não foi possível concluir. Verifique sua conexão e tente de novo.');

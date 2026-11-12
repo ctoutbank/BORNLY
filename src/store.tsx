@@ -151,7 +151,8 @@ type Store = {
   s: AppState;
   set: (u: Update) => void;
   flash: (msg: string) => void;
-  load: () => Promise<boolean>;
+  /** Carrega os dados da conta. Devolve o estado carregado, ou false se falhar. */
+  load: () => Promise<Partial<AppState> | false>;
   /** Mostra a mudança na hora e grava no servidor. Se falhar, avisa e volta ao que está gravado. */
   save: <T = unknown>(path: string, method: string, body?: unknown, optimistic?: Update) => Promise<T | null>;
   reset: () => void;
@@ -175,8 +176,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const load = useCallback(async () => {
     try {
-      set(fromRemote(await api<RemoteState>('/state')));
-      return true;
+      const next = fromRemote(await api<RemoteState>('/state'));
+      set(next);
+      return next;
     } catch (err) {
       // Sessão vencida ou revogada: volta para a tela de entrada em vez de mostrar dados antigos.
       if (err instanceof SessionExpired) {
