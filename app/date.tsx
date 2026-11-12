@@ -4,15 +4,15 @@ import { View } from 'react-native';
 import { DateField } from '@/components/date-field';
 import { DAY, fmt, fromIso, gestation, iso, useStore } from '@/store';
 import { colors } from '@/theme';
-import { Card, OnboardingShell, Overline, Press, PrimaryButton, Sans, Segmented, Serif, Spacer } from '@/ui';
+import { Card, OnboardingShell, Overline, Press, PrimaryButton, Sans, Segmented, Title, Spacer } from '@/ui';
 
 function Stepper({ label, value, onDec, onInc }: { label: string; value: number; onDec: () => void; onInc: () => void }) {
   return (
-    <Card radius={22} style={{ flex: 1, padding: 14 }}>
+    <Card radius={20} style={{ flex: 1, padding: 14 }}>
       <Sans s={12} c={colors.muted}>{label}</Sans>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
         <Press accessibilityLabel={`Diminuir ${label}`} onPress={onDec} style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.sand, alignItems: 'center', justifyContent: 'center' }}><Sans s={18}>−</Sans></Press>
-        <Serif s={28} lh={1.1}>{value}</Serif>
+        <Title s={28} lh={1.1}>{value}</Title>
         <Press accessibilityLabel={`Aumentar ${label}`} onPress={onInc} style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}><Sans s={18} c={colors.bg}>+</Sans></Press>
       </View>
     </Card>
@@ -28,7 +28,7 @@ export default function DateScreen() {
   return (
     <OnboardingShell step={2}>
       <View>
-        <Serif s={28}>{s.moment === 'tentante' ? 'Quando foi sua última menstruação?' : 'Vamos calcular sua gravidez'}</Serif>
+        <Title s={28}>{s.moment === 'tentante' ? 'Quando foi sua última menstruação?' : 'Vamos calcular sua gravidez'}</Title>
         <Sans s={14} lh={1.5} c={colors.muted} style={{ marginTop: 8 }}>Use o que você tiver em mãos. Dá para ajustar depois, conforme a avaliação do seu obstetra.</Sans>
       </View>
       <Segmented
@@ -53,8 +53,8 @@ export default function DateScreen() {
       <Card bg={colors.ink} style={{ padding: 22 }}>
         <Overline c={colors.onInkSoft}>Pelo que você informou</Overline>
         <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8, marginTop: 10 }}>
-          <Serif s={40} lh={1.05} c={colors.bg}>{g.week}</Serif>
-          <Serif s={18} c={colors.bg}>semanas</Serif>
+          <Title s={40} lh={1.05} c={colors.bg}>{g.week}</Title>
+          <Title s={18} c={colors.bg}>semanas</Title>
           <Sans s={14} c={colors.onInkMid}>+ {g.day} dias</Sans>
         </View>
         <Sans s={13} c={colors.onInkMid} style={{ marginTop: 12 }}>

@@ -1,37 +1,45 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Pressable, StyleSheet, View } from 'react-native';
 
-import { babyFor, gestation, trimester, useStore } from '@/store';
+import { babyFor, useContent } from '@/content-provider';
+import { gestation, trimester, useStore } from '@/store';
 import { colors } from '@/theme';
-import { ArrowLeft, ArrowRight, BackButton, Card, ImageSlot, Press, Sans, Screen, Serif, useGoBack, useTopPad } from '@/ui';
+import { ArrowLeft, ArrowRight, BackButton, Card, Press, Sans, Screen, Title, useGoBack, useTopPad } from '@/ui';
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'rgba(251,247,242,.94)', borderRadius: 24, paddingVertical: 14, paddingHorizontal: 16, shadowColor: colors.ink, shadowOpacity: 0.08, shadowRadius: 12, shadowOffset: { width: 0, height: 8 } }}>
-      <Sans s={11.5} c={colors.muted}>{label}</Sans>
-      <Serif s={24} lh={1.1} style={{ marginTop: 4 }} numberOfLines={1} adjustsFontSizeToFit>{value}</Serif>
+      <Sans s={11} c={colors.muted}>{label}</Sans>
+      <Title s={22} lh={1.1} style={{ marginTop: 4 }} numberOfLines={1} adjustsFontSizeToFit>{value}</Title>
     </View>
   );
 }
 
 export default function Bebe() {
   const { s, set } = useStore();
+  const router = useRouter();
   const back = useGoBack('/hoje');
   const top = useTopPad();
   const week = s.weekView ?? gestation(s).week;
-  const baby = babyFor(week);
-  const stepBtn = { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' } as const;
+  const baby = babyFor(week, useContent().weeks);
+  const stepBtn = { width: 44, height: 44, borderRadius: 20, alignItems: 'center', justifyContent: 'center' } as const;
 
   return (
     <Screen padded={false}>
       <View style={{ height: 440, zIndex: 1 }}>
         <LinearGradient colors={['#EADBCD', colors.avatar]} style={StyleSheet.absoluteFill} />
-        <ImageSlot label="ilustração do bebê · semana atual" style={[StyleSheet.absoluteFill, { backgroundColor: 'transparent' }]} />
+        <Pressable accessibilityRole="button" accessibilityLabel="Abrir o bebê em 3D" onPress={() => router.push('/bebe-3d')} style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}>
+          <View style={{ backgroundColor: colors.ink, borderRadius: 999, paddingVertical: 14, paddingHorizontal: 24 }}>
+            <Sans s={14} w={600} c={colors.bg}>Ver o bebê em 3D</Sans>
+          </View>
+          <Sans s={12} c={colors.mutedStrong} style={{ marginTop: 10 }}>Gire e descubra o que já está se formando</Sans>
+        </Pressable>
         <View style={{ position: 'absolute', top, left: 20, right: 20, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
           <BackButton onPress={back} />
           <View>
-            <Serif s={22} lh={1.15}>Semana {week}</Serif>
-            <Sans s={12.5} c={colors.mutedStrong} style={{ marginTop: 2 }}>{trimester(week)}</Sans>
+            <Title s={22} lh={1.15}>Semana {week}</Title>
+            <Sans s={12} c={colors.mutedStrong} style={{ marginTop: 2 }}>{trimester(week)}</Sans>
           </View>
         </View>
         <View style={{ position: 'absolute', left: 20, right: 20, bottom: -40, flexDirection: 'row', gap: 8, alignItems: 'center' }}>
@@ -43,15 +51,15 @@ export default function Bebe() {
       </View>
       <View style={{ paddingTop: 64, paddingHorizontal: 22, gap: 20 }}>
         <View>
-          <Sans s={12.5} c={colors.muted}>Do tamanho de</Sans>
-          <Serif s={26} style={{ marginTop: 2 }}>{baby.size}</Serif>
+          <Sans s={12} c={colors.muted}>Do tamanho de</Sans>
+          <Title s={28} style={{ marginTop: 2 }}>{baby.size}</Title>
         </View>
         <View>
-          <Serif s={18}>Como seu bebê está crescendo</Serif>
-          <Sans s={14.5} lh={1.6} c={colors.body} style={{ marginTop: 8 }}>{baby.dev}</Sans>
+          <Title s={18}>Como seu bebê está crescendo</Title>
+          <Sans s={14} lh={1.6} c={colors.body} style={{ marginTop: 8 }}>{baby.dev}</Sans>
         </View>
         <Card bg={colors.sand} style={{ paddingVertical: 20, paddingHorizontal: 22 }}>
-          <Serif s={18}>O que muda em você</Serif>
+          <Title s={18}>O que muda em você</Title>
           <Sans s={14} lh={1.55} c={colors.body} style={{ marginTop: 8 }}>{baby.you}</Sans>
         </Card>
         <Sans s={12} lh={1.5} c={colors.muted}>Medidas aproximadas. Cada bebê cresce no próprio ritmo; o acompanhamento oficial é o do seu pré-natal.</Sans>

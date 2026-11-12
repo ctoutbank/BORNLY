@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { Toast } from '@/components/toast';
+import { ContentProvider } from '@/content-provider';
 import { StoreProvider } from '@/store';
 import { colors } from '@/theme';
 
@@ -31,14 +32,18 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
+      <ContentProvider>
       <StoreProvider>
         <StatusBar style="dark" />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
           <Stack.Screen name="index" options={{ animation: 'none' }} />
           <Stack.Screen name="(app)" options={{ animation: 'fade', gestureEnabled: false }} />
+          <Stack.Screen name="login" options={{ animation: 'default' }} />
+          <Stack.Screen name="bebe-3d" options={{ presentation: 'fullScreenModal', animation: 'fade', gestureEnabled: false }} />
         </Stack>
         <Toast />
       </StoreProvider>
+      </ContentProvider>
     </SafeAreaProvider>
   );
 }

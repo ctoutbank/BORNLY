@@ -1,6 +1,55 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "bornly-web", "runtimeExecutable": "npx", "runtimeArgs": ["expo", "start", "--web", "--port", "8097"], "port": 8097 }
+    {
+      "name": "bornly-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "expo",
+        "start",
+        "--web",
+        "--port",
+        "8097"
+      ],
+      "port": 8097
+    },
+    {
+      "name": "bornly-api-local",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "server",
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "bornly-web-local",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "EXPO_PUBLIC_API_URL=http://localhost:3000",
+        "npx",
+        "expo",
+        "start",
+        "--web",
+        "--port",
+        "8081",
+        "--clear"
+      ],
+      "port": 8081
+    },
+    {
+      "name": "bornly-worker-local",
+      "runtimeExecutable": "wrangler",
+      "runtimeArgs": [
+        "dev",
+        "--cwd",
+        "server",
+        "--port",
+        "8787"
+      ],
+      "port": 8787
+    }
   ]
 }

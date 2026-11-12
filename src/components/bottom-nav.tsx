@@ -9,10 +9,11 @@ import { BookIcon, Press, Sans } from '@/ui';
 type TabId = 'hoje' | 'saude' | 'preparar' | 'aprender';
 
 const TAB_OF: Record<string, TabId> = {
-  hoje: 'hoje', bebe: 'hoje',
-  saude: 'saude', diario: 'saude', sintomas: 'saude', consultas: 'saude', meds: 'saude', historico: 'saude',
+  hoje: 'hoje', bebe: 'hoje', conta: 'hoje',
+  saude: 'saude', diario: 'saude', sintomas: 'saude', consultas: 'saude', meds: 'saude', historico: 'saude', 'nova-consulta': 'saude',
   preparar: 'preparar', enxoval: 'preparar', mala: 'preparar', plano: 'preparar', nascimento: 'preparar',
-  aprender: 'aprender', semana: 'aprender', duvidas: 'aprender', salvos: 'aprender',
+  aprender: 'aprender', semana: 'aprender', duvidas: 'aprender', salvos: 'aprender', artigo: 'aprender',
+  chutes: 'hoje', contracoes: 'hoje',
 };
 
 const TABS: { id: TabId; label: string; icon: (c: string) => React.ReactNode }[] = [
@@ -20,7 +21,7 @@ const TABS: { id: TabId; label: string; icon: (c: string) => React.ReactNode }[]
     id: 'hoje',
     label: 'Hoje',
     icon: (c) => (
-      <Svg width={18} height={18} viewBox="0 0 18 18">
+      <Svg width={20} height={20} viewBox="0 0 18 18">
         <Circle cx={9} cy={9} r={7} stroke={c} strokeWidth={1.6} fill="none" />
         <Circle cx={9} cy={9} r={2.5} fill={c} />
       </Svg>
@@ -30,7 +31,7 @@ const TABS: { id: TabId; label: string; icon: (c: string) => React.ReactNode }[]
     id: 'saude',
     label: 'Minha saúde',
     icon: (c) => (
-      <Svg width={18} height={18} viewBox="0 0 18 18">
+      <Svg width={20} height={20} viewBox="0 0 18 18">
         <Circle cx={9} cy={9} r={7.2} stroke={c} strokeWidth={1.6} fill="none" />
         <Path d="M9 5.5v7M5.5 9h7" stroke={c} strokeWidth={1.6} strokeLinecap="round" />
       </Svg>
@@ -40,13 +41,13 @@ const TABS: { id: TabId; label: string; icon: (c: string) => React.ReactNode }[]
     id: 'preparar',
     label: 'Preparar',
     icon: (c) => (
-      <Svg width={18} height={18} viewBox="0 0 18 18">
+      <Svg width={20} height={20} viewBox="0 0 18 18">
         <Rect x={2.5} y={6} width={13} height={10} rx={3} stroke={c} strokeWidth={1.6} fill="none" />
         <Path d="M6.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke={c} strokeWidth={1.6} fill="none" />
       </Svg>
     ),
   },
-  { id: 'aprender', label: 'Aprender', icon: (c) => <BookIcon color={c} size={18} /> },
+  { id: 'aprender', label: 'Aprender', icon: (c) => <BookIcon color={c} size={20} /> },
 ];
 
 export function BottomNav() {
@@ -61,10 +62,10 @@ export function BottomNav() {
         const on = t.id === active;
         return (
           <Press key={t.id} accessibilityRole="tab" accessibilityState={{ selected: on }} accessibilityLabel={t.label} onPress={() => router.dismissTo(`/${t.id}`)} style={{ flex: 1, alignItems: 'center', gap: 4, paddingTop: 4, paddingBottom: 6 }}>
-            <View style={{ width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.ink : 'transparent' }}>
+            <View style={{ width: 42, height: 42, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? colors.ink : 'transparent' }}>
               {t.icon(on ? colors.bg : colors.mutedStrong)}
             </View>
-            <Sans s={10.5} w={600} c={on ? colors.ink : colors.muted}>{t.label}</Sans>
+            <Sans s={11} lh={1.3} w={600} c={on ? colors.ink : colors.muted}>{t.label}</Sans>
           </Press>
         );
       })}

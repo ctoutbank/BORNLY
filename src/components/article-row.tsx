@@ -1,29 +1,37 @@
-import { View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Image, StyleProp, View, ViewStyle } from 'react-native';
 
-import { ART } from '@/content';
+import type { Article } from '@/content-provider';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
-import { Bookmark, CircleButton, ImageSlot, Sans } from '@/ui';
+import { Bookmark, CircleButton, ImageSlot, Press, Sans } from '@/ui';
 
-export function ArticleRow({ article }: { article: (typeof ART)[number] }) {
-  const { s, set, flash } = useStore();
+export function ArticleThumb({ article, style }: { article: Article; style: StyleProp<ViewStyle> }) {
+  if (!article.image) return <ImageSlot style={style} />;
+  return <Image source={{ uri: article.image }} style={[{ backgroundColor: colors.photo }, style as object]} resizeMode="cover" accessibilityIgnoresInvertColors />;
+}
+
+export function ArticleRow({ article }: { article: Article }) {
+  const { s, save, flash } = useStore();
+  const router = useRouter();
   const on = !!s.saved[article.id];
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.card, borderRadius: 22, padding: 10 }}>
-      <ImageSlot style={{ width: 64, height: 64, borderRadius: 16 }} />
+    <Press onPress={() => router.push({ pathname: '/artigo', params: { id: article.id } })} style={{ flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.card, borderRadius: 20, padding: 10 }}>
+      <ArticleThumb article={article} style={{ width: 64, height: 64, borderRadius: 16 }} />
       <View style={{ flex: 1, minWidth: 0 }}>
-        <Sans s={11} c={colors.muted}>{article.cat} · {article.min} min</Sans>
+        <Sans s={11} c={colors.muted}>{article.category}{article.minutes ? ` · ${article.minutes} min` : ''}</Sans>
         <Sans s={14} w={600} lh={1.3} style={{ marginTop: 3 }}>{article.title}</Sans>
       </View>
       <CircleButton
         label={on ? 'Remover dos salvos' : 'Salvar'}
         bg={on ? colors.ink : colors.sand}
         onPress={() => {
-          set((st) => ({ saved: { ...st.saved, [article.id]: !on } }));
-          flash(on ? 'Removido dos salvos' : 'Salvo para ler depois');
+          save(`/saved/${article.id}`, 'PUT', { saved: !on }, (st) => ({ saved: { ...st.saved, [article.id]: !on } })).then((ok) => {
+            if (ok) flash(on ? 'Removido dos salvos' : 'Salvo para ler depois');
+          });
         }}>
         <Bookmark stroke={on ? colors.bg : colors.ink} fill={on ? colors.bg : 'none'} />
       </CircleButton>
-    </View>
+    </Press>
   );
 }

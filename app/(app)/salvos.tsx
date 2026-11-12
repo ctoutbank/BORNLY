@@ -1,14 +1,14 @@
 import { View } from 'react-native';
 
 import { ArticleRow } from '@/components/article-row';
-import { ART } from '@/content';
+import { useContent } from '@/content-provider';
 import { useStore } from '@/store';
 import { colors } from '@/theme';
 import { Card, PageHeader, Sans, Screen } from '@/ui';
 
 export default function Salvos() {
   const { s } = useStore();
-  const list = ART.filter((a) => s.saved[a.id]);
+  const list = useContent().articles.filter((a) => s.saved[a.id]);
   return (
     <Screen gap={20}>
       <PageHeader title="Salvos" sub={`${list.length} conteúdos para ler depois`} fallback="/aprender" />

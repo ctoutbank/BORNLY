@@ -3,14 +3,14 @@ import { TextInput, View } from 'react-native';
 
 import { useStore } from '@/store';
 import { colors, fonts } from '@/theme';
-import { Chip, OnboardingShell, Overline, PrimaryButton, Segmented, Serif, Spacer, Wrap } from '@/ui';
+import { Chip, OnboardingShell, Overline, PrimaryButton, Segmented, Title, Spacer, Wrap } from '@/ui';
 
 export default function About() {
-  const { s, set } = useStore();
+  const { s, set, flash } = useStore();
   const router = useRouter();
   return (
     <OnboardingShell step={3}>
-      <Serif s={28}>Conte um pouco sobre você</Serif>
+      <Title s={28}>Conte um pouco sobre você</Title>
       <View style={{ gap: 8 }}>
         <Overline>Como gostaria de ser chamada?</Overline>
         <TextInput
@@ -34,7 +34,10 @@ export default function About() {
         </Wrap>
       </View>
       <Spacer />
-      <PrimaryButton label="Continuar" onPress={() => router.push('/ready')} />
+      <PrimaryButton label="Continuar" onPress={() => {
+          if (!s.name.trim()) flash('Conte como gostaria de ser chamada.');
+          else router.push('/ready');
+        }} />
     </OnboardingShell>
   );
 }

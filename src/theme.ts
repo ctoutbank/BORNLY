@@ -28,10 +28,28 @@ export const colors = {
 };
 
 export const fonts = {
-  serif: 'LibreCaslonText_400Regular',
-  serifItalic: 'LibreCaslonText_400Regular_Italic',
+  title: 'LibreCaslonText_400Regular',
+  titleItalic: 'LibreCaslonText_400Regular_Italic',
   sans400: 'PlusJakartaSans_400Regular',
   sans500: 'PlusJakartaSans_500Medium',
   sans600: 'PlusJakartaSans_600SemiBold',
   sans700: 'PlusJakartaSans_700Bold',
 };
+
+// Escala tipográfica. Texto corrido (Plus Jakarta) e título (Libre Caslon).
+export const type = {
+  caption: 11,
+  support: 12,
+  compact: 13,
+  body: 14,
+  emphasis: 15,
+  titleSm: 16,
+  title: 18,
+  titleLg: 22,
+  display: 28,
+  numeral: 40,
+  numeralLg: 52,
+};
+
+// Raios de borda: linha de lista, cartão e cartão de destaque. Pílulas usam 999.
+export const radius = { row: 20, card: 24, hero: 28 };

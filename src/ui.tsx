@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { ReactNode } from 'react';
-import { Pressable, PressableProps, ScrollView, StyleProp, Text, TextProps, TextStyle, View, ViewStyle } from 'react-native';
+import { Pressable, PressableProps, ScrollView, StyleProp, Switch, Text, TextInput, TextInputProps, TextProps, TextStyle, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
@@ -8,12 +8,8 @@ import { colors, fonts } from '@/theme';
 
 type TypeProps = TextProps & { s?: number; lh?: number; c?: string };
 
-export function Serif({ s = 18, lh = 1.2, c = colors.ink, style, ...rest }: TypeProps) {
-  return <Text {...rest} style={[{ fontFamily: fonts.serif, fontSize: s, lineHeight: s * lh, color: c }, style]} />;
-}
-
-export function SerifItalic({ s = 17, lh = 1.45, c = colors.ink, style, ...rest }: TypeProps) {
-  return <Text {...rest} style={[{ fontFamily: fonts.serifItalic, fontSize: s, lineHeight: s * lh, color: c }, style]} />;
+export function Title({ s = 18, lh = 1.2, c = colors.ink, style, ...rest }: TypeProps) {
+  return <Text {...rest} style={[{ fontFamily: fonts.title, fontSize: s, lineHeight: s * lh, color: c }, style]} />;
 }
 
 export function Sans({ s = 14, lh = 1.4, c = colors.ink, w = 400, style, ...rest }: TypeProps & { w?: 400 | 500 | 600 | 700 }) {
@@ -39,58 +35,58 @@ export function Press({ style, ...rest }: Omit<PressableProps, 'style'> & { styl
   );
 }
 
-export const Chevron = ({ color = colors.chevron, w = 8, h = 14 }: { color?: string; w?: number; h?: number }) => (
+export const Chevron = ({ color = colors.chevron, w = 9, h = 16 }: { color?: string; w?: number; h?: number }) => (
   <Svg width={w} height={h} viewBox="0 0 8 14">
-    <Path d="M1 1l6 6-6 6" stroke={color} strokeWidth={1.6} fill="none" strokeLinecap="round" />
+    <Path d="M1 1l6 6-6 6" stroke={color} strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
 );
 
-export const ArrowLeft = ({ color }: { color: string }) => (
-  <Svg width={9} height={15} viewBox="0 0 9 15">
+export const ArrowLeft = ({ color, w = 11, h = 19 }: { color: string; w?: number; h?: number }) => (
+  <Svg width={w} height={h} viewBox="0 0 9 15">
     <Path d="M7.5 1.5L1.5 7.5l6 6" stroke={color} strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
 );
 
-export const ArrowRight = ({ color, w = 9, h = 15 }: { color: string; w?: number; h?: number }) => (
+export const ArrowRight = ({ color, w = 11, h = 19 }: { color: string; w?: number; h?: number }) => (
   <Svg width={w} height={h} viewBox="0 0 9 15">
     <Path d="M1.5 1.5l6 6-6 6" stroke={color} strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
 );
 
-export const Plus = ({ color, size = 14, strokeWidth = 1.8 }: { color: string; size?: number; strokeWidth?: number }) => (
+export const Plus = ({ color, size = 20, strokeWidth = 1.8 }: { color: string; size?: number; strokeWidth?: number }) => (
   <Svg width={size} height={size} viewBox="0 0 16 16">
     <Path d="M8 2v12M2 8h12" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
   </Svg>
 );
 
-export const Bookmark = ({ stroke, fill = 'none', w = 12, h = 15 }: { stroke: string; fill?: string; w?: number; h?: number }) => (
+export const Bookmark = ({ stroke, fill = 'none', w = 16, h = 20 }: { stroke: string; fill?: string; w?: number; h?: number }) => (
   <Svg width={w} height={h} viewBox="0 0 13 16">
     <Path d="M1.5 1.5h10v13l-5-3.5-5 3.5z" stroke={stroke} fill={fill} strokeWidth={1.6} strokeLinejoin="round" />
   </Svg>
 );
 
-export const BookIcon = ({ color, size = 16 }: { color: string; size?: number }) => (
+export const BookIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
   <Svg width={size} height={size} viewBox="0 0 16 16">
     <Path d="M3 3h4.5a1.5 1.5 0 0 1 1.5 1.5V14a1.5 1.5 0 0 0-1.5-1.5H3zM13 3H8.5A1.5 1.5 0 0 0 7 4.5V14a1.5 1.5 0 0 1 1.5-1.5H13z" stroke={color} strokeWidth={1.5} fill="none" strokeLinejoin="round" />
   </Svg>
 );
 
-export const CalendarIcon = ({ color }: { color: string }) => (
-  <Svg width={16} height={16} viewBox="0 0 16 16">
+export const CalendarIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 16 16">
     <Rect x={2} y={3} width={12} height={11} rx={2.5} stroke={color} strokeWidth={1.6} fill="none" />
     <Path d="M2 7h12" stroke={color} strokeWidth={1.6} />
   </Svg>
 );
 
-export const SearchIcon = ({ color }: { color: string }) => (
-  <Svg width={15} height={15} viewBox="0 0 15 15">
+export const SearchIcon = ({ color, size = 17 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 15 15">
     <Circle cx={6.5} cy={6.5} r={5} stroke={color} strokeWidth={1.6} fill="none" />
     <Path d="M10.5 10.5L14 14" stroke={color} strokeWidth={1.6} strokeLinecap="round" />
   </Svg>
 );
 
-export const PhoneIcon = ({ color }: { color: string }) => (
-  <Svg width={16} height={16} viewBox="0 0 16 16">
+export const PhoneIcon = ({ color, size = 20 }: { color: string; size?: number }) => (
+  <Svg width={size} height={size} viewBox="0 0 16 16">
     <Path d="M3.5 1.5h2.5l1.2 3.2-1.6 1.1a8.5 8.5 0 0 0 4.6 4.6l1.1-1.6 3.2 1.2v2.5a1.5 1.5 0 0 1-1.6 1.5A12.5 12.5 0 0 1 2 3.1a1.5 1.5 0 0 1 1.5-1.6z" stroke={color} strokeWidth={1.4} fill="none" strokeLinejoin="round" />
   </Svg>
 );
@@ -142,8 +138,8 @@ export function PageHeader({ title, sub, fallback, right }: { title: string; sub
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
       <BackButton onPress={back} />
       <View style={{ flex: 1 }}>
-        <Serif s={22} lh={1.15}>{title}</Serif>
-        {sub ? <Sans s={12.5} c={colors.muted} style={{ marginTop: 3 }}>{sub}</Sans> : null}
+        <Title s={22} lh={1.15}>{title}</Title>
+        {sub ? <Sans s={12} lh={1.35} c={colors.muted} style={{ marginTop: 3 }}>{sub}</Sans> : null}
       </View>
       {right}
     </View>
@@ -154,8 +150,8 @@ export function TabTitle({ title, sub, right }: { title: string; sub: string; ri
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
       <View style={{ flex: 1 }}>
-        <Serif s={28} lh={1.15}>{title}</Serif>
-        <Sans s={13} c={colors.muted} style={{ marginTop: 4 }}>{sub}</Sans>
+        <Title s={28} lh={1.15}>{title}</Title>
+        <Sans s={13} lh={1.35} c={colors.muted} style={{ marginTop: 4 }}>{sub}</Sans>
       </View>
       {right}
     </View>
@@ -166,12 +162,12 @@ export function PrimaryButton({ label, onPress, bg = colors.ink, icon }: { label
   return (
     <Press onPress={onPress} style={{ height: 58, borderRadius: 999, backgroundColor: bg, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 }}>
       {icon}
-      <Sans s={15.5} w={600} c={colors.bg}>{label}</Sans>
+      <Sans s={15} w={600} c={colors.bg}>{label}</Sans>
     </Press>
   );
 }
 
-export function TextButton({ label, onPress, c = colors.mutedStrong, w = 500, s = 13.5 }: { label: string; onPress: () => void; c?: string; w?: 500 | 600; s?: number }) {
+export function TextButton({ label, onPress, c = colors.mutedStrong, w = 500, s = 13 }: { label: string; onPress: () => void; c?: string; w?: 500 | 600; s?: number }) {
   return (
     <Press onPress={onPress} style={{ minHeight: 44, alignItems: 'center', justifyContent: 'center' }}>
       <Sans s={s} w={w} c={c}>{label}</Sans>
@@ -179,7 +175,7 @@ export function TextButton({ label, onPress, c = colors.mutedStrong, w = 500, s 
   );
 }
 
-export function Segmented({ options, value, onChange, fontSize = 12.5, minHeight = 42 }: { options: { id: string; label: string }[]; value: string; onChange: (id: string) => void; fontSize?: number; minHeight?: number }) {
+export function Segmented({ options, value, onChange, fontSize = 13, minHeight = 42 }: { options: { id: string; label: string }[]; value: string; onChange: (id: string) => void; fontSize?: number; minHeight?: number }) {
   return (
     <View style={{ flexDirection: 'row', gap: 4, backgroundColor: colors.sand, borderRadius: 999, padding: 4 }}>
       {options.map((o) => {
@@ -200,31 +196,31 @@ export function Chip({ label, on, onPress, compact = false, offBg = colors.card,
       onPress={onPress}
       accessibilityState={{ selected: on }}
       style={{ borderWidth: 1.5, borderColor: on ? colors.ink : offBorder, backgroundColor: on ? colors.ink : offBg, borderRadius: 999, paddingHorizontal: compact ? 14 : 16, minHeight: compact ? 40 : 44, justifyContent: 'center' }}>
-      <Sans s={compact ? 13 : 13.5} w={500} c={on ? colors.bg : colors.ink}>{label}</Sans>
+      <Sans s={13} w={500} c={on ? colors.bg : colors.ink}>{label}</Sans>
     </Press>
   );
 }
 
 export const Wrap = ({ children, gap = 8 }: { children: ReactNode; gap?: number }) => <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap }}>{children}</View>;
 
-export function Card({ children, style, bg = colors.card, radius = 28 }: { children: ReactNode; style?: StyleProp<ViewStyle>; bg?: string; radius?: number }) {
+export function Card({ children, style, bg = colors.card, radius = 24 }: { children: ReactNode; style?: StyleProp<ViewStyle>; bg?: string; radius?: number }) {
   return <View style={[{ backgroundColor: bg, borderRadius: radius }, style]}>{children}</View>;
 }
 
 export function RowButton({ title, sub, onPress, icon, iconBg }: { title: string; sub: string; onPress: () => void; icon: ReactNode; iconBg: string }) {
   return (
-    <Press onPress={onPress} style={{ flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.card, borderRadius: 22, paddingVertical: 14, paddingHorizontal: 16, minHeight: 64 }}>
+    <Press onPress={onPress} style={{ flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.card, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16, minHeight: 64 }}>
       <View style={[styles.circle, { width: 40, height: 40, backgroundColor: iconBg }]}>{icon}</View>
       <View style={{ flex: 1 }}>
-        <Sans s={14.5} w={600}>{title}</Sans>
-        <Sans s={12.5} c={colors.muted} style={{ marginTop: 2 }}>{sub}</Sans>
+        <Sans s={14} w={600}>{title}</Sans>
+        <Sans s={12} lh={1.35} c={colors.muted} style={{ marginTop: 2 }}>{sub}</Sans>
       </View>
       <Chevron />
     </Press>
   );
 }
 
-export function CheckRow({ label, on, last, onPress }: { label: string; on: boolean; last: boolean; onPress: () => void }) {
+export function CheckRow({ label, on, last, onPress, plain = false }: { label: string; on: boolean; last: boolean; onPress: () => void; plain?: boolean }) {
   return (
     <Press
       onPress={onPress}
@@ -233,15 +229,31 @@ export function CheckRow({ label, on, last, onPress }: { label: string; on: bool
       style={{ flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 14, minHeight: 54, borderBottomWidth: last ? 0 : 1, borderBottomColor: colors.lineSoft }}>
       <View style={[styles.circle, { width: 26, height: 26, borderWidth: 1.5, backgroundColor: on ? colors.ink : 'transparent', borderColor: on ? colors.ink : colors.check }]}>
         {on ? (
-          <Svg width={11} height={9} viewBox="0 0 11 9">
-            <Path d="M1 4.5l3 3L10 1.5" stroke={colors.bg} strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </Svg>
+          <CheckMark color={colors.bg} />
         ) : null}
       </View>
-      <Sans s={14.5} c={on ? colors.muted : colors.ink} style={{ flex: 1, textDecorationLine: on ? 'line-through' : 'none' }}>{label}</Sans>
+      <Sans s={14} c={on && !plain ? colors.muted : colors.ink} style={{ flex: 1, textDecorationLine: on && !plain ? 'line-through' : 'none' }}>{label}</Sans>
     </Press>
   );
 }
+
+export function ToggleRow({ label, sub, on, last, onToggle }: { label: string; sub: string; on: boolean; last: boolean; onToggle: () => void }) {
+  return (
+    <Press accessibilityRole="switch" accessibilityState={{ checked: on }} onPress={onToggle} style={{ flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 14, minHeight: 64, borderBottomWidth: last ? 0 : 1, borderBottomColor: colors.lineSoft }}>
+      <View style={{ flex: 1 }}>
+        <Sans s={14} w={600}>{label}</Sans>
+        <Sans s={12} lh={1.35} c={colors.muted} style={{ marginTop: 3 }}>{sub}</Sans>
+      </View>
+      <Switch value={on} onValueChange={onToggle} trackColor={{ true: colors.sageDot, false: colors.track }} thumbColor={colors.card} ios_backgroundColor={colors.track} />
+    </Press>
+  );
+}
+
+export const CheckMark = ({ color, w = 11, h = 9 }: { color: string; w?: number; h?: number }) => (
+  <Svg width={w} height={h} viewBox="0 0 11 9">
+    <Path d="M1 4.5l3 3L10 1.5" stroke={color} strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </Svg>
+);
 
 export function Checklist({ labels, map, onToggle }: { labels: string[]; map: Record<string, boolean>; onToggle: (label: string) => void }) {
   return (
@@ -257,7 +269,7 @@ export function Checklist({ labels, map, onToggle }: { labels: string[]; map: Re
 export function ImageSlot({ label, style }: { label?: string; style?: StyleProp<ViewStyle> }) {
   return (
     <View style={[{ backgroundColor: colors.photo, alignItems: 'center', justifyContent: 'center', padding: 10, overflow: 'hidden' }, style]}>
-      {label ? <Sans s={11.5} c={colors.muted} style={{ textAlign: 'center' }}>{label}</Sans> : null}
+      {label ? <Sans s={11} c={colors.muted} style={{ textAlign: 'center' }}>{label}</Sans> : null}
     </View>
   );
 }
@@ -277,6 +289,20 @@ export function OnboardingShell({ step, children, gap = 24 }: { step: number; ch
       </View>
       {children}
     </Screen>
+  );
+}
+
+export function Field({ label, style, ...rest }: TextInputProps & { label?: string }) {
+  return (
+    <View style={{ gap: 8 }}>
+      {label ? <Overline>{label}</Overline> : null}
+      <TextInput
+        accessibilityLabel={label ?? rest.placeholder}
+        placeholderTextColor={colors.muted}
+        {...rest}
+        style={[{ minHeight: 54, borderRadius: 20, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.card, paddingHorizontal: 18, fontSize: 15, color: colors.ink, fontFamily: fonts.sans400 }, style]}
+      />
+    </View>
   );
 }
 

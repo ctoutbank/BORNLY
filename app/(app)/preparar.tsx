@@ -1,16 +1,21 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
-import { BIRTH, ENX, MALA, PLAN } from '@/content';
+import { useContent } from '@/content-provider';
 import { gestation, useStore } from '@/store';
 import { colors } from '@/theme';
-import { ArrowRight, ImageSlot, Press, Sans, Screen, Serif, TabTitle } from '@/ui';
+import { ArrowRight, ImageSlot, Press, Sans, Screen, Title, TabTitle } from '@/ui';
 
 export default function Preparar() {
   const { s } = useStore();
   const router = useRouter();
   const { week } = gestation(s);
-  const enxAll = Object.values(ENX).flat();
+  const c = useContent();
+  const ENX = Object.fromEntries(c.checklists.enxoval.map((g) => [g.group, g.items]));
+  const MALA = Object.fromEntries(c.checklists.mala.map((g) => [g.group, g.items]));
+  const BIRTH = c.checklists.nascimento.map((g) => [g.group, g.range, g.items] as const);
+  const PLAN = c.birthPlan.map((p) => [p.topic, p.options] as const);
+  const enxAll = [...Object.values(ENX).flat(), ...s.customItems.filter((c) => c.list === 'enxoval').map((c) => c.label)];
   const malaAll = Object.values(MALA).flat();
   const birthAll = BIRTH.flatMap((b) => b[2]);
   const enxDone = enxAll.filter((l) => s.enx[l]).length;
@@ -28,21 +33,21 @@ export default function Preparar() {
   return (
     <Screen gap={20}>
       <TabTitle title="Preparar" sub={`Faltam cerca de ${Math.max(0, 40 - week)} semanas para a DPP.`} />
-      <View style={{ height: 180, borderRadius: 30, overflow: 'hidden' }}>
+      <View style={{ height: 180, borderRadius: 28, overflow: 'hidden' }}>
         <ImageSlot label="foto · quarto do bebê ou mala pronta" style={StyleSheet.absoluteFill} />
         <View style={{ position: 'absolute', left: 14, bottom: 14, backgroundColor: 'rgba(251,247,242,.92)', borderRadius: 999, paddingVertical: 8, paddingHorizontal: 14 }}>
-          <Sans s={12.5} w={600}>{total}% de tudo pronto</Sans>
+          <Sans s={12} w={600}>{total}% de tudo pronto</Sans>
         </View>
       </View>
       <View style={{ gap: 10 }}>
         {rows.map((r) => (
-          <Press key={r.label} onPress={() => router.push(r.href)} style={{ backgroundColor: colors.card, borderRadius: 26, padding: 18, gap: 12 }}>
+          <Press key={r.label} onPress={() => router.push(r.href)} style={{ backgroundColor: colors.card, borderRadius: 24, padding: 18, gap: 12 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
               <View style={{ flex: 1 }}>
-                <Serif s={18}>{r.label}</Serif>
-                <Sans s={12.5} c={colors.muted} style={{ marginTop: 3 }}>{r.sub}</Sans>
+                <Title s={16}>{r.label}</Title>
+                <Sans s={12} lh={1.35} c={colors.muted} style={{ marginTop: 3 }}>{r.sub}</Sans>
               </View>
-              <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}><ArrowRight color={colors.bg} w={8} h={13} /></View>
+              <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}><ArrowRight color={colors.bg} w={10} h={17} /></View>
             </View>
             <View style={{ height: 6, borderRadius: 999, backgroundColor: colors.sand, overflow: 'hidden' }}>
               <View style={{ height: '100%', borderRadius: 999, backgroundColor: colors.caramel, width: `${Math.round(r.pct * 100)}%` }} />
